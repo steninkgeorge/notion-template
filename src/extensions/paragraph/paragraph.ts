@@ -26,11 +26,9 @@ const CustomParagraph = Node.create({
     return [{ tag: "p" }];
   },
   renderHTML({ HTMLAttributes }) {
-    return ["div", { class: "your-custom-class" }, ["p", HTMLAttributes, 0]];
+    return ["div", { class: "draggableItem" }, ["p", HTMLAttributes, 0]];
   },
-   addNodeView() {
-    return ReactNodeViewRenderer(Draggable);
-  },
+   
 });
 
 export default CustomParagraph;

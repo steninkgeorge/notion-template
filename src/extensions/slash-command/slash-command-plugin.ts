@@ -6,8 +6,8 @@ import { CommandProps } from "@/types/command";
 
 import CommandsView from "@/app/component/command-menu";
 
-
-
+//TODO: add AI generative features
+//TODO: link transformation, add link option , more options 
 
 const CommandsPlugin = Extension.create({
   name: "insertMenu",

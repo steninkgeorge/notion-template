@@ -101,48 +101,51 @@ export const WrapBlocksInDraggable = Extension.create({
             modified = true;
           }
         });
+        // This plugin handles Enter key in empty draggable blocks
+       
 
         return modified ? tr : null;
       },
     });
+    
+     const enterKeyPlugin = keymap({
+       Enter: (state, dispatch, view) => {
+         const { selection } = state;
+         const { $from } = selection;
 
-    // This plugin handles Enter key in empty draggable blocks
-    const enterKeyPlugin = keymap({
-      Enter: (state, dispatch, view) => {
-        const { selection } = state;
-        const { $from } = selection;
+         // Check if we're in a paragraph inside a draggableItem
+         if (
+           $from.parent.type.name === "paragraph" &&
+           $from.node(-1)?.type.name === "draggableItem"
+         ) {
+           // Check if paragraph is empty AND is the only child of the draggableItem
+           if (
+             $from.parent.content.size === 0 &&
+             $from.node(-1).childCount === 1
+           ) {
+             // Create a new empty paragraph in a new draggable item
+             const schema = state.schema as Schema;
+             const paragraph = schema.nodes.paragraph.create({}, []);
+             const draggableItem = schema.nodes.draggableItem.create({}, [
+               paragraph,
+             ]);
 
-        // Check if we're in a paragraph inside a draggableItem
-        if (
-          $from.parent.type.name === "paragraph" &&
-          $from.node(-1)?.type.name === "draggableItem"
-        ) {
-          // Check if paragraph is empty
-          if ($from.parent.content.size === 0) {
-            // Create a new empty paragraph in a new draggable item
-            const schema = state.schema as Schema;
-            const paragraph = schema.nodes.paragraph.create({}, []);
-            const draggableItem = schema.nodes.draggableItem.create({}, [
-              paragraph,
-            ]);
+             // Insert after current draggable
+             const tr = state.tr.insert($from.after(-1), draggableItem);
 
-            // Insert after current draggable
-            const tr = state.tr.insert($from.after(-1), draggableItem);
+             // Move selection to the new paragraph
+             const newPos = $from.after(-1) + 2; // +2 to get inside the paragraph
+             tr.setSelection(TextSelection.create(tr.doc, newPos));
 
-            // Move selection to the new paragraph
-            const newPos = $from.after(-1) + 2; // +2 to get inside the paragraph
-            tr.setSelection(TextSelection.create(tr.doc, newPos));
+             dispatch?.(tr);
+             return true;
+           }
+         }
 
-            dispatch?.(tr);
-            return true;
-          } 
-          
-        }
-
-        // Let other handlers process this event
-        return false;
-      },
-    });
+         // Let other handlers process this event
+         return false;
+       },
+     });
 
     return [wrapperPlugin, enterKeyPlugin];
   },
