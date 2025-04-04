@@ -6,8 +6,6 @@ import { Grip } from "lucide-react";
 
 export const DraggableNode = ({node}:{node:any})=>{
 
-
-
   const [visible, setVisible] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null); // Store the timeout ID
 
@@ -39,7 +37,7 @@ export const DraggableNode = ({node}:{node:any})=>{
     >
       {/* Drag Handle */}
       <div
-        className="absolute left-0 top-0 translate-y-0.5 w-4 h-4 bg-transparent cursor-grab opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+        className="absolute left-0 top-0 translate-y-1 w-4 h-4 bg-transparent cursor-grab opacity-0 group-hover:opacity-100 transition-opacity duration-200"
         style={{ opacity: visible ? 1 : 0 }}
         contentEditable={false}
         data-drag-handle

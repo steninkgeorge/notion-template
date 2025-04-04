@@ -19,6 +19,8 @@ import { useEffect, useState } from "react";
 import CommandsPlugin from "@/extensions/slash-command/slash-command-plugin";
 import Blockquote from "@tiptap/extension-blockquote";
 
+//TODO: pagination
+
 const Editor = () => {
    
   const {setEditor} = useEditorStore()

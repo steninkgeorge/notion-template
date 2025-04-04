@@ -6,7 +6,11 @@ import { CommandProps } from "@/types/command";
 
 import CommandsView from "@/app/component/command-menu";
 
-//TODO: add AI generative features
+/*TODO: add AI generative features
+//TODO: AI tools-> simplify , emojify, make shorter , make longer,
+ fix spelling and grammar, translate, complete sentence, change tone*/
+ //TODO: insert -> table , column , horizontal rule , image and table of contents 
+ //TODO format : heading, bullet , number , task , toggle list
 //TODO: link transformation, add link option , more options 
 
 const CommandsPlugin = Extension.create({
