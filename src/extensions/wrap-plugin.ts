@@ -88,7 +88,8 @@ export const WrapBlocksInDraggable = Extension.create({
             ["paragraph", "heading", "bulletList", "orderedList"].includes(
               node.type.name
             ) &&
-            newState.doc.resolve(pos).parent.type.name === "doc"
+            newState.doc.resolve(pos).parent.type.name === "doc" &&
+            !isInsideDraggable(newState.doc, pos)
           ) {
             // Create a draggableItem and wrap the node
             const draggableItem = schema.nodes.draggableItem.create(
@@ -107,6 +108,18 @@ export const WrapBlocksInDraggable = Extension.create({
         return modified ? tr : null;
       },
     });
+
+    function isInsideDraggable(doc: ProseMirrorNode, pos: number) {
+      const $pos = doc.resolve(pos);
+
+      // Check all ancestor nodes
+      for (let depth = $pos.depth; depth >= 0; depth--) {
+        if ($pos.node(depth).type.name === "draggableItem") {
+          return true;
+        }
+      }
+      return false;
+    }
     
      const enterKeyPlugin = keymap({
        Enter: (state, dispatch, view) => {
