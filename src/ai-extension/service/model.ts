@@ -5,6 +5,9 @@ import { InferenceClient } from "@huggingface/inference";
 import { format } from "path";
 
 //TODO: fine tune ai model response
+//TODO: Bubble menu
+//More AI models. 
+//validate formatted prompts for bad prompts or misuse of prompts
 
 class GeminiService extends BaseAI {
   private gemini: GoogleGenerativeAI;
@@ -79,7 +82,7 @@ class DeepSeekService extends BaseAI {
   async generateContent(prompt: PromptType): Promise<string> {
     try {
       const formattedPrompt = this.formatPrompt(prompt);
-
+console.log(formattedPrompt)
       const chatCompletion = await this.client.chatCompletion({
         provider: "novita",
         model: "deepseek-ai/DeepSeek-V3-0324",
@@ -108,6 +111,6 @@ export const createAgent = (config: AIassistantConfig) => {
     case AImodel.DeepSeek:
       return new DeepSeekService(config);
     default:
-      return new GeminiService(config);
+      return new DeepSeekService(config);
   }
 };

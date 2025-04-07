@@ -1,6 +1,6 @@
 "use client";
 
-import { useEditor, EditorContent } from "@tiptap/react";
+import {BubbleMenu, useEditor, EditorContent } from "@tiptap/react";
 import { useEditorStore } from "../store/use-editor-store";
 import StarterKit from "@tiptap/starter-kit";
 import DraggableBlockExtension from "@/extensions/draggable-block-extension";
@@ -10,6 +10,10 @@ import TaskItem from "@tiptap/extension-task-item";
 import { WrapBlocksInDraggable } from "@/extensions/wrap-plugin";
 import CommandsPlugin from "@/extensions/slash-command/slash-command-plugin";
 import { Markdown } from "tiptap-markdown";
+import { AIassistantNode } from "@/extensions/ai-generate/ai-generate-node";
+import { TextBubbleMenu } from "./bubble/bubble-menu";
+import Underline from "@tiptap/extension-underline";
+
 //TODO: pagination
 
 const Editor = () => {
@@ -25,6 +29,7 @@ const Editor = () => {
     },
     onUpdate({ editor }) {
       // The content has changed.
+     
       setEditor(editor);
     },
     onSelectionUpdate({ editor }) {
@@ -52,8 +57,10 @@ const Editor = () => {
     
       StarterKit,
       CommandsPlugin,
+      Underline,
       TaskList,
       Markdown,
+      AIassistantNode,
       TaskItem.configure({
         nested: true,
       }),
@@ -73,10 +80,7 @@ const Editor = () => {
           "focus:outline-none min-h-[816px] w-[816px] cursor-text p-10 bg-white shadow-lg rounded-lg",
       },
     },
-    content: `<div data-type="draggable-item">
-          <p>Followed by a fancy draggable item.</p>
-        </div>
-        <h1>h1 tag</h1>`,
+    content: ``,
   });
 
   //TODO: pagination
@@ -84,9 +88,9 @@ const Editor = () => {
   //TODO: AI provider
 
   return (
-    <div className="mt-5 min-h-screen min-w-screen  flex item-center justify-center">
+    <div className="mt-5 mb-10 min-h-screen min-w-screen  flex item-center justify-center">
       <EditorContent editor={editor} />
-
+      <TextBubbleMenu editor={editor}/>
     </div>
   );
 };

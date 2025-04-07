@@ -50,10 +50,15 @@ export const WrapBlocksInDraggable = Extension.create({
 
         // Find standalone blocks to wrap
         state.doc.forEach((node: ProseMirrorNode, pos: number) => {
+            if (node.type.name === "draggableItem") return;
+
           if (
-            ["paragraph", "heading", "bulletList", "orderedList"].includes(
-              node.type.name
-            ) &&
+            [
+              "paragraph",
+              "heading",
+              "bulletList",
+              "orderedList",
+            ].includes(node.type.name) &&
             state.doc.resolve(pos).parent.type.name === "doc"
           ) {
             modified = wrapNode(pos, node) || modified;
@@ -83,11 +88,17 @@ export const WrapBlocksInDraggable = Extension.create({
 
         // Find standalone blocks to wrap
         newState.doc.forEach((node: ProseMirrorNode, pos: number) => {
+            if (node.type.name === "draggableItem") return;
+
           // Only wrap blocks that are direct children of the document and aren't already wrapped
           if (
-            ["paragraph", "heading", "bulletList", "orderedList"].includes(
-              node.type.name
-            ) &&
+            [
+              "paragraph",
+              "heading",
+              "bulletList",
+              "orderedList",
+              
+            ].includes(node.type.name) &&
             newState.doc.resolve(pos).parent.type.name === "doc" &&
             !isInsideDraggable(newState.doc, pos)
           ) {

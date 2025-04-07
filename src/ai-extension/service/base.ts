@@ -1,7 +1,5 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
 import { AIassistantConfig, PromptType } from "../types/index ";
 import { MODIFICATION_PROMPTS, TONE_PROMPTS } from "@/constants/ai-prompt-constants";
-import { format } from "path";
 export abstract class BaseAI{
     protected config: AIassistantConfig;
 
@@ -16,12 +14,12 @@ export abstract class BaseAI{
         //TODO: prompt character limit 
 
         const {content, tone ,prompt , modify }= promptType
-        let formattedPrompt = prompt
+        let formattedPrompt = prompt || '';
         if(content){
             formattedPrompt= `${content}\n `
 
             if (modify) {
-                formattedPrompt += `${MODIFICATION_PROMPTS[modify as keyof typeof MODIFICATION_PROMPTS]}\n`
+                formattedPrompt += `${modify}\n`
             }
         }
 

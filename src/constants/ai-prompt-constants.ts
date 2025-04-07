@@ -28,7 +28,7 @@ export  const MODIFICATION_PROMPTS= {
   make_shorter: "Make this content shorter while preserving the key information and main points.",
   make_longer: "Expand this content with more details, examples, and explanations.",
   change_tone: "Change the tone of this content according to the specified style.",
-  emojify: "Add appropriate emojis throughout this content to make it more engaging.",
+  emojify: "Add emojis to this content.Dont write anything else. Just add emojis!.",
   translate: "Translate this content to the specified language while preserving its meaning.",
   complete_sentence: "Complete any unfinished sentences in this content in a natural way."
 };

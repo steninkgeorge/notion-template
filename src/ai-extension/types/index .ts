@@ -31,16 +31,15 @@ export type AIassistantState= {
 }
 
 export type PromptType={
-    prompt: string , 
+    prompt?: string , 
     content?: string , 
-    tone : string , 
+    tone?: string , 
     modify?: string
 }
 
 
 export const defaultConfig = {
-  model: AImodel.Gemini,
-  apiKey: "AIzaSyBV37JaboziWTizlSb-4xbCtn_ujGoslkE",
+  model: AImodel.DeepSeek,
 };
 
 
