@@ -1,6 +1,6 @@
 "use client";
 
-import { BubbleMenu, useEditor, EditorContent } from "@tiptap/react";
+import { useEditor, EditorContent } from "@tiptap/react";
 import { useEditorStore } from "../store/use-editor-store";
 import StarterKit from "@tiptap/starter-kit";
 import DraggableBlockExtension from "@/extensions/draggable-block-extension";

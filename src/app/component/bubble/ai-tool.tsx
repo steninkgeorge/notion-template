@@ -54,13 +54,14 @@ export const AItools = ({editor}: {editor: Editor | null}) => {
       </PopoverTrigger>
       <PopoverContent className="min-w-[180px] p-1 shadow ">
         <div className="flex flex-col text-sm">
-          {Object.entries(MODIFICATION_PROMPTS).map(([key, value]) => (
+          {Object.entries(MODIFICATION_PROMPTS).map(([key, {prompt, label, icon: Icon}]) => (
             <button
               key={key}
-              onClick={() => handleClick({modify:value  , content: content}, key)}
-              className="px-3 py-2 hover:bg-gray-100 text-left"
+              onClick={() => handleClick({modify:prompt  , content: content}, key)}
+              className="flex gap-x-2 items-center px-3 py-2 hover:bg-gray-100 text-left"
             >
-              {key}
+              <Icon className="size-4"/>
+              {label}
             </button>
           ))}
         </div>

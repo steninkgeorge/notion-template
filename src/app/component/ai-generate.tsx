@@ -65,112 +65,111 @@ export const AIGenerateToolbarComponent = () => {
   };
 
   return (
-    
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogTrigger asChild>
-          <Button variant={"ghost"} className="hover:bg-neutral-300">
-            <MessageSquareIcon className="size-4" />
-          </Button>
-        </DialogTrigger>
-        <DialogContent className="flex flex-col  ">
-          <DialogHeader>
-            <DialogTitle>Write your thoughts here.. </DialogTitle>
-          </DialogHeader>
-          {preview && <MarkdownEditor content={preview} />}
-          <Input
-            className="w-full border-1   truncate focus-visible:border-none focus-visible:outline-0 outline-none px-1.5"
-            placeholder="Tell us a dad joke! , write a story..."
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-          />
-          <DialogFooter className="flex gap-x-4 justify-end item-cente overflow-x-auto">
-            <Select value={tone} onValueChange={(tone) => handleTone(tone)}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder={`${tone}`} />
-              </SelectTrigger>
-              <SelectContent>
-                {Object.entries(TONE_PROMPTS).map(([key, value]) => (
-                  <SelectItem key={key} value={value}>
-                    {key}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger asChild>
+        <Button variant={"ghost"} className="hover:bg-neutral-300">
+          <MessageSquareIcon className="size-4" />
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="flex flex-col  ">
+        <DialogHeader>
+          <DialogTitle>Write your thoughts here.. </DialogTitle>
+        </DialogHeader>
+        {preview && <MarkdownEditor content={preview} />}
+        <Input
+          className="w-full border-1   truncate focus-visible:border-none focus-visible:outline-0 outline-none px-1.5"
+          placeholder="Tell us a dad joke! , write a story..."
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+        />
+        <DialogFooter className="flex gap-x-4 justify-end item-cente overflow-x-auto">
+          <Select value={tone} onValueChange={(tone) => handleTone(tone)}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder={`${tone}`} />
+            </SelectTrigger>
+            <SelectContent>
+              {Object.entries(TONE_PROMPTS).map(([key, value]) => (
+                <SelectItem key={key} value={value}>
+                  {key}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
 
-            <Select
-              disabled={!insert}
-              value={modify}
-              onValueChange={(modify) => handleModify(modify)}
+          <Select
+            disabled={!insert}
+            value={modify}
+            onValueChange={(modify) => handleModify(modify)}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder={modify || "modify"} />
+            </SelectTrigger>
+            <SelectContent>
+              {Object.entries(MODIFICATION_PROMPTS).map(
+                ([key, { prompt, label, icon: Icon }]) => (
+                  <SelectItem key={key} value={prompt} className="flex gap-x-2">
+                    <Icon className="size-4" />
+                    {label}
+                  </SelectItem>
+                )
+              )}
+            </SelectContent>
+          </Select>
+
+          <Select value={model} onValueChange={(model) => handleConfig(model)}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder={`${model}`} />
+            </SelectTrigger>
+            <SelectContent>
+              {Object.entries(AImodel).map(([key, value]) => (
+                <SelectItem key={key} value={value}>
+                  {key.toLowerCase()}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          {insert && (
+            <Button
+              disabled={state.isProcessing}
+              onClick={() => {
+                editor?.commands.insertContent(preview as string);
+
+                setInsertContent(false);
+                setPreview(undefined);
+                setRegenerate(false);
+                setInput("");
+                setIsOpen(false);
+              }}
+              variant={"ghost"}
             >
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder={modify || "modify"} />
-              </SelectTrigger>
-              <SelectContent>
-                {Object.entries(MODIFICATION_PROMPTS).map(([key, value]) => (
-                  <SelectItem key={key} value={value}>
-                    {key}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+              <CheckIcon className="size-4" />
+              <span className="text-neutral-400">Insert</span>
+            </Button>
+          )}
 
-            <Select
-              value={model}
-              onValueChange={(model) => handleConfig(model)}
+          <div className="flex item-center justify-center">
+            <Button
+              disabled={state.isProcessing}
+              onClick={(e) =>
+                handleGenerate(e, {
+                  prompt: input.trim(),
+                  tone: tone,
+                  modify: modify,
+                  content: preview,
+                })
+              }
             >
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder={`${model}`} />
-              </SelectTrigger>
-              <SelectContent>
-                {Object.entries(AImodel).map(([key, value]) => (
-                  <SelectItem key={key} value={value}>
-                    {key.toLowerCase()}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-
-            {insert && (
-              <Button
-                disabled={state.isProcessing}
-                onClick={() => {
-                  editor?.commands.insertContent(preview as string);
-
-                  setInsertContent(false);
-                  setPreview(undefined);
-                  setRegenerate(false);
-                  setInput("");
-                  setIsOpen(false);
-                }}
-                variant={"ghost"}
-              >
-                <CheckIcon className="size-4" />
-                <span className="text-neutral-400">Insert</span>
-              </Button>
-            )}
-
-            <div className="flex item-center justify-center">
-              <Button
-                disabled={state.isProcessing}
-                onClick={(e) =>
-                  handleGenerate(e, {
-                    prompt: input.trim(),
-                    tone: tone,
-                    modify: modify,
-                    content: preview,
-                  })
-                }
-              >
-                <PenIcon className="size-4" />
-                {state.isProcessing
-                  ? "Generating..."
-                  : regenerate
-                  ? "Regenerate"
-                  : "Generate"}
-              </Button>
-            </div>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+              <PenIcon className="size-4" />
+              {state.isProcessing
+                ? "Generating..."
+                : regenerate
+                ? "Regenerate"
+                : "Generate"}
+            </Button>
+          </div>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 };

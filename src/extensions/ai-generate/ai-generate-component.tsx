@@ -81,7 +81,7 @@ export const AIGenerateComponentNode = ({
             <MessageSquareIcon className="size-4" />
             <span className="font-medium">AI Assistant</span>
           </div>
-          
+
           <Button
             variant="ghost"
             size="sm"
@@ -130,11 +130,14 @@ export const AIGenerateComponentNode = ({
               <SelectValue placeholder={modify || "modify"} />
             </SelectTrigger>
             <SelectContent>
-              {Object.entries(MODIFICATION_PROMPTS).map(([key, value]) => (
-                <SelectItem key={key} value={value}>
-                  {key}
-                </SelectItem>
-              ))}
+              {Object.entries(MODIFICATION_PROMPTS).map(
+                ([key, { prompt, label, icon: Icon }]) => (
+                  <SelectItem key={key} value={prompt} className="flex gap-x-2">
+                    <Icon className="size-4" />
+                    {label}
+                  </SelectItem>
+                )
+              )}
             </SelectContent>
           </Select>
 
