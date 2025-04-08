@@ -1,6 +1,6 @@
 "use client";
 
-import {BubbleMenu, useEditor, EditorContent } from "@tiptap/react";
+import { BubbleMenu, useEditor, EditorContent } from "@tiptap/react";
 import { useEditorStore } from "../store/use-editor-store";
 import StarterKit from "@tiptap/starter-kit";
 import DraggableBlockExtension from "@/extensions/draggable-block-extension";
@@ -13,12 +13,18 @@ import { Markdown } from "tiptap-markdown";
 import { AIassistantNode } from "@/extensions/ai-generate/ai-generate-node";
 import { TextBubbleMenu } from "./bubble/bubble-menu";
 import Underline from "@tiptap/extension-underline";
+import TextStyle from "@tiptap/extension-text-style";
+import FontFamily from "@tiptap/extension-font-family";
+import { FontSize } from "@/extensions/fontsize/font-size";
+import Superscript from "@tiptap/extension-superscript";
+import Subscript from "@tiptap/extension-subscript";
+import TextAlign from "@tiptap/extension-text-align";
+import { Color } from "@tiptap/extension-color";
 
 //TODO: pagination
 
 const Editor = () => {
-   
-  const {setEditor} = useEditorStore()
+  const { setEditor } = useEditorStore();
   const editor = useEditor({
     onBeforeCreate({ editor }) {
       setEditor(editor);
@@ -29,7 +35,7 @@ const Editor = () => {
     },
     onUpdate({ editor }) {
       // The content has changed.
-     
+
       setEditor(editor);
     },
     onSelectionUpdate({ editor }) {
@@ -54,12 +60,21 @@ const Editor = () => {
     },
 
     extensions: [
-    
       StarterKit,
       CommandsPlugin,
+      TextStyle,
+      FontFamily,
+      FontSize,
       Underline,
       TaskList,
       Markdown,
+      Superscript,
+      TextAlign.configure({
+        types: ["heading", "paragraph"],
+      })
+      ,
+      Subscript,
+      Color,
       AIassistantNode,
       TaskItem.configure({
         nested: true,
@@ -71,7 +86,6 @@ const Editor = () => {
       }),
       DraggableBlockExtension,
       WrapBlocksInDraggable,
-      
     ],
 
     editorProps: {
@@ -86,11 +100,11 @@ const Editor = () => {
   //TODO: pagination
   //TODO: notion like editor
   //TODO: AI provider
-
+  
   return (
     <div className="mt-5 mb-10 min-h-screen min-w-screen  flex item-center justify-center">
       <EditorContent editor={editor} />
-      <TextBubbleMenu editor={editor}/>
+      <TextBubbleMenu editor={editor} />
     </div>
   );
 };

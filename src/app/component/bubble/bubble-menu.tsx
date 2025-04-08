@@ -5,6 +5,10 @@ import { BubbleMenu, Editor } from "@tiptap/react"
 import { BoldIcon, ItalicIcon, LucideIcon, Strikethrough, Underline } from "lucide-react";
 import { AItools } from "./ai-tool";
 import { Separator } from "@/components/ui/separator";
+import { Heirarchy } from "./text-formatting";
+import { FontFamilyButton } from "./font-selection";
+import { FontSizeOptionButton } from "./text-size";
+import { MoreOptions } from "./more-options";
 
 /* 1. heading , paragraph , lists
 2.fonts
@@ -32,7 +36,7 @@ const BubbleMenuButton = ({
         <Icon className="size-3" />
       </Button>
       <div>
-        <span className="absolute top-full mt-1 p-0.5 font-semibold   text-xs z-[10] bg-black px-1.5 text-neutral-300 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity">
+        <span className="absolute top-full mt-0.5 p-0.5 font-semibold   text-xs z-[10] bg-black px-1.5 text-neutral-300 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity">
           {label}
         </span>
       </div>
@@ -69,13 +73,22 @@ export const TextBubbleMenu=({editor}:{editor:Editor | null})=>{
         onClick: () => editor.chain().focus().toggleStrike().run(),
         isActive: editor.isActive('strike'),
       },
+
+      //TODO: add color picker , highlight 
       
     ];
 
     return (
-      <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }} className="flex items-center bg-white rounded-md border px-0.5 gap-1">
-        <AItools editor={editor}/>
-        <Separator orientation="vertical"  />
+      <BubbleMenu
+        editor={editor}
+        tippyOptions={{ duration: 100 }}
+        className="flex flex-row items-center bg-white rounded-md border px-0.5 gap-1 w-fit"
+      >
+        <AItools editor={editor} />
+        <Separator orientation="vertical" />
+        <Heirarchy />
+        <FontFamilyButton />
+        <FontSizeOptionButton/>
         {item.map((item, index) => (
           <BubbleMenuButton
             key={index}
@@ -85,6 +98,8 @@ export const TextBubbleMenu=({editor}:{editor:Editor | null})=>{
             isActive={item.isActive}
           />
         ))}
+        <MoreOptions/>
       </BubbleMenu>
+
     );
 }

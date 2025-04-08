@@ -78,7 +78,6 @@ export const Toolbar = () => {
           onClick={item.onClick}
         />
       ))}
-      <AIGenerateToolbarComponent />
     </div>
   );
 };

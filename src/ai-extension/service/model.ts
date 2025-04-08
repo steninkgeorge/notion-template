@@ -2,12 +2,12 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { AIassistantConfig, AImodel, PromptType } from "../types/index ";
 import { BaseAI } from "./base";
 import { InferenceClient } from "@huggingface/inference";
-import { format } from "path";
 
 //TODO: fine tune ai model response
 //TODO: Bubble menu
 //More AI models. 
 //validate formatted prompts for bad prompts or misuse of prompts
+
 
 class GeminiService extends BaseAI {
   private gemini: GoogleGenerativeAI;
