@@ -65,11 +65,9 @@ __export(index_exports, {
 module.exports = __toCommonJS(index_exports);
 
 // src/app/component/template-editor.tsx
-var React5 = __toESM(require("react"));
 var import_react7 = require("@tiptap/react");
 
 // src/components/ui/button.tsx
-var React2 = __toESM(require("react"));
 var import_react_slot = require("@radix-ui/react-slot");
 var import_class_variance_authority = require("class-variance-authority");
 
@@ -81,6 +79,7 @@ function cn(...inputs) {
 }
 
 // src/components/ui/button.tsx
+var import_jsx_runtime = require("react/jsx-runtime");
 var buttonVariants = (0, import_class_variance_authority.cva)(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
   {
@@ -119,7 +118,7 @@ function Button(_a) {
     "asChild"
   ]);
   const Comp = asChild ? import_react_slot.Slot : "button";
-  return /* @__PURE__ */ React2.createElement(
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
     Comp,
     __spreadValues({
       "data-slot": "button",
@@ -133,15 +132,15 @@ var import_react6 = require("@tiptap/react");
 var import_lucide_react7 = require("lucide-react");
 
 // src/components/ui/popover.tsx
-var React3 = __toESM(require("react"));
 var PopoverPrimitive = __toESM(require("@radix-ui/react-popover"));
+var import_jsx_runtime2 = require("react/jsx-runtime");
 function Popover(_a) {
   var props = __objRest(_a, []);
-  return /* @__PURE__ */ React3.createElement(PopoverPrimitive.Root, __spreadValues({ "data-slot": "popover" }, props));
+  return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(PopoverPrimitive.Root, __spreadValues({ "data-slot": "popover" }, props));
 }
 function PopoverTrigger(_a) {
   var props = __objRest(_a, []);
-  return /* @__PURE__ */ React3.createElement(PopoverPrimitive.Trigger, __spreadValues({ "data-slot": "popover-trigger" }, props));
+  return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(PopoverPrimitive.Trigger, __spreadValues({ "data-slot": "popover-trigger" }, props));
 }
 function PopoverContent(_a) {
   var _b = _a, {
@@ -153,7 +152,7 @@ function PopoverContent(_a) {
     "align",
     "sideOffset"
   ]);
-  return /* @__PURE__ */ React3.createElement(PopoverPrimitive.Portal, null, /* @__PURE__ */ React3.createElement(
+  return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(PopoverPrimitive.Portal, { children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
     PopoverPrimitive.Content,
     __spreadValues({
       "data-slot": "popover-content",
@@ -164,7 +163,7 @@ function PopoverContent(_a) {
         className
       )
     }, props)
-  ));
+  ) });
 }
 
 // src/constants/ai-prompt-constants.ts
@@ -406,6 +405,7 @@ var useAIAssistant = () => {
 };
 
 // src/app/component/bubble/ai-tool.tsx
+var import_jsx_runtime3 = require("react/jsx-runtime");
 var AItools = ({ editor }) => {
   const [open, setOpen] = (0, import_react.useState)(false);
   const [selected, setSelected] = (0, import_react.useState)(void 0);
@@ -423,32 +423,42 @@ var AItools = ({ editor }) => {
       editor == null ? void 0 : editor.chain().focus().deleteSelection().insertContent(text).run();
     }
   };
-  return /* @__PURE__ */ React.createElement(Popover, { open, onOpenChange: setOpen }, /* @__PURE__ */ React.createElement(PopoverTrigger, { asChild: true }, /* @__PURE__ */ React.createElement(
-    Button,
-    {
-      variant: "ghost",
-      size: "sm",
-      className: " w-[120px] justify-evenly bg-neutral-50"
-    },
-    /* @__PURE__ */ React.createElement("div", { className: "truncate" }, " ", selected || /* @__PURE__ */ React.createElement("span", { className: "text-purple-600" }, "AI Tools")),
-    /* @__PURE__ */ React.createElement(import_lucide_react2.ChevronDown, { className: "size-4 text-muted-foreground" })
-  )), /* @__PURE__ */ React.createElement(PopoverContent, { className: "min-w-[180px] p-1 shadow " }, /* @__PURE__ */ React.createElement("div", { className: "flex flex-col text-sm" }, Object.entries(MODIFICATION_PROMPTS).map(
-    ([key, { prompt, label, icon: Icon2 }]) => /* @__PURE__ */ React.createElement(
-      "button",
+  return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(Popover, { open, onOpenChange: setOpen, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(PopoverTrigger, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(
+      Button,
       {
-        key,
-        onClick: () => handleClick({ modify: prompt, content }, key),
-        className: "flex gap-x-2 items-center px-3 py-2 hover:bg-gray-100 text-left"
-      },
-      /* @__PURE__ */ React.createElement(Icon2, { className: "size-4" }),
-      label
-    )
-  ))));
+        variant: "ghost",
+        size: "sm",
+        className: " w-[120px] justify-evenly bg-neutral-50",
+        children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "truncate", children: [
+            " ",
+            selected || /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: "text-purple-600", children: "AI Tools" })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_lucide_react2.ChevronDown, { className: "size-4 text-muted-foreground" })
+        ]
+      }
+    ) }),
+    /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(PopoverContent, { className: "min-w-[180px] p-1 shadow ", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "flex flex-col text-sm", children: Object.entries(MODIFICATION_PROMPTS).map(
+      ([key, { prompt, label, icon: Icon2 }]) => /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(
+        "button",
+        {
+          onClick: () => handleClick({ modify: prompt, content }, key),
+          className: "flex gap-x-2 items-center px-3 py-2 hover:bg-gray-100 text-left",
+          children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon2, { className: "size-4" }),
+            label
+          ]
+        },
+        key
+      )
+    ) }) })
+  ] });
 };
 
 // src/components/ui/separator.tsx
-var React4 = __toESM(require("react"));
 var SeparatorPrimitive = __toESM(require("@radix-ui/react-separator"));
+var import_jsx_runtime4 = require("react/jsx-runtime");
 function Separator(_a) {
   var _b = _a, {
     className,
@@ -459,7 +469,7 @@ function Separator(_a) {
     "orientation",
     "decorative"
   ]);
-  return /* @__PURE__ */ React4.createElement(
+  return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
     SeparatorPrimitive.Root,
     __spreadValues({
       "data-slot": "separator-root",
@@ -483,6 +493,7 @@ var useEditorStore = (0, import_zustand2.create)((set) => ({
 // src/app/component/bubble/text-formatting.tsx
 var import_lucide_react3 = require("lucide-react");
 var import_react2 = require("react");
+var import_jsx_runtime5 = require("react/jsx-runtime");
 var Heirarchy = () => {
   var _a, _b, _c, _d, _e, _f, _g;
   const [open, setOpen] = (0, import_react2.useState)(false);
@@ -536,46 +547,68 @@ var Heirarchy = () => {
       }
     ]
   ];
-  return /* @__PURE__ */ React.createElement(Popover, { open, onOpenChange: setOpen }, /* @__PURE__ */ React.createElement(PopoverTrigger, { asChild: true }, /* @__PURE__ */ React.createElement(
-    Button,
-    {
-      variant: "ghost",
-      size: "sm",
-      className: " min-w-[60px] justify-evenly bg-neutral-50"
-    },
-    /* @__PURE__ */ React.createElement("div", { className: "truncate" }, " ", selected || /* @__PURE__ */ React.createElement(import_lucide_react3.PilcrowIcon, { className: "size-4" })),
-    /* @__PURE__ */ React.createElement(import_lucide_react3.ChevronDown, { className: "size-4 text-muted-foreground" })
-  )), /* @__PURE__ */ React.createElement(PopoverContent, { className: "w-fit p-1 shadow " }, /* @__PURE__ */ React.createElement("div", { className: "flex flex-col text-sm space-y-4 p-1" }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("p", { className: "text-muted-foreground  font-medium mb-2" }, "Hierarchy"), /* @__PURE__ */ React.createElement("div", { className: "flex flex-col space-y-1 " }, textFormatting[0].map((_h) => {
-    var _i = _h, { icon: Icon2 } = _i, item = __objRest(_i, ["icon"]);
-    return /* @__PURE__ */ React.createElement(
-      "div",
+  return /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(Popover, { open, onOpenChange: setOpen, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(PopoverTrigger, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(
+      Button,
       {
-        key: item.label,
-        onClick: item.onClick,
-        className: "flex items-center gap-x-1 px-2 py-1 hover:bg-muted rounded-md cursor-pointer transition-colors"
-      },
-      /* @__PURE__ */ React.createElement(Icon2, { className: "size-4" }),
-      item.label
-    );
-  }))), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("p", { className: "text-muted-foreground font-medium mb-2" }, "List"), /* @__PURE__ */ React.createElement("div", { className: "flex flex-col space-y-1" }, textFormatting[1].map((_j) => {
-    var _k = _j, { icon: Icon2 } = _k, item = __objRest(_k, ["icon"]);
-    return /* @__PURE__ */ React.createElement(
-      "div",
-      {
-        key: item.label,
-        onClick: item.onClick,
-        className: "flex items-center gap-x-1 px-2 py-1 hover:bg-muted rounded-md cursor-pointer transition-colors"
-      },
-      /* @__PURE__ */ React.createElement(Icon2, { className: "size-4" }),
-      item.label
-    );
-  }))))));
+        variant: "ghost",
+        size: "sm",
+        className: " min-w-[60px] justify-evenly bg-neutral-50",
+        children: [
+          /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { className: "truncate", children: [
+            " ",
+            selected || /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_lucide_react3.PilcrowIcon, { className: "size-4" })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_lucide_react3.ChevronDown, { className: "size-4 text-muted-foreground" })
+        ]
+      }
+    ) }),
+    /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(PopoverContent, { className: "w-fit p-1 shadow ", children: /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { className: "flex flex-col text-sm space-y-4 p-1", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("p", { className: "text-muted-foreground  font-medium mb-2", children: "Hierarchy" }),
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", { className: "flex flex-col space-y-1 ", children: textFormatting[0].map((_h) => {
+          var _i = _h, { icon: Icon2 } = _i, item = __objRest(_i, ["icon"]);
+          return /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(
+            "div",
+            {
+              onClick: item.onClick,
+              className: "flex items-center gap-x-1 px-2 py-1 hover:bg-muted rounded-md cursor-pointer transition-colors",
+              children: [
+                /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(Icon2, { className: "size-4" }),
+                item.label
+              ]
+            },
+            item.label
+          );
+        }) })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("p", { className: "text-muted-foreground font-medium mb-2", children: "List" }),
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", { className: "flex flex-col space-y-1", children: textFormatting[1].map((_j) => {
+          var _k = _j, { icon: Icon2 } = _k, item = __objRest(_k, ["icon"]);
+          return /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(
+            "div",
+            {
+              onClick: item.onClick,
+              className: "flex items-center gap-x-1 px-2 py-1 hover:bg-muted rounded-md cursor-pointer transition-colors",
+              children: [
+                /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(Icon2, { className: "size-4" }),
+                item.label
+              ]
+            },
+            item.label
+          );
+        }) })
+      ] })
+    ] }) })
+  ] });
 };
 
 // src/app/component/bubble/font-selection.tsx
 var import_react_popover = require("@radix-ui/react-popover");
 var import_lucide_react4 = require("lucide-react");
 var import_react3 = require("react");
+var import_jsx_runtime6 = require("react/jsx-runtime");
 var FontFamilyButton = () => {
   const { editor } = useEditorStore();
   const [open, setOpen] = (0, import_react3.useState)(false);
@@ -586,38 +619,44 @@ var FontFamilyButton = () => {
     { label: "Georgia", value: "Georgia" },
     { label: "Verdana", value: "Verdana" }
   ];
-  return /* @__PURE__ */ React.createElement(import_react_popover.Popover, { open, onOpenChange: setOpen }, /* @__PURE__ */ React.createElement(import_react_popover.PopoverTrigger, { asChild: true }, /* @__PURE__ */ React.createElement(
-    Button,
-    {
-      variant: "ghost",
-      size: "sm",
-      className: " min-w-[60px] justify-evenly bg-neutral-50"
-    },
-    /* @__PURE__ */ React.createElement("div", { className: "truncate" }, (editor == null ? void 0 : editor.getAttributes("textStyle").fontFamily) || "Arial"),
-    /* @__PURE__ */ React.createElement(import_lucide_react4.ChevronDown, { className: "size-4 text-muted-foreground" })
-  )), /* @__PURE__ */ React.createElement(import_react_popover.PopoverContent, { className: "w-fit p-1 shadow bg-white  " }, /* @__PURE__ */ React.createElement("div", { className: "flex flex-col space-y-1 " }, fonts.map((item) => /* @__PURE__ */ React.createElement(
-    "div",
-    {
-      key: item.label,
-      onClick: () => editor == null ? void 0 : editor.chain().focus().setFontFamily(`${item.value}`).run(),
-      style: {
-        fontFamily: item.value
+  return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(import_react_popover.Popover, { open, onOpenChange: setOpen, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_react_popover.PopoverTrigger, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(
+      Button,
+      {
+        variant: "ghost",
+        size: "sm",
+        className: " min-w-[60px] justify-evenly bg-neutral-50",
+        children: [
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: "truncate", children: (editor == null ? void 0 : editor.getAttributes("textStyle").fontFamily) || "Arial" }),
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_lucide_react4.ChevronDown, { className: "size-4 text-muted-foreground" })
+        ]
+      }
+    ) }),
+    /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_react_popover.PopoverContent, { className: "w-fit p-1 shadow bg-white  ", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: "flex flex-col space-y-1 ", children: fonts.map((item) => /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+      "div",
+      {
+        onClick: () => editor == null ? void 0 : editor.chain().focus().setFontFamily(`${item.value}`).run(),
+        style: {
+          fontFamily: item.value
+        },
+        className: cn(
+          "px-2 py-1 hover:bg-neutral-100 rounded-md cursor-pointer transition-colors",
+          (editor == null ? void 0 : editor.isActive("textStyle", {
+            fontFamily: `${item.value}`
+          })) && "bg-neutral-100"
+        ),
+        children: item.label
       },
-      className: cn(
-        "px-2 py-1 hover:bg-neutral-100 rounded-md cursor-pointer transition-colors",
-        (editor == null ? void 0 : editor.isActive("textStyle", {
-          fontFamily: `${item.value}`
-        })) && "bg-neutral-100"
-      )
-    },
-    item.label
-  )))));
+      item.label
+    )) }) })
+  ] });
 };
 
 // src/app/component/bubble/text-size.tsx
 var import_react_popover2 = require("@radix-ui/react-popover");
 var import_lucide_react5 = require("lucide-react");
 var import_react4 = require("react");
+var import_jsx_runtime7 = require("react/jsx-runtime");
 var FontSizeOptionButton = () => {
   var _a, _b;
   const { editor } = useEditorStore();
@@ -632,39 +671,45 @@ var FontSizeOptionButton = () => {
   ];
   const currentFontSize = (_a = editor == null ? void 0 : editor.getAttributes("textStyle")) == null ? void 0 : _a.fontSize;
   const currentFontLabel = ((_b = fontSize.find((item) => item.fontSize === currentFontSize)) == null ? void 0 : _b.label) || "";
-  return /* @__PURE__ */ React.createElement(import_react_popover2.Popover, { open, onOpenChange: setOpen }, /* @__PURE__ */ React.createElement(import_react_popover2.PopoverTrigger, { asChild: true }, /* @__PURE__ */ React.createElement(
-    Button,
-    {
-      variant: "ghost",
-      size: "sm",
-      className: " min-w-[60px] justify-evenly bg-neutral-50"
-    },
-    /* @__PURE__ */ React.createElement("div", { className: "truncate" }, currentFontLabel),
-    /* @__PURE__ */ React.createElement(import_lucide_react5.ChevronDown, { className: "size-4 text-muted-foreground" })
-  )), /* @__PURE__ */ React.createElement(import_react_popover2.PopoverContent, { className: "w-fit p-1 shadow bg-white  " }, /* @__PURE__ */ React.createElement("div", { className: "flex flex-col space-y-1 " }, fontSize.map((item) => /* @__PURE__ */ React.createElement(
-    "div",
-    {
-      key: item.label,
-      onClick: () => editor == null ? void 0 : editor.chain().focus().setFontSize(item.fontSize).run(),
-      style: {
-        fontSize: item.fontSize,
-        marginTop: 0
+  return /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(import_react_popover2.Popover, { open, onOpenChange: setOpen, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_react_popover2.PopoverTrigger, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(
+      Button,
+      {
+        variant: "ghost",
+        size: "sm",
+        className: " min-w-[60px] justify-evenly bg-neutral-50",
+        children: [
+          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: "truncate", children: currentFontLabel }),
+          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_lucide_react5.ChevronDown, { className: "size-4 text-muted-foreground" })
+        ]
+      }
+    ) }),
+    /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_react_popover2.PopoverContent, { className: "w-fit p-1 shadow bg-white  ", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: "flex flex-col space-y-1 ", children: fontSize.map((item) => /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+      "div",
+      {
+        onClick: () => editor == null ? void 0 : editor.chain().focus().setFontSize(item.fontSize).run(),
+        style: {
+          fontSize: item.fontSize,
+          marginTop: 0
+        },
+        className: cn(
+          "px-2 py-1 hover:bg-neutral-100 rounded-md cursor-pointer transition-colors",
+          (editor == null ? void 0 : editor.isActive("textStyle", {
+            fontFamily: `${item}`
+          })) && "bg-neutral-100"
+        ),
+        children: item.label
       },
-      className: cn(
-        "px-2 py-1 hover:bg-neutral-100 rounded-md cursor-pointer transition-colors",
-        (editor == null ? void 0 : editor.isActive("textStyle", {
-          fontFamily: `${item}`
-        })) && "bg-neutral-100"
-      )
-    },
-    item.label
-  )))));
+      item.label
+    )) }) })
+  ] });
 };
 
 // src/app/component/bubble/more-options.tsx
 var import_react_popover3 = require("@radix-ui/react-popover");
 var import_lucide_react6 = require("lucide-react");
 var import_react5 = require("react");
+var import_jsx_runtime8 = require("react/jsx-runtime");
 var MoreOptions = () => {
   var _a, _b;
   const { editor } = useEditorStore();
@@ -712,52 +757,66 @@ var MoreOptions = () => {
       isActive: editor == null ? void 0 : editor.isActive({ textAlign: "justify" })
     }
   ];
-  return /* @__PURE__ */ React.createElement(import_react_popover3.Popover, { open, onOpenChange: setOpen }, /* @__PURE__ */ React.createElement(import_react_popover3.PopoverTrigger, { asChild: true }, /* @__PURE__ */ React.createElement(
-    Button,
-    {
-      variant: "ghost",
-      size: "sm",
-      className: " min-w-[60px] justify-evenly bg-neutral-50"
-    },
-    /* @__PURE__ */ React.createElement(import_lucide_react6.ChevronUpIcon, { className: "size-4 text-muted-foreground" })
-  )), /* @__PURE__ */ React.createElement(import_react_popover3.PopoverContent, { className: "w-fit p-1 shadow bg-white  " }, /* @__PURE__ */ React.createElement("div", { className: "flex gap-x-1 " }, moreOptionsItems.map((_c) => {
-    var _d = _c, { icon: Icon2 } = _d, item = __objRest(_d, ["icon"]);
-    return /* @__PURE__ */ React.createElement("div", { key: item.label }, /* @__PURE__ */ React.createElement(Button, { size: "icon", className: "bg-white hover:bg-neutral-100" }, /* @__PURE__ */ React.createElement(Icon2, { className: "size-4 text-neutral-400" })), /* @__PURE__ */ React.createElement("div", { key: item.label }, /* @__PURE__ */ React.createElement("span", { className: "absolute top-full mt-1 p-0.5 font-semibold   text-xs z-[10] bg-black px-1.5 text-neutral-300 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity" }, item.label)));
-  }), /* @__PURE__ */ React.createElement(Separator, { orientation: "vertical" }), icons.map(({ label, icon: Icon2, onClick, isActive }) => /* @__PURE__ */ React.createElement(
-    Button,
-    {
-      size: "icon",
-      className: cn(
-        "bg-white hover:bg-neutral-100",
-        isActive && "bg-neutral-100 "
-      ),
-      key: label,
-      onClick
-    },
-    /* @__PURE__ */ React.createElement(Icon2, { className: "size-4 text-neutral-400" })
-  )))));
+  return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(import_react_popover3.Popover, { open, onOpenChange: setOpen, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_react_popover3.PopoverTrigger, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
+      Button,
+      {
+        variant: "ghost",
+        size: "sm",
+        className: " min-w-[60px] justify-evenly bg-neutral-50",
+        children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_lucide_react6.ChevronUpIcon, { className: "size-4 text-muted-foreground" })
+      }
+    ) }),
+    /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_react_popover3.PopoverContent, { className: "w-fit p-1 shadow bg-white  ", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "flex gap-x-1 ", children: [
+      moreOptionsItems.map((_c) => {
+        var _d = _c, { icon: Icon2 } = _d, item = __objRest(_d, ["icon"]);
+        return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Button, { size: "icon", className: "bg-white hover:bg-neutral-100", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Icon2, { className: "size-4 text-neutral-400" }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: "absolute top-full mt-1 p-0.5 font-semibold   text-xs z-[10] bg-black px-1.5 text-neutral-300 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity", children: item.label }) }, item.label)
+        ] }, item.label);
+      }),
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Separator, { orientation: "vertical" }),
+      icons.map(({ label, icon: Icon2, onClick, isActive }) => /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
+        Button,
+        {
+          size: "icon",
+          className: cn(
+            "bg-white hover:bg-neutral-100",
+            isActive && "bg-neutral-100 "
+          ),
+          onClick,
+          children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Icon2, { className: "size-4 text-neutral-400" })
+        },
+        label
+      ))
+    ] }) })
+  ] });
 };
 
 // src/app/component/bubble/bubble-menu.tsx
+var import_jsx_runtime9 = require("react/jsx-runtime");
 var BubbleMenuButton = ({
   label,
   icon: Icon2,
   onClick,
   isActive
 }) => {
-  return /* @__PURE__ */ React.createElement("div", { className: "relative group " }, /* @__PURE__ */ React.createElement(
-    Button,
-    {
-      size: "icon",
-      variant: "ghost",
-      className: cn(
-        "hover:bg-neutral-100 p-1 m-0.5",
-        isActive && "bg-neutral-100"
-      ),
-      onClick
-    },
-    /* @__PURE__ */ React.createElement(Icon2, { className: "size-3" })
-  ), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("span", { className: "absolute top-full mt-0.5 p-0.5 font-semibold   text-xs z-[10] bg-black px-1.5 text-neutral-300 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity" }, label)));
+  return /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "relative group ", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
+      Button,
+      {
+        size: "icon",
+        variant: "ghost",
+        className: cn(
+          "hover:bg-neutral-100 p-1 m-0.5",
+          isActive && "bg-neutral-100"
+        ),
+        onClick,
+        children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Icon2, { className: "size-3" })
+      }
+    ),
+    /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { className: "absolute top-full mt-0.5 p-0.5 font-semibold   text-xs z-[10] bg-black px-1.5 text-neutral-300 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity", children: label }) })
+  ] });
 };
 var TextBubbleMenu = ({ editor }) => {
   if (!editor) return null;
@@ -788,35 +847,41 @@ var TextBubbleMenu = ({ editor }) => {
     }
     //TODO: add color picker , highlight
   ];
-  return /* @__PURE__ */ React.createElement(
+  return /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(
     import_react6.BubbleMenu,
     {
       editor,
       tippyOptions: { duration: 100 },
-      className: "flex flex-row items-center bg-white rounded-md border px-0.5 gap-1 w-fit"
-    },
-    /* @__PURE__ */ React.createElement(AItools, { editor }),
-    /* @__PURE__ */ React.createElement(Separator, { orientation: "vertical" }),
-    /* @__PURE__ */ React.createElement(Heirarchy, null),
-    /* @__PURE__ */ React.createElement(FontFamilyButton, null),
-    /* @__PURE__ */ React.createElement(FontSizeOptionButton, null),
-    item.map((item2, index) => /* @__PURE__ */ React.createElement(
-      BubbleMenuButton,
-      {
-        key: index,
-        label: item2.label,
-        icon: item2.icon,
-        onClick: item2.onClick,
-        isActive: item2.isActive
-      }
-    )),
-    /* @__PURE__ */ React.createElement(MoreOptions, null)
+      className: "flex flex-row items-center bg-white rounded-md border px-0.5 gap-1 w-fit",
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(AItools, { editor }),
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Separator, { orientation: "vertical" }),
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Heirarchy, {}),
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(FontFamilyButton, {}),
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(FontSizeOptionButton, {}),
+        item.map((item2, index) => /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
+          BubbleMenuButton,
+          {
+            label: item2.label,
+            icon: item2.icon,
+            onClick: item2.onClick,
+            isActive: item2.isActive
+          },
+          index
+        )),
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(MoreOptions, {})
+      ]
+    }
   );
 };
 
 // src/app/component/template-editor.tsx
+var import_jsx_runtime10 = require("react/jsx-runtime");
 var TemplateEditor = ({ editor }) => {
-  return /* @__PURE__ */ React5.createElement("div", null, /* @__PURE__ */ React5.createElement(import_react7.EditorContent, { editor }), /* @__PURE__ */ React5.createElement(TextBubbleMenu, { editor }));
+  return /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(import_react7.EditorContent, { editor }),
+    /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(TextBubbleMenu, { editor })
+  ] });
 };
 
 // src/hooks/useTemplateEditor.ts
@@ -2935,6 +3000,7 @@ var import_react10 = require("@tiptap/react");
 var import_react8 = require("react");
 var import_react9 = require("@tiptap/react");
 var import_lucide_react8 = require("lucide-react");
+var import_jsx_runtime11 = require("react/jsx-runtime");
 var DraggableNode = () => {
   const [visible, setVisible] = (0, import_react8.useState)(false);
   const timeoutRef = (0, import_react8.useRef)(null);
@@ -3007,26 +3073,28 @@ var DraggableNode = () => {
       stopScrolling();
     };
   }, [handleDrag, stopScrolling]);
-  return /* @__PURE__ */ React.createElement(
+  return /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(
     import_react9.NodeViewWrapper,
     {
       className: "relative group my-2 w-full",
       onMouseEnter: handleMouseEnter,
-      onMouseMove: handleMouseMove
-    },
-    /* @__PURE__ */ React.createElement(
-      "div",
-      {
-        className: "absolute left-0 top-0 translate-y-1 w-4 h-4 bg-transparent cursor-grab opacity-0 group-hover:opacity-100 transition-opacity duration-200",
-        style: { opacity: visible ? 1 : 0 },
-        contentEditable: false,
-        "data-drag-handle": true,
-        draggable: "true",
-        ref: dragHandleRef
-      },
-      /* @__PURE__ */ React.createElement(import_lucide_react8.Grip, { className: "w-4 h-4 text-gray-400" })
-    ),
-    /* @__PURE__ */ React.createElement("div", { className: "pl-6 flex-1" }, /* @__PURE__ */ React.createElement(import_react9.NodeViewContent, null))
+      onMouseMove: handleMouseMove,
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
+          "div",
+          {
+            className: "absolute left-0 top-0 translate-y-1 w-4 h-4 bg-transparent cursor-grab opacity-0 group-hover:opacity-100 transition-opacity duration-200",
+            style: { opacity: visible ? 1 : 0 },
+            contentEditable: false,
+            "data-drag-handle": true,
+            draggable: "true",
+            ref: dragHandleRef,
+            children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_lucide_react8.Grip, { className: "w-4 h-4 text-gray-400" })
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", { className: "pl-6 flex-1", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_react9.NodeViewContent, {}) })
+      ]
+    }
   );
 };
 
@@ -6477,23 +6545,23 @@ var import_client = require("react-dom/client");
 var import_react11 = require("react");
 
 // src/components/ui/command.tsx
-var React7 = __toESM(require("react"));
 var import_cmdk = require("cmdk");
 var import_lucide_react10 = require("lucide-react");
 
 // src/components/ui/dialog.tsx
-var React6 = __toESM(require("react"));
 var DialogPrimitive = __toESM(require("@radix-ui/react-dialog"));
 var import_lucide_react9 = require("lucide-react");
+var import_jsx_runtime12 = require("react/jsx-runtime");
 
 // src/components/ui/command.tsx
+var import_jsx_runtime13 = require("react/jsx-runtime");
 function Command(_a) {
   var _b = _a, {
     className
   } = _b, props = __objRest(_b, [
     "className"
   ]);
-  return /* @__PURE__ */ React7.createElement(
+  return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
     import_cmdk.Command,
     __spreadValues({
       "data-slot": "command",
@@ -6510,7 +6578,7 @@ function CommandList(_a) {
   } = _b, props = __objRest(_b, [
     "className"
   ]);
-  return /* @__PURE__ */ React7.createElement(
+  return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
     import_cmdk.Command.List,
     __spreadValues({
       "data-slot": "command-list",
@@ -6523,7 +6591,7 @@ function CommandList(_a) {
 }
 function CommandEmpty(_a) {
   var props = __objRest(_a, []);
-  return /* @__PURE__ */ React7.createElement(
+  return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
     import_cmdk.Command.Empty,
     __spreadValues({
       "data-slot": "command-empty",
@@ -6537,7 +6605,7 @@ function CommandGroup(_a) {
   } = _b, props = __objRest(_b, [
     "className"
   ]);
-  return /* @__PURE__ */ React7.createElement(
+  return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
     import_cmdk.Command.Group,
     __spreadValues({
       "data-slot": "command-group",
@@ -6554,7 +6622,7 @@ function CommandItem(_a) {
   } = _b, props = __objRest(_b, [
     "className"
   ]);
-  return /* @__PURE__ */ React7.createElement(
+  return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
     import_cmdk.Command.Item,
     __spreadValues({
       "data-slot": "command-item",
@@ -6567,6 +6635,7 @@ function CommandItem(_a) {
 }
 
 // src/app/component/command-menu.tsx
+var import_jsx_runtime14 = require("react/jsx-runtime");
 var CommandMenu = (0, import_react11.forwardRef)(
   (props, ref) => {
     const { items, command: command2, clientRect } = props;
@@ -6577,25 +6646,28 @@ var CommandMenu = (0, import_react11.forwardRef)(
       left: `${rect.left}px`,
       zIndex: 50
     };
-    return /* @__PURE__ */ React.createElement("div", { style, ref }, /* @__PURE__ */ React.createElement(
+    return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { style, ref, children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
       Command,
       {
         className: "border shadow-md rounded-md w-60",
         onKeyDownCapture: (e) => {
           e.stopPropagation();
-        }
-      },
-      /* @__PURE__ */ React.createElement(CommandList, null, /* @__PURE__ */ React.createElement(CommandEmpty, null, "No results found."), /* @__PURE__ */ React.createElement(CommandGroup, null, items.map((item, index) => /* @__PURE__ */ React.createElement(
-        CommandItem,
-        {
-          key: index,
-          onSelect: () => {
-            command2(item);
-          }
         },
-        item.element || item.title
-      ))))
-    ));
+        children: /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(CommandList, { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(CommandEmpty, { children: "No results found." }),
+          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(CommandGroup, { children: items.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
+            CommandItem,
+            {
+              onSelect: () => {
+                command2(item);
+              },
+              children: item.element || item.title
+            },
+            index
+          )) })
+        ] })
+      }
+    ) });
   }
 );
 CommandMenu.displayName = "CommandMenu";
@@ -6715,16 +6787,16 @@ var import_react15 = require("react");
 var import_react16 = require("@tiptap/react");
 
 // src/components/ui/select.tsx
-var React9 = __toESM(require("react"));
 var SelectPrimitive = __toESM(require("@radix-ui/react-select"));
 var import_lucide_react11 = require("lucide-react");
+var import_jsx_runtime15 = require("react/jsx-runtime");
 function Select(_a) {
   var props = __objRest(_a, []);
-  return /* @__PURE__ */ React9.createElement(SelectPrimitive.Root, __spreadValues({ "data-slot": "select" }, props));
+  return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(SelectPrimitive.Root, __spreadValues({ "data-slot": "select" }, props));
 }
 function SelectValue(_a) {
   var props = __objRest(_a, []);
-  return /* @__PURE__ */ React9.createElement(SelectPrimitive.Value, __spreadValues({ "data-slot": "select-value" }, props));
+  return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(SelectPrimitive.Value, __spreadValues({ "data-slot": "select-value" }, props));
 }
 function SelectTrigger(_a) {
   var _b = _a, {
@@ -6736,18 +6808,21 @@ function SelectTrigger(_a) {
     "size",
     "children"
   ]);
-  return /* @__PURE__ */ React9.createElement(
+  return /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)(
     SelectPrimitive.Trigger,
-    __spreadValues({
+    __spreadProps(__spreadValues({
       "data-slot": "select-trigger",
       "data-size": size,
       className: cn(
         "border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex w-fit items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className
       )
-    }, props),
-    children,
-    /* @__PURE__ */ React9.createElement(SelectPrimitive.Icon, { asChild: true }, /* @__PURE__ */ React9.createElement(import_lucide_react11.ChevronDownIcon, { className: "size-4 opacity-50" }))
+    }, props), {
+      children: [
+        children,
+        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(SelectPrimitive.Icon, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(import_lucide_react11.ChevronDownIcon, { className: "size-4 opacity-50" }) })
+      ]
+    })
   );
 }
 function SelectContent(_a) {
@@ -6760,9 +6835,9 @@ function SelectContent(_a) {
     "children",
     "position"
   ]);
-  return /* @__PURE__ */ React9.createElement(SelectPrimitive.Portal, null, /* @__PURE__ */ React9.createElement(
+  return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(SelectPrimitive.Portal, { children: /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)(
     SelectPrimitive.Content,
-    __spreadValues({
+    __spreadProps(__spreadValues({
       "data-slot": "select-content",
       className: cn(
         "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 relative z-50 max-h-(--radix-select-content-available-height) min-w-[8rem] origin-(--radix-select-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-md border shadow-md",
@@ -6770,20 +6845,23 @@ function SelectContent(_a) {
         className
       ),
       position
-    }, props),
-    /* @__PURE__ */ React9.createElement(SelectScrollUpButton, null),
-    /* @__PURE__ */ React9.createElement(
-      SelectPrimitive.Viewport,
-      {
-        className: cn(
-          "p-1",
-          position === "popper" && "h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)] scroll-my-1"
-        )
-      },
-      children
-    ),
-    /* @__PURE__ */ React9.createElement(SelectScrollDownButton, null)
-  ));
+    }, props), {
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(SelectScrollUpButton, {}),
+        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
+          SelectPrimitive.Viewport,
+          {
+            className: cn(
+              "p-1",
+              position === "popper" && "h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)] scroll-my-1"
+            ),
+            children
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(SelectScrollDownButton, {})
+      ]
+    })
+  ) });
 }
 function SelectItem(_a) {
   var _b = _a, {
@@ -6793,17 +6871,20 @@ function SelectItem(_a) {
     "className",
     "children"
   ]);
-  return /* @__PURE__ */ React9.createElement(
+  return /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)(
     SelectPrimitive.Item,
-    __spreadValues({
+    __spreadProps(__spreadValues({
       "data-slot": "select-item",
       className: cn(
         "focus:bg-accent focus:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative flex w-full cursor-default items-center gap-2 rounded-sm py-1.5 pr-8 pl-2 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2",
         className
       )
-    }, props),
-    /* @__PURE__ */ React9.createElement("span", { className: "absolute right-2 flex size-3.5 items-center justify-center" }, /* @__PURE__ */ React9.createElement(SelectPrimitive.ItemIndicator, null, /* @__PURE__ */ React9.createElement(import_lucide_react11.CheckIcon, { className: "size-4" }))),
-    /* @__PURE__ */ React9.createElement(SelectPrimitive.ItemText, null, children)
+    }, props), {
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("span", { className: "absolute right-2 flex size-3.5 items-center justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(SelectPrimitive.ItemIndicator, { children: /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(import_lucide_react11.CheckIcon, { className: "size-4" }) }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(SelectPrimitive.ItemText, { children })
+      ]
+    })
   );
 }
 function SelectScrollUpButton(_a) {
@@ -6812,16 +6893,17 @@ function SelectScrollUpButton(_a) {
   } = _b, props = __objRest(_b, [
     "className"
   ]);
-  return /* @__PURE__ */ React9.createElement(
+  return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
     SelectPrimitive.ScrollUpButton,
-    __spreadValues({
+    __spreadProps(__spreadValues({
       "data-slot": "select-scroll-up-button",
       className: cn(
         "flex cursor-default items-center justify-center py-1",
         className
       )
-    }, props),
-    /* @__PURE__ */ React9.createElement(import_lucide_react11.ChevronUpIcon, { className: "size-4" })
+    }, props), {
+      children: /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(import_lucide_react11.ChevronUpIcon, { className: "size-4" })
+    })
   );
 }
 function SelectScrollDownButton(_a) {
@@ -6830,16 +6912,17 @@ function SelectScrollDownButton(_a) {
   } = _b, props = __objRest(_b, [
     "className"
   ]);
-  return /* @__PURE__ */ React9.createElement(
+  return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
     SelectPrimitive.ScrollDownButton,
-    __spreadValues({
+    __spreadProps(__spreadValues({
       "data-slot": "select-scroll-down-button",
       className: cn(
         "flex cursor-default items-center justify-center py-1",
         className
       )
-    }, props),
-    /* @__PURE__ */ React9.createElement(import_lucide_react11.ChevronDownIcon, { className: "size-4" })
+    }, props), {
+      children: /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(import_lucide_react11.ChevronDownIcon, { className: "size-4" })
+    })
   );
 }
 
@@ -6847,10 +6930,10 @@ function SelectScrollDownButton(_a) {
 var import_lucide_react12 = require("lucide-react");
 
 // src/components/ui/textarea.tsx
-var React10 = __toESM(require("react"));
+var import_jsx_runtime16 = require("react/jsx-runtime");
 function Textarea(_a) {
   var _b = _a, { className } = _b, props = __objRest(_b, ["className"]);
-  return /* @__PURE__ */ React10.createElement(
+  return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
     "textarea",
     __spreadValues({
       "data-slot": "textarea",
@@ -6867,6 +6950,7 @@ var import_react13 = require("react");
 var import_react14 = require("@tiptap/react");
 var import_starter_kit = __toESM(require("@tiptap/starter-kit"));
 var import_tiptap_markdown = require("tiptap-markdown");
+var import_jsx_runtime17 = require("react/jsx-runtime");
 var MarkdownEditor = ({ content }) => {
   const editor = (0, import_react14.useEditor)({
     extensions: [import_starter_kit.default, import_tiptap_markdown.Markdown],
@@ -6878,10 +6962,11 @@ var MarkdownEditor = ({ content }) => {
       editor.commands.setContent(content);
     }
   }, [editor, content]);
-  return /* @__PURE__ */ React.createElement("div", { className: "bg-white text-sm rounded-md px-3 py-2 border border-neutral-300 min-h-[100px] max-h-[400px] w-full overflow-y-auto" }, /* @__PURE__ */ React.createElement(import_react14.EditorContent, { editor }));
+  return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "bg-white text-sm rounded-md px-3 py-2 border border-neutral-300 min-h-[100px] max-h-[400px] w-full overflow-y-auto", children: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(import_react14.EditorContent, { editor }) });
 };
 
 // src/extensions/ai-generate/ai-generate-component.tsx
+var import_jsx_runtime18 = require("react/jsx-runtime");
 var AIGenerateComponentNode = ({
   editor,
   node,
@@ -6924,62 +7009,94 @@ var AIGenerateComponentNode = ({
   const handleModify = (modify2) => {
     setModify(modify2);
   };
-  return /* @__PURE__ */ React.createElement(import_react16.NodeViewWrapper, { className: "ai-assistant-node border-2  border-neutral-300 p-4 my-2 rounded-md" }, /* @__PURE__ */ React.createElement("div", { className: "flex flex-col gap-4" }, /* @__PURE__ */ React.createElement("div", { className: "flex items-center justify-between" }, /* @__PURE__ */ React.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ React.createElement(import_lucide_react12.MessageSquareIcon, { className: "size-4" }), /* @__PURE__ */ React.createElement("span", { className: "font-medium" }, "AI Assistant")), /* @__PURE__ */ React.createElement(
-    Button,
-    {
-      variant: "ghost",
-      size: "sm",
-      onClick: () => {
-        if (typeof getPos === "function") {
-          editor.commands.deleteRange({
-            from: getPos(),
-            to: getPos() + node.nodeSize
-          });
+  return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(import_react16.NodeViewWrapper, { className: "ai-assistant-node border-2  border-neutral-300 p-4 my-2 rounded-md", children: /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "flex flex-col gap-4", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "flex items-center justify-between", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "flex items-center gap-2", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(import_lucide_react12.MessageSquareIcon, { className: "size-4" }),
+        /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: "font-medium", children: "AI Assistant" })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+        Button,
+        {
+          variant: "ghost",
+          size: "sm",
+          onClick: () => {
+            if (typeof getPos === "function") {
+              editor.commands.deleteRange({
+                from: getPos(),
+                to: getPos() + node.nodeSize
+              });
+            }
+          },
+          children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(import_lucide_react12.TrashIcon, { className: "size-4" })
         }
+      )
+    ] }),
+    preview && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(MarkdownEditor, { content: preview }),
+    /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+      Textarea,
+      {
+        className: "w-full border-1 focus-visible:outline-0 max-h-[200px] outline-none focus-visible:ring-0  focus-visible:border-neutral-400",
+        placeholder: "Tell us a dad joke! , write a story...",
+        value: input,
+        onChange: (e) => setInput(e.target.value)
       }
-    },
-    /* @__PURE__ */ React.createElement(import_lucide_react12.TrashIcon, { className: "size-4" })
-  )), preview && /* @__PURE__ */ React.createElement(MarkdownEditor, { content: preview }), /* @__PURE__ */ React.createElement(
-    Textarea,
-    {
-      className: "w-full border-1 focus-visible:outline-0 max-h-[200px] outline-none focus-visible:ring-0  focus-visible:border-neutral-400",
-      placeholder: "Tell us a dad joke! , write a story...",
-      value: input,
-      onChange: (e) => setInput(e.target.value)
-    }
-  ), /* @__PURE__ */ React.createElement("div", { className: "flex flex-wrap gap-2 justify-end items-center" }, /* @__PURE__ */ React.createElement(Select, { value: tone, onValueChange: (tone2) => handleTone(tone2) }, /* @__PURE__ */ React.createElement(SelectTrigger, { className: "w-[140px]" }, /* @__PURE__ */ React.createElement(SelectValue, { placeholder: `${tone}` })), /* @__PURE__ */ React.createElement(SelectContent, null, Object.entries(TONE_PROMPTS).map(([key, value]) => /* @__PURE__ */ React.createElement(SelectItem, { key, value }, key)))), /* @__PURE__ */ React.createElement(
-    Select,
-    {
-      disabled: !generationComplete,
-      value: modify,
-      onValueChange: (modify2) => handleModify(modify2)
-    },
-    /* @__PURE__ */ React.createElement(SelectTrigger, { className: "w-[140px]" }, /* @__PURE__ */ React.createElement(SelectValue, { placeholder: modify || "modify" })),
-    /* @__PURE__ */ React.createElement(SelectContent, null, Object.entries(MODIFICATION_PROMPTS).map(
-      ([key, { prompt, label, icon: Icon2 }]) => /* @__PURE__ */ React.createElement(SelectItem, { key, value: prompt, className: "flex gap-x-2" }, /* @__PURE__ */ React.createElement(Icon2, { className: "size-4" }), label)
-    ))
-  ), /* @__PURE__ */ React.createElement(
-    Select,
-    {
-      value: model,
-      onValueChange: (model2) => {
-        const modelkey = AImodels[model2];
-        console.log(modelkey);
-        handleConfig(modelkey);
-      }
-    },
-    /* @__PURE__ */ React.createElement(SelectTrigger, { className: "w-[140px]" }, /* @__PURE__ */ React.createElement(SelectValue, { placeholder: `${model}` })),
-    /* @__PURE__ */ React.createElement(SelectContent, null, Object.entries(AImodels).map(([key, value]) => /* @__PURE__ */ React.createElement(SelectItem, { key, value: value.id }, value.id.toLowerCase())))
-  ), generationComplete && /* @__PURE__ */ React.createElement(Button, { onClick: handleInsert, variant: "outline", className: "gap-1" }, /* @__PURE__ */ React.createElement(import_lucide_react12.CheckIcon, { className: "size-4" }), /* @__PURE__ */ React.createElement("span", null, "Insert")), /* @__PURE__ */ React.createElement(
-    Button,
-    {
-      disabled: state.isProcessing,
-      onClick: handleGenerate,
-      className: "gap-1"
-    },
-    /* @__PURE__ */ React.createElement(import_lucide_react12.PenIcon, { className: "size-4" }),
-    state.isProcessing ? "Generating..." : generationComplete ? "Regenerate" : "Generate"
-  ))));
+    ),
+    /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "flex flex-wrap gap-2 justify-end items-center", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(Select, { value: tone, onValueChange: (tone2) => handleTone(tone2), children: [
+        /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(SelectTrigger, { className: "w-[140px]", children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(SelectValue, { placeholder: `${tone}` }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(SelectContent, { children: Object.entries(TONE_PROMPTS).map(([key, value]) => /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(SelectItem, { value, children: key }, key)) })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(
+        Select,
+        {
+          disabled: !generationComplete,
+          value: modify,
+          onValueChange: (modify2) => handleModify(modify2),
+          children: [
+            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(SelectTrigger, { className: "w-[140px]", children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(SelectValue, { placeholder: modify || "modify" }) }),
+            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(SelectContent, { children: Object.entries(MODIFICATION_PROMPTS).map(
+              ([key, { prompt, label, icon: Icon2 }]) => /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(SelectItem, { value: prompt, className: "flex gap-x-2", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(Icon2, { className: "size-4" }),
+                label
+              ] }, key)
+            ) })
+          ]
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(
+        Select,
+        {
+          value: model,
+          onValueChange: (model2) => {
+            const modelkey = AImodels[model2];
+            console.log(modelkey);
+            handleConfig(modelkey);
+          },
+          children: [
+            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(SelectTrigger, { className: "w-[140px]", children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(SelectValue, { placeholder: `${model}` }) }),
+            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(SelectContent, { children: Object.entries(AImodels).map(([key, value]) => /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(SelectItem, { value: value.id, children: value.id.toLowerCase() }, key)) })
+          ]
+        }
+      ),
+      generationComplete && /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(Button, { onClick: handleInsert, variant: "outline", className: "gap-1", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(import_lucide_react12.CheckIcon, { className: "size-4" }),
+        /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { children: "Insert" })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(
+        Button,
+        {
+          disabled: state.isProcessing,
+          onClick: handleGenerate,
+          className: "gap-1",
+          children: [
+            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(import_lucide_react12.PenIcon, { className: "size-4" }),
+            state.isProcessing ? "Generating..." : generationComplete ? "Regenerate" : "Generate"
+          ]
+        }
+      )
+    ] })
+  ] }) });
 };
 
 // src/extensions/ai-generate/ai-generate-node.ts
@@ -7121,3 +7238,4 @@ var useTemplateEditor = (content = "", options = {}) => {
   TemplateEditor,
   useTemplateEditor
 });
+//# sourceMappingURL=index.js.map

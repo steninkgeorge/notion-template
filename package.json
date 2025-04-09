@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "dev": "next dev",
-    "build": "tsup src/index.ts --dts --format esm,cjs --external react --external react-dom --external @tiptap/react",
+    "build": "tsup",
     "start": "next start",
     "format": "prettier --write .",
     "format:staged": "prettier --write $(git diff --name-only --cached)",
