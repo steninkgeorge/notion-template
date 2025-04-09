@@ -1,8 +1,8 @@
-import { Extension } from "@tiptap/core";
-import { Plugin, PluginKey, TextSelection } from "prosemirror-state";
-import { Node as ProseMirrorNode } from "prosemirror-model";
-import { EditorView } from "prosemirror-view";
-import { keymap } from "prosemirror-keymap";
+import { Extension } from '@tiptap/core';
+import { Plugin, PluginKey, TextSelection } from 'prosemirror-state';
+import { Node as ProseMirrorNode } from 'prosemirror-model';
+import { EditorView } from 'prosemirror-view';
+import { keymap } from 'prosemirror-keymap';
 
 // Define the schema types for better TypeScript support
 type NodeType = {
@@ -17,12 +17,12 @@ type Schema = {
 };
 
 export const WrapBlocksInDraggable = Extension.create({
-  name: "wrapBlocksInDraggable",
+  name: 'wrapBlocksInDraggable',
 
   addProseMirrorPlugins() {
     // This plugin handles wrapping blocks in draggable items
     const wrapperPlugin = new Plugin({
-      key: new PluginKey("wrapBlocksInDraggable"),
+      key: new PluginKey('wrapBlocksInDraggable'),
 
       // Run once when the editor is initialized
       view(view: EditorView) {
@@ -34,7 +34,7 @@ export const WrapBlocksInDraggable = Extension.create({
         // Check if draggableItem exists in schema
         const schema = state.schema as Schema;
         if (!schema.nodes.draggableItem) {
-          console.error("draggableItem node not found in schema");
+          console.error('draggableItem node not found in schema');
           return {};
         }
 
@@ -50,16 +50,13 @@ export const WrapBlocksInDraggable = Extension.create({
 
         // Find standalone blocks to wrap
         state.doc.forEach((node: ProseMirrorNode, pos: number) => {
-            if (node.type.name === "draggableItem") return;
+          if (node.type.name === 'draggableItem') return;
 
           if (
-            [
-              "paragraph",
-              "heading",
-              "bulletList",
-              "orderedList",
-            ].includes(node.type.name) &&
-            state.doc.resolve(pos).parent.type.name === "doc"
+            ['paragraph', 'heading', 'bulletList', 'orderedList'].includes(
+              node.type.name
+            ) &&
+            state.doc.resolve(pos).parent.type.name === 'doc'
           ) {
             modified = wrapNode(pos, node) || modified;
           }
@@ -88,18 +85,14 @@ export const WrapBlocksInDraggable = Extension.create({
 
         // Find standalone blocks to wrap
         newState.doc.forEach((node: ProseMirrorNode, pos: number) => {
-            if (node.type.name === "draggableItem") return;
+          if (node.type.name === 'draggableItem') return;
 
           // Only wrap blocks that are direct children of the document and aren't already wrapped
           if (
-            [
-              "paragraph",
-              "heading",
-              "bulletList",
-              "orderedList",
-              
-            ].includes(node.type.name) &&
-            newState.doc.resolve(pos).parent.type.name === "doc" &&
+            ['paragraph', 'heading', 'bulletList', 'orderedList'].includes(
+              node.type.name
+            ) &&
+            newState.doc.resolve(pos).parent.type.name === 'doc' &&
             !isInsideDraggable(newState.doc, pos)
           ) {
             // Create a draggableItem and wrap the node
@@ -114,7 +107,6 @@ export const WrapBlocksInDraggable = Extension.create({
           }
         });
         // This plugin handles Enter key in empty draggable blocks
-       
 
         return modified ? tr : null;
       },
@@ -125,51 +117,51 @@ export const WrapBlocksInDraggable = Extension.create({
 
       // Check all ancestor nodes
       for (let depth = $pos.depth; depth >= 0; depth--) {
-        if ($pos.node(depth).type.name === "draggableItem") {
+        if ($pos.node(depth).type.name === 'draggableItem') {
           return true;
         }
       }
       return false;
     }
-    
-     const enterKeyPlugin = keymap({
-       Enter: (state, dispatch, view) => {
-         const { selection } = state;
-         const { $from } = selection;
 
-         // Check if we're in a paragraph inside a draggableItem
-         if (
-           $from.parent.type.name === "paragraph" &&
-           $from.node(-1)?.type.name === "draggableItem"
-         ) {
-           // Check if paragraph is empty AND is the only child of the draggableItem
-           if (
-             $from.parent.content.size === 0 &&
-             $from.node(-1).childCount === 1
-           ) {
-             // Create a new empty paragraph in a new draggable item
-             const schema = state.schema as Schema;
-             const paragraph = schema.nodes.paragraph.create({}, []);
-             const draggableItem = schema.nodes.draggableItem.create({}, [
-               paragraph,
-             ]);
+    const enterKeyPlugin = keymap({
+      Enter: (state, dispatch) => {
+        const { selection } = state;
+        const { $from } = selection;
 
-             // Insert after current draggable
-             const tr = state.tr.insert($from.after(-1), draggableItem);
+        // Check if we're in a paragraph inside a draggableItem
+        if (
+          $from.parent.type.name === 'paragraph' &&
+          $from.node(-1)?.type.name === 'draggableItem'
+        ) {
+          // Check if paragraph is empty AND is the only child of the draggableItem
+          if (
+            $from.parent.content.size === 0 &&
+            $from.node(-1).childCount === 1
+          ) {
+            // Create a new empty paragraph in a new draggable item
+            const schema = state.schema as Schema;
+            const paragraph = schema.nodes.paragraph.create({}, []);
+            const draggableItem = schema.nodes.draggableItem.create({}, [
+              paragraph,
+            ]);
 
-             // Move selection to the new paragraph
-             const newPos = $from.after(-1) + 2; // +2 to get inside the paragraph
-             tr.setSelection(TextSelection.create(tr.doc, newPos));
+            // Insert after current draggable
+            const tr = state.tr.insert($from.after(-1), draggableItem);
 
-             dispatch?.(tr);
-             return true;
-           }
-         }
+            // Move selection to the new paragraph
+            const newPos = $from.after(-1) + 2; // +2 to get inside the paragraph
+            tr.setSelection(TextSelection.create(tr.doc, newPos));
 
-         // Let other handlers process this event
-         return false;
-       },
-     });
+            dispatch?.(tr);
+            return true;
+          }
+        }
+
+        // Let other handlers process this event
+        return false;
+      },
+    });
 
     return [wrapperPlugin, enterKeyPlugin];
   },

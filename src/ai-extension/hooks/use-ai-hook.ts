@@ -1,4 +1,3 @@
-import { Editor } from '@tiptap/react';
 import { useAiAssistantState } from '../store/ai-state-store';
 import { createAgent } from '../service/model';
 import { PromptType } from '../types/index ';

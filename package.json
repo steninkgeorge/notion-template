@@ -1,10 +1,16 @@
 {
-  "name": "notion-template",
-  "version": "0.1.0",
-  "private": true,
+  "name": "notion-template-editor",
+  "version": "1.0.0",
+  "private": false,
+  "description": "A customizable Tiptap-based template editor with draggable blocks and AI integration.",
+  "author": "Stenin K George",
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "tsup src/index.ts --dts --format esm,cjs --out-dir dist",
     "start": "next start",
     "format": "prettier --write .",
     "format:staged": "prettier --write $(git diff --name-only --cached)",

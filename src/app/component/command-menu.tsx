@@ -1,4 +1,4 @@
-import { CSSProperties, forwardRef, useState } from 'react';
+import { CSSProperties, forwardRef } from 'react';
 import {
   Command,
   CommandEmpty,
@@ -54,3 +54,5 @@ export const CommandMenu = forwardRef<HTMLDivElement, CommandMenuProps>(
     );
   }
 );
+
+CommandMenu.displayName = 'CommandMenu';

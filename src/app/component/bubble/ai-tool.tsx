@@ -20,7 +20,7 @@ interface props {
 export const AItools = ({ editor }: { editor: Editor | null }) => {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<undefined | string>(undefined);
-  const { generateContent, ...state } = useAIAssistant();
+  const { generateContent } = useAIAssistant();
   const content = editor?.state.doc.textBetween(
     editor.state.selection.from,
     editor.state.selection.to,
