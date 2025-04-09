@@ -3,6 +3,13 @@
 # dependencies
 /node_modules
 
+# Husky
+.husky/_/
+
+# Prettier / Lint cache
+.prettiercache
+.eslintcache
+
 /.pnp
 .pnp.*
 .yarn/*
