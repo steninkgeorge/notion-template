@@ -1,13 +1,10 @@
-import React, { JSX, useCallback, useEffect, useRef, useState } from "react";
-import { NodeViewWrapper, NodeViewContent } from "@tiptap/react";
-import { Grip } from "lucide-react";
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
+import { Grip } from 'lucide-react';
 
-
-
-export const DraggableNode = ({node}:{node:any})=>{
+export const DraggableNode = () => {
   const [visible, setVisible] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null); // Store the timeout ID
-  const [isDragging, setIsDragging] = useState(false);
   const scrollIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const dragHandleRef = useRef<HTMLDivElement | null>(null);
 
@@ -24,8 +21,6 @@ export const DraggableNode = ({node}:{node:any})=>{
     resetTimer();
   };
 
-
-
   const resetTimer = () => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current); // Clear previous timeout
@@ -39,75 +34,59 @@ export const DraggableNode = ({node}:{node:any})=>{
     }
   }, []);
 
+  const startScrolling = useCallback(
+    (direction: 'up' | 'down') => {
+      stopScrolling();
 
-   const startScrolling = useCallback(
-   (direction: "up" | "down") => {
-     stopScrolling();
-     console.log(`Starting to scroll ${direction}`);
+      scrollIntervalRef.current = setInterval(() => {
+        const scrollAmount = direction === 'up' ? -SCROLL_SPEED : SCROLL_SPEED;
+        window.scrollBy(0, scrollAmount);
+      }, 16);
+    },
+    [stopScrolling]
+  );
 
-     scrollIntervalRef.current = setInterval(() => {
-       const scrollAmount = direction === "up" ? -SCROLL_SPEED : SCROLL_SPEED;
-       window.scrollBy(0, scrollAmount);
-     }, 16);
-   },
-   [stopScrolling]
- );
+  const handleDrag = useCallback(
+    (event: DragEvent) => {
+      const { clientY } = event;
+      const windowHeight = window.innerHeight;
 
-   const handleDrag = useCallback(
-     (event: DragEvent) => {
-       console.log("Drag event", event.clientY);
+      if (clientY < SCROLL_THRESHOLD) {
+        startScrolling('up');
+      } else if (clientY > windowHeight - SCROLL_THRESHOLD) {
+        startScrolling('down');
+      } else {
+        stopScrolling();
+      }
+    },
+    [startScrolling, stopScrolling]
+  );
 
-       const { clientY } = event;
-       const windowHeight = window.innerHeight;
+  useEffect(() => {
+    const dragHandle = dragHandleRef.current;
+    if (!dragHandle) return;
 
-       console.log(
-         `Mouse position: ${clientY}, Window height: ${windowHeight}, Threshold: ${SCROLL_THRESHOLD}`
-       );
+    const handleDragStart = () => {
+      document.addEventListener('drag', handleDrag);
+    };
 
-       if (clientY < SCROLL_THRESHOLD) {
-         console.log("Should scroll up");
-         startScrolling("up");
-       } else if (clientY > windowHeight - SCROLL_THRESHOLD) {
-         console.log("Should scroll down");
-         startScrolling("down");
-       } else {
-         stopScrolling();
-       }
-     },
-     [startScrolling, stopScrolling]
-   );
+    const handleDragEnd = () => {
+      document.removeEventListener('drag', handleDrag);
+      stopScrolling();
+    };
 
-useEffect(() => {
-  const dragHandle = dragHandleRef.current;
-  if (!dragHandle) return;
+    dragHandle.addEventListener('dragstart', handleDragStart);
+    document.addEventListener('dragend', handleDragEnd);
+    document.addEventListener('drop', handleDragEnd);
 
-  const handleDragStart = () => {
-    setIsDragging(true);
-    document.addEventListener("drag", handleDrag);
-  };
-
-  const handleDragEnd = () => {
-    setIsDragging(false);
-    document.removeEventListener("drag", handleDrag);
-    stopScrolling();
-  };
-
-  dragHandle.addEventListener("dragstart", handleDragStart);
-  document.addEventListener("dragend", handleDragEnd);
-  document.addEventListener("drop", handleDragEnd);
-
-  return () => {
-    dragHandle.removeEventListener("dragstart", handleDragStart);
-    document.removeEventListener("dragend", handleDragEnd);
-    document.removeEventListener("drop", handleDragEnd);
-    document.removeEventListener("drag", handleDrag);
-    stopScrolling();
-  };
-}, []);
-
-
-
-
+    return () => {
+      dragHandle.removeEventListener('dragstart', handleDragStart);
+      document.removeEventListener('dragend', handleDragEnd);
+      document.removeEventListener('drop', handleDragEnd);
+      document.removeEventListener('drag', handleDrag);
+      stopScrolling();
+    };
+  }, [handleDrag, stopScrolling]);
 
   return (
     <NodeViewWrapper
@@ -132,6 +111,4 @@ useEffect(() => {
       {/* Heading Content */}
     </NodeViewWrapper>
   );
-}
-
-
+};

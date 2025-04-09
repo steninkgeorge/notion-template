@@ -1,15 +1,14 @@
-import { mergeAttributes, Node } from "@tiptap/core";
-import { ReactNodeViewRenderer } from "@tiptap/react";
+import { mergeAttributes, Node } from '@tiptap/core';
+import { ReactNodeViewRenderer } from '@tiptap/react';
 
-import { Draggable } from "@/app/component/draggable";
-import { DraggableNode } from "./draggable-node";
+import { DraggableNode } from './draggable-node';
 
 export default Node.create({
-  name: "draggableItem",
+  name: 'draggableItem',
 
-  group: "block",
+  group: 'block',
 
-  content: "block+",
+  content: 'block+',
 
   draggable: true,
 
@@ -18,19 +17,11 @@ export default Node.create({
       {
         tag: 'div[data-type="draggable-item"]',
       },
-   
     ];
   },
 
   renderHTML({ HTMLAttributes }) {
-    
-    return [
-      'div',
-      mergeAttributes(HTMLAttributes
-
-      ),
-      0,
-    ];
+    return ['div', mergeAttributes(HTMLAttributes), 0];
   },
 
   addNodeView() {

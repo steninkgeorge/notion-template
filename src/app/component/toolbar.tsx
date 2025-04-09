@@ -1,12 +1,9 @@
-"use client";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import {  BotIcon, LucideIcon, PlusIcon } from "lucide-react";
-import { useEditorStore } from "../store/use-editor-store";
-import React, { useState } from "react";
-import {  AIGenerateToolbarComponent } from "./ai-generate";
-import { ToolbarButtonProps, ToolbarItemType } from "@/types";
-
+'use client';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import { BotIcon, PlusIcon } from 'lucide-react';
+import { useEditorStore } from '../store/use-editor-store';
+import { ToolbarButtonProps, ToolbarItemType } from '@/types';
 
 const ToolBarButton = ({
   label,
@@ -17,11 +14,11 @@ const ToolBarButton = ({
   return (
     <div className="relative group ">
       <Button
-        size={"icon"}
-        variant={"ghost"}
+        size={'icon'}
+        variant={'ghost'}
         className={cn(
-          "hover:bg-neutral-300 p-1 m-1 ",
-          isActive && "bg-neutral-300"
+          'hover:bg-neutral-300 p-1 m-1 ',
+          isActive && 'bg-neutral-300'
         )}
         onClick={onClick}
       >
@@ -36,30 +33,28 @@ const ToolBarButton = ({
   );
 };
 
-
-
 export const Toolbar = () => {
-    const { editor } = useEditorStore();
+  const { editor } = useEditorStore();
 
   const ToolbarItem: ToolbarItemType = [
     {
-      label: "New Block",
+      label: 'New Block',
       icon: PlusIcon,
       onClick: () => {},
       isActive: false,
     },
 
     {
-      label: "AI Block",
+      label: 'AI Block',
       icon: BotIcon,
       onClick: () => {
         editor
           ?.chain()
           .focus()
           .insertContent({
-            type: "AIgenerativenode",
+            type: 'AIgenerativenode',
             attrs: {
-              initialPrompt: "",
+              initialPrompt: '',
             },
           })
           .run();
@@ -69,7 +64,7 @@ export const Toolbar = () => {
   ];
   return (
     <div className="w-full flex items-center max-w-[816px] bg-gray-200 mx-auto p-2 mt-10 rounded-sm">
-      {ToolbarItem.map((item, index) => (
+      {ToolbarItem.map((item) => (
         <ToolBarButton
           key={item.label}
           label={item.label}

@@ -1,12 +1,11 @@
-import { Pilcrow, PilcrowIcon } from "lucide-react";
-import { ToolbarItemType } from ".";
-
+import { PilcrowIcon } from 'lucide-react';
+import { ToolbarItemType } from '.';
 
 export const textFormatting: ToolbarItemType = [
   {
-    label: "Paragraph",
+    label: 'Paragraph',
     icon: PilcrowIcon,
     onClick: () => {},
-    isActive:false
+    isActive: false,
   },
 ];

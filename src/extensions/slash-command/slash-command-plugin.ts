@@ -1,29 +1,21 @@
-import { Editor, Extension } from "@tiptap/core";
-import { Suggestion } from "@tiptap/suggestion";
-import { CommandProps } from "@/types/command";
-import {createRoot, Root} from "react-dom/client";
-import {CommandMenu} from "@/app/component/command-menu";
-import React from "react";
-import { title } from "process";
-/*TODO: add AI generative features
-//TODO: AI tools-> simplify , emojify, make shorter , make longer,
- fix spelling and grammar, translate, complete sentence, change tone*/
- //TODO: insert -> table , column , horizontal rule , image and table of contents 
- //TODO format : heading, bullet , number , task , toggle list
-//TODO: link transformation, add link option , more options 
-
-
+import { Editor, Extension } from '@tiptap/core';
+import { Suggestion } from '@tiptap/suggestion';
+import { CommandProps } from '@/types/command';
+import { createRoot, Root } from 'react-dom/client';
+import { CommandMenu } from '@/app/component/command-menu';
+import React from 'react';
+import { title } from 'process';
 
 const CommandsPlugin = Extension.create({
-  name: "insertMenu",
+  name: 'insertMenu',
 
   addProseMirrorPlugins() {
     return [
       Suggestion<CommandProps>({
         editor: this.editor,
-        char: "/",
+        char: '/',
         command: ({ editor, range, props }) => {
-              editor.chain().focus().deleteRange(range).run();
+          editor.chain().focus().deleteRange(range).run();
 
           props.command({ editor, range, props });
         },
@@ -31,43 +23,43 @@ const CommandsPlugin = Extension.create({
           return [
             //ai options
             {
-              title: "AI tools",
+              title: 'AI tools',
               command: ({ editor }: { editor: Editor }) =>
                 editor
                   .chain()
                   .focus()
-                  .insertPromptBox({ initialPrompt: "" }) 
+                  .insertPromptBox({ initialPrompt: '' })
                   .run(),
             },
 
             //text formatting
             {
-              title: "Heading",
+              title: 'Heading',
               command: ({ editor }: { editor: Editor }) =>
-                editor.chain().focus().setNode("heading", { level: 1 }).run(),
+                editor.chain().focus().setNode('heading', { level: 1 }).run(),
             },
             {
-              title: "Subheading",
+              title: 'Subheading',
               command: ({ editor }: { editor: Editor }) =>
-                editor.chain().focus().setNode("heading", { level: 2 }).run(),
+                editor.chain().focus().setNode('heading', { level: 2 }).run(),
             },
             {
-              title: "Quote",
+              title: 'Quote',
               command: ({ editor }: { editor: Editor }) =>
                 editor.chain().focus().setBlockquote().run(),
             },
             {
-              title: "Bullet List",
+              title: 'Bullet List',
               command: ({ editor }: { editor: Editor }) =>
                 editor.chain().focus().toggleBulletList().run(),
             },
             {
-              title: "Numbered List",
+              title: 'Numbered List',
               command: ({ editor }: { editor: Editor }) =>
                 editor.chain().focus().toggleOrderedList().run(),
             },
             {
-              title: "Code Block",
+              title: 'Code Block',
               command: ({ editor }: { editor: Editor }) =>
                 editor.chain().focus().setCodeBlock().run(),
             },
@@ -83,25 +75,25 @@ const CommandsPlugin = Extension.create({
             .slice(0, 5);
         },
         startOfLine: true,
-        allow: ({ state, range, editor }) => {
+        allow: ({ state }) => {
           const node = state.selection.$from.node();
           if (!node) return false;
-          return node.textBetween(0, 1) === "/";
+          return node.textBetween(0, 1) === '/';
         },
         render: () => {
-         let rootElement: HTMLElement | null = null;
-         let root: Root | null = null;
+          let rootElement: HTMLElement | null = null;
+          let root: Root | null = null;
 
           return {
             onStart: (props) => {
-              rootElement = document.createElement("div");
+              rootElement = document.createElement('div');
               document.body.appendChild(rootElement);
               root = createRoot(rootElement);
 
               root.render(
                 React.createElement(CommandMenu, {
                   ...props,
-                  title:title,
+                  title: title,
                   items: props.items,
                   command: props.command,
                   clientRect: props.clientRect,
@@ -112,14 +104,14 @@ const CommandsPlugin = Extension.create({
               if (root && rootElement) {
                 React.createElement(CommandMenu, {
                   ...props,
-                  title:title,
+                  title: title,
                   items: props.items,
                   command: props.command,
                   clientRect: props.clientRect,
                 });
               }
             },
-            
+
             onExit: () => {
               // Clean up
               if (root) {

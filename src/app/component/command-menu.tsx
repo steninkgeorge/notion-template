@@ -1,13 +1,13 @@
-import { CSSProperties, forwardRef, useEffect, useState } from "react";
+import { CSSProperties, forwardRef, useState } from 'react';
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandItem,
   CommandList,
-} from "@/components/ui/command";
+} from '@/components/ui/command';
 
-import { CommandProps } from "@/types/command";
+import { CommandProps } from '@/types/command';
 
 interface CommandMenuProps extends CommandProps {
   items: any[];
@@ -18,17 +18,14 @@ interface CommandMenuProps extends CommandProps {
 export const CommandMenu = forwardRef<HTMLDivElement, CommandMenuProps>(
   (props, ref) => {
     const { items, command, clientRect } = props;
-    const [selectedIndex, setSelectedIndex] = useState(0);
-    const [open, setOpen] = useState(true);
     const rect = clientRect?.() || new DOMRect();
     const style = {
-      position: "absolute",
+      position: 'absolute',
       top: `${rect.top + rect.height}px`,
       left: `${rect.left}px`,
       zIndex: 50,
     } as CSSProperties;
 
-  
     return (
       <div style={style} ref={ref}>
         <Command
@@ -45,7 +42,6 @@ export const CommandMenu = forwardRef<HTMLDivElement, CommandMenuProps>(
                   key={index}
                   onSelect={() => {
                     command(item);
-                    setOpen(false);
                   }}
                 >
                   {item.element || item.title}

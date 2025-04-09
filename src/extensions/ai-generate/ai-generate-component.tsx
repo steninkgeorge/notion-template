@@ -1,35 +1,39 @@
-import React, { useState } from "react";
-import { NodeViewProps, NodeViewWrapper } from "@tiptap/react";
-import { useAIAssistant } from "@/ai-extension/hooks/use-ai-hook";
-import { useAiAssistantState } from "@/ai-extension/store/ai-state-store";
-import { AImodel } from "@/ai-extension/types/index ";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import React, { useState } from 'react';
+import { NodeViewProps, NodeViewWrapper } from '@tiptap/react';
+import { useAIAssistant } from '@/ai-extension/hooks/use-ai-hook';
+import { useAiAssistantState } from '@/ai-extension/store/ai-state-store';
+import {
+  AImodelConfig,
+  AImodelKey,
+  AImodels,
+  defaultConfig,
+} from '@/ai-extension/types/index ';
+import { Button } from '@/components/ui/button';
 import {
   TONE_PROMPTS,
   MODIFICATION_PROMPTS,
-} from "@/constants/ai-prompt-constants";
+} from '@/constants/ai-prompt-constants';
 import {
   Select,
   SelectTrigger,
   SelectValue,
   SelectContent,
   SelectItem,
-} from "@/components/ui/select";
-import { MessageSquareIcon, CheckIcon, PenIcon, TrashIcon } from "lucide-react";
-import { Textarea } from "@/components/ui/textarea";
-import { MarkdownEditor } from "@/app/component/preview-editor";
+} from '@/components/ui/select';
+import { MessageSquareIcon, CheckIcon, PenIcon, TrashIcon } from 'lucide-react';
+import { Textarea } from '@/components/ui/textarea';
+import { MarkdownEditor } from '@/app/component/preview-editor';
 
 export const AIGenerateComponentNode = ({
   editor,
   node,
   getPos,
 }: NodeViewProps) => {
-  const { generateContent, ...state } = useAIAssistant({ editor });
+  const { generateContent, ...state } = useAIAssistant();
   const { setConfig } = useAiAssistantState();
 
-  const [input, setInput] = useState(node.attrs.initialPrompt || "");
-  const [model, setModel] = useState(AImodel.Gemini as string);
+  const [input, setInput] = useState(node.attrs.initialPrompt || '');
+  const [model, setModel] = useState(defaultConfig.model);
   const [tone, setTone] = useState(TONE_PROMPTS.casual as string);
   const [preview, setPreview] = useState<undefined | string>(undefined);
   const [modify, setModify] = useState<undefined | string>(undefined);
@@ -50,7 +54,7 @@ export const AIGenerateComponentNode = ({
   };
 
   const handleInsert = () => {
-    if (typeof getPos === "function" && preview) {
+    if (typeof getPos === 'function' && preview) {
       // Delete the node
       const pos = getPos();
       editor.commands.deleteRange({ from: pos, to: pos + node.nodeSize });
@@ -60,9 +64,9 @@ export const AIGenerateComponentNode = ({
     }
   };
 
-  const handleConfig = (model: string) => {
-    setConfig({ model: model });
-    setModel(model);
+  const handleConfig = (model: AImodelConfig) => {
+    setConfig({ model: model.id, apiKey: model.apiKey! });
+    setModel(model.id);
   };
 
   const handleTone = (tone: string) => {
@@ -86,7 +90,7 @@ export const AIGenerateComponentNode = ({
             variant="ghost"
             size="sm"
             onClick={() => {
-              if (typeof getPos === "function") {
+              if (typeof getPos === 'function') {
                 editor.commands.deleteRange({
                   from: getPos(),
                   to: getPos() + node.nodeSize,
@@ -127,7 +131,7 @@ export const AIGenerateComponentNode = ({
             onValueChange={(modify) => handleModify(modify)}
           >
             <SelectTrigger className="w-[140px]">
-              <SelectValue placeholder={modify || "modify"} />
+              <SelectValue placeholder={modify || 'modify'} />
             </SelectTrigger>
             <SelectContent>
               {Object.entries(MODIFICATION_PROMPTS).map(
@@ -141,14 +145,21 @@ export const AIGenerateComponentNode = ({
             </SelectContent>
           </Select>
 
-          <Select value={model} onValueChange={(model) => handleConfig(model)}>
+          <Select
+            value={model}
+            onValueChange={(model) => {
+              const modelkey = AImodels[model as AImodelKey];
+              console.log(modelkey);
+              handleConfig(modelkey);
+            }}
+          >
             <SelectTrigger className="w-[140px]">
               <SelectValue placeholder={`${model}`} />
             </SelectTrigger>
             <SelectContent>
-              {Object.entries(AImodel).map(([key, value]) => (
-                <SelectItem key={key} value={value}>
-                  {key.toLowerCase()}
+              {Object.entries(AImodels).map(([key, value]) => (
+                <SelectItem key={key} value={value.id}>
+                  {value.id.toLowerCase()}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -168,10 +179,10 @@ export const AIGenerateComponentNode = ({
           >
             <PenIcon className="size-4" />
             {state.isProcessing
-              ? "Generating..."
+              ? 'Generating...'
               : generationComplete
-              ? "Regenerate"
-              : "Generate"}
+                ? 'Regenerate'
+                : 'Generate'}
           </Button>
         </div>
       </div>

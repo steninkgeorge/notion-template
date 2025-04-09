@@ -1,9 +1,7 @@
-import { NodeViewContent, NodeViewWrapper } from "@tiptap/react";
-import { Grab, Grip } from "lucide-react";
-import React, { useRef } from "react";
+import { NodeViewContent, NodeViewWrapper } from '@tiptap/react';
+import React from 'react';
 
 export const Draggable = () => {
-  
   return (
     <NodeViewWrapper className="draggable-item">
       <div

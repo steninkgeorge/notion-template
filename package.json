@@ -1,12 +1,24 @@
 {
-  "name": "test-docs",
+  "name": "notion-template",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "format": "prettier --write .",
+    "format:staged": "prettier --write $(git diff --name-only --cached)",
+    "lint": "next lint",
+    "prepare": "husky"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.0",
@@ -38,6 +50,7 @@
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
     "install": "^0.13.0",
+    "lint-staged": "^15.5.0",
     "lucide-react": "^0.486.0",
     "next": "15.2.4",
     "npm": "^11.2.0",
@@ -58,7 +71,13 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.2.4",
+    "husky": "^9.1.7",
+    "prettier": "^3.5.3",
     "tailwindcss": "^4",
+    "tsup": "^8.4.0",
     "typescript": "^5"
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx,json,css,md}": "prettier --write"
   }
 }
