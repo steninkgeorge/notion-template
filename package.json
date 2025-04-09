@@ -1,6 +1,6 @@
 {
-  "name": "notion-template-editor",
-  "version": "1.0.0",
+  "name": "notion-editor-template",
+  "version": "1.0.1",
   "private": false,
   "description": "A customizable Tiptap-based template editor with draggable blocks and AI integration.",
   "author": "Stenin K George",
@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "dev": "next dev",
-    "build": "tsup src/index.ts --dts --format esm,cjs --out-dir dist",
+    "build": "tsup src/index.ts --dts --format esm,cjs --external react --external react-dom --external @tiptap/react",
     "start": "next start",
     "format": "prettier --write .",
     "format:staged": "prettier --write $(git diff --name-only --cached)",
@@ -82,6 +82,11 @@
     "tailwindcss": "^4",
     "tsup": "^8.4.0",
     "typescript": "^5"
+  },
+  "peerDependencies": {
+    "react": "^18 || ^19",
+    "react-dom": "^18 || ^19",
+    "@tiptap/react": "^2.0.0"
   },
   "lint-staged": {
     "*.{js,ts,tsx,json,css,md}": "prettier --write"

@@ -1,7 +1,8 @@
 'use client';
-import { useTemplateEditor } from '../hooks/useTemplateEditor';
+import * as React from 'react';
+
 import { Editor, EditorContent } from '@tiptap/react';
-import { TextBubbleMenu } from '../../../../src/app/component/bubble/bubble-menu';
+import { TextBubbleMenu } from './bubble/bubble-menu';
 
 interface TemplateEditorProps {
   editor: Editor | null;

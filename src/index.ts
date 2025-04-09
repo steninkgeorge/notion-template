@@ -1,2 +1,4 @@
-export { TemplateEditor } from '../packages/template-editor/src/components/template-editor';
-export { useTemplateEditor } from '../packages/template-editor/src/hooks/useTemplateEditor';
+import * as React from 'react';
+
+export { TemplateEditor } from './app/component/template-editor';
+export { useTemplateEditor } from './hooks/useTemplateEditor';

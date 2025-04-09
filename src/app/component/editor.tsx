@@ -2,8 +2,8 @@
 
 import { useEditorStore } from '../store/use-editor-store';
 
-import { TemplateEditor } from '../../../packages/template-editor/src/components/template-editor';
-import { useTemplateEditor } from '../../../packages/template-editor/src/hooks/useTemplateEditor';
+import { TemplateEditor } from './template-editor';
+import { useTemplateEditor } from '../../hooks/useTemplateEditor';
 //TODO: pagination
 
 const Editor = () => {

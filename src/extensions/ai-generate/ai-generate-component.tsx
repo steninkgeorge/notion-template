@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { NodeViewProps, NodeViewWrapper } from '@tiptap/react';
 import { useAIAssistant } from '@/ai-extension/hooks/use-ai-hook';
 import { useAiAssistantState } from '@/ai-extension/store/ai-state-store';

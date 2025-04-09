@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
 import { Grip } from 'lucide-react';
 

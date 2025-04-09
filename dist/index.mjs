@@ -30,7 +30,8 @@ var __objRest = (source, exclude) => {
   return target;
 };
 
-// packages/template-editor/src/components/template-editor.tsx
+// src/app/component/template-editor.tsx
+import * as React5 from "react";
 import { EditorContent } from "@tiptap/react";
 
 // src/components/ui/button.tsx
@@ -813,12 +814,12 @@ var TextBubbleMenu = ({ editor }) => {
   );
 };
 
-// packages/template-editor/src/components/template-editor.tsx
+// src/app/component/template-editor.tsx
 var TemplateEditor = ({ editor }) => {
-  return /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement(EditorContent, { editor }), /* @__PURE__ */ React.createElement(TextBubbleMenu, { editor }));
+  return /* @__PURE__ */ React5.createElement("div", null, /* @__PURE__ */ React5.createElement(EditorContent, { editor }), /* @__PURE__ */ React5.createElement(TextBubbleMenu, { editor }));
 };
 
-// packages/template-editor/src/hooks/useTemplateEditor.ts
+// src/hooks/useTemplateEditor.ts
 import { useEditor as useEditor2 } from "@tiptap/react";
 import StarterKit2 from "@tiptap/starter-kit";
 
@@ -2931,7 +2932,7 @@ var Node = class _Node {
 import { ReactNodeViewRenderer } from "@tiptap/react";
 
 // src/extensions/draggable-node.tsx
-import React5, { useCallback, useEffect, useRef, useState as useState6 } from "react";
+import { useCallback, useEffect, useRef, useState as useState6 } from "react";
 import { NodeViewWrapper, NodeViewContent } from "@tiptap/react";
 import { Grip } from "lucide-react";
 var DraggableNode = () => {
@@ -3006,14 +3007,14 @@ var DraggableNode = () => {
       stopScrolling();
     };
   }, [handleDrag, stopScrolling]);
-  return /* @__PURE__ */ React5.createElement(
+  return /* @__PURE__ */ React.createElement(
     NodeViewWrapper,
     {
       className: "relative group my-2 w-full",
       onMouseEnter: handleMouseEnter,
       onMouseMove: handleMouseMove
     },
-    /* @__PURE__ */ React5.createElement(
+    /* @__PURE__ */ React.createElement(
       "div",
       {
         className: "absolute left-0 top-0 translate-y-1 w-4 h-4 bg-transparent cursor-grab opacity-0 group-hover:opacity-100 transition-opacity duration-200",
@@ -3023,9 +3024,9 @@ var DraggableNode = () => {
         draggable: "true",
         ref: dragHandleRef
       },
-      /* @__PURE__ */ React5.createElement(Grip, { className: "w-4 h-4 text-gray-400" })
+      /* @__PURE__ */ React.createElement(Grip, { className: "w-4 h-4 text-gray-400" })
     ),
-    /* @__PURE__ */ React5.createElement("div", { className: "pl-6 flex-1" }, /* @__PURE__ */ React5.createElement(NodeViewContent, null))
+    /* @__PURE__ */ React.createElement("div", { className: "pl-6 flex-1" }, /* @__PURE__ */ React.createElement(NodeViewContent, null))
   );
 };
 
@@ -3114,7 +3115,7 @@ var BulletList = Node.create({
   }
 });
 
-// packages/template-editor/src/hooks/useTemplateEditor.ts
+// src/hooks/useTemplateEditor.ts
 import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
 
@@ -6395,12 +6396,9 @@ var WrapBlocksInDraggable = Extension.create({
         };
         state.doc.forEach((node, pos) => {
           if (node.type.name === "draggableItem") return;
-          if ([
-            "paragraph",
-            "heading",
-            "bulletList",
-            "orderedList"
-          ].includes(node.type.name) && state.doc.resolve(pos).parent.type.name === "doc") {
+          if (["paragraph", "heading", "bulletList", "orderedList"].includes(
+            node.type.name
+          ) && state.doc.resolve(pos).parent.type.name === "doc") {
             modified = wrapNode(pos, node) || modified;
           }
         });
@@ -6420,12 +6418,9 @@ var WrapBlocksInDraggable = Extension.create({
         let modified = false;
         newState.doc.forEach((node, pos) => {
           if (node.type.name === "draggableItem") return;
-          if ([
-            "paragraph",
-            "heading",
-            "bulletList",
-            "orderedList"
-          ].includes(node.type.name) && newState.doc.resolve(pos).parent.type.name === "doc" && !isInsideDraggable(newState.doc, pos)) {
+          if (["paragraph", "heading", "bulletList", "orderedList"].includes(
+            node.type.name
+          ) && newState.doc.resolve(pos).parent.type.name === "doc" && !isInsideDraggable(newState.doc, pos)) {
             const draggableItem = schema.nodes.draggableItem.create(
               {},
               // no attrs
@@ -6709,14 +6704,14 @@ var CommandsPlugin = Extension.create({
 });
 var slash_command_plugin_default = CommandsPlugin;
 
-// packages/template-editor/src/hooks/useTemplateEditor.ts
+// src/hooks/useTemplateEditor.ts
 import { Markdown as Markdown2 } from "tiptap-markdown";
 
 // src/extensions/ai-generate/ai-generate-node.ts
 import { mergeAttributes as mergeAttributes2, Node as Node3, ReactNodeViewRenderer as ReactNodeViewRenderer2 } from "@tiptap/react";
 
 // src/extensions/ai-generate/ai-generate-component.tsx
-import React12, { useState as useState7 } from "react";
+import { useState as useState7 } from "react";
 import { NodeViewWrapper as NodeViewWrapper2 } from "@tiptap/react";
 
 // src/components/ui/select.tsx
@@ -6868,7 +6863,7 @@ function Textarea(_a) {
 }
 
 // src/app/component/preview-editor.tsx
-import React11, { useEffect as useEffect2 } from "react";
+import { useEffect as useEffect2 } from "react";
 import { useEditor, EditorContent as EditorContent2 } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { Markdown } from "tiptap-markdown";
@@ -6886,7 +6881,7 @@ var MarkdownEditor = ({ content }) => {
       editor.commands.setContent(content);
     }
   }, [editor, content]);
-  return /* @__PURE__ */ React11.createElement("div", { className: "bg-white text-sm rounded-md px-3 py-2 border border-neutral-300 min-h-[100px] max-h-[400px] w-full overflow-y-auto" }, /* @__PURE__ */ React11.createElement(EditorContent2, { editor }));
+  return /* @__PURE__ */ React.createElement("div", { className: "bg-white text-sm rounded-md px-3 py-2 border border-neutral-300 min-h-[100px] max-h-[400px] w-full overflow-y-auto" }, /* @__PURE__ */ React.createElement(EditorContent2, { editor }));
 };
 
 // src/extensions/ai-generate/ai-generate-component.tsx
@@ -6932,7 +6927,7 @@ var AIGenerateComponentNode = ({
   const handleModify = (modify2) => {
     setModify(modify2);
   };
-  return /* @__PURE__ */ React12.createElement(NodeViewWrapper2, { className: "ai-assistant-node border-2  border-neutral-300 p-4 my-2 rounded-md" }, /* @__PURE__ */ React12.createElement("div", { className: "flex flex-col gap-4" }, /* @__PURE__ */ React12.createElement("div", { className: "flex items-center justify-between" }, /* @__PURE__ */ React12.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ React12.createElement(MessageSquareIcon, { className: "size-4" }), /* @__PURE__ */ React12.createElement("span", { className: "font-medium" }, "AI Assistant")), /* @__PURE__ */ React12.createElement(
+  return /* @__PURE__ */ React.createElement(NodeViewWrapper2, { className: "ai-assistant-node border-2  border-neutral-300 p-4 my-2 rounded-md" }, /* @__PURE__ */ React.createElement("div", { className: "flex flex-col gap-4" }, /* @__PURE__ */ React.createElement("div", { className: "flex items-center justify-between" }, /* @__PURE__ */ React.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ React.createElement(MessageSquareIcon, { className: "size-4" }), /* @__PURE__ */ React.createElement("span", { className: "font-medium" }, "AI Assistant")), /* @__PURE__ */ React.createElement(
     Button,
     {
       variant: "ghost",
@@ -6946,8 +6941,8 @@ var AIGenerateComponentNode = ({
         }
       }
     },
-    /* @__PURE__ */ React12.createElement(TrashIcon, { className: "size-4" })
-  )), preview && /* @__PURE__ */ React12.createElement(MarkdownEditor, { content: preview }), /* @__PURE__ */ React12.createElement(
+    /* @__PURE__ */ React.createElement(TrashIcon, { className: "size-4" })
+  )), preview && /* @__PURE__ */ React.createElement(MarkdownEditor, { content: preview }), /* @__PURE__ */ React.createElement(
     Textarea,
     {
       className: "w-full border-1 focus-visible:outline-0 max-h-[200px] outline-none focus-visible:ring-0  focus-visible:border-neutral-400",
@@ -6955,18 +6950,18 @@ var AIGenerateComponentNode = ({
       value: input,
       onChange: (e) => setInput(e.target.value)
     }
-  ), /* @__PURE__ */ React12.createElement("div", { className: "flex flex-wrap gap-2 justify-end items-center" }, /* @__PURE__ */ React12.createElement(Select, { value: tone, onValueChange: (tone2) => handleTone(tone2) }, /* @__PURE__ */ React12.createElement(SelectTrigger, { className: "w-[140px]" }, /* @__PURE__ */ React12.createElement(SelectValue, { placeholder: `${tone}` })), /* @__PURE__ */ React12.createElement(SelectContent, null, Object.entries(TONE_PROMPTS).map(([key, value]) => /* @__PURE__ */ React12.createElement(SelectItem, { key, value }, key)))), /* @__PURE__ */ React12.createElement(
+  ), /* @__PURE__ */ React.createElement("div", { className: "flex flex-wrap gap-2 justify-end items-center" }, /* @__PURE__ */ React.createElement(Select, { value: tone, onValueChange: (tone2) => handleTone(tone2) }, /* @__PURE__ */ React.createElement(SelectTrigger, { className: "w-[140px]" }, /* @__PURE__ */ React.createElement(SelectValue, { placeholder: `${tone}` })), /* @__PURE__ */ React.createElement(SelectContent, null, Object.entries(TONE_PROMPTS).map(([key, value]) => /* @__PURE__ */ React.createElement(SelectItem, { key, value }, key)))), /* @__PURE__ */ React.createElement(
     Select,
     {
       disabled: !generationComplete,
       value: modify,
       onValueChange: (modify2) => handleModify(modify2)
     },
-    /* @__PURE__ */ React12.createElement(SelectTrigger, { className: "w-[140px]" }, /* @__PURE__ */ React12.createElement(SelectValue, { placeholder: modify || "modify" })),
-    /* @__PURE__ */ React12.createElement(SelectContent, null, Object.entries(MODIFICATION_PROMPTS).map(
-      ([key, { prompt, label, icon: Icon2 }]) => /* @__PURE__ */ React12.createElement(SelectItem, { key, value: prompt, className: "flex gap-x-2" }, /* @__PURE__ */ React12.createElement(Icon2, { className: "size-4" }), label)
+    /* @__PURE__ */ React.createElement(SelectTrigger, { className: "w-[140px]" }, /* @__PURE__ */ React.createElement(SelectValue, { placeholder: modify || "modify" })),
+    /* @__PURE__ */ React.createElement(SelectContent, null, Object.entries(MODIFICATION_PROMPTS).map(
+      ([key, { prompt, label, icon: Icon2 }]) => /* @__PURE__ */ React.createElement(SelectItem, { key, value: prompt, className: "flex gap-x-2" }, /* @__PURE__ */ React.createElement(Icon2, { className: "size-4" }), label)
     ))
-  ), /* @__PURE__ */ React12.createElement(
+  ), /* @__PURE__ */ React.createElement(
     Select,
     {
       value: model,
@@ -6976,16 +6971,16 @@ var AIGenerateComponentNode = ({
         handleConfig(modelkey);
       }
     },
-    /* @__PURE__ */ React12.createElement(SelectTrigger, { className: "w-[140px]" }, /* @__PURE__ */ React12.createElement(SelectValue, { placeholder: `${model}` })),
-    /* @__PURE__ */ React12.createElement(SelectContent, null, Object.entries(AImodels).map(([key, value]) => /* @__PURE__ */ React12.createElement(SelectItem, { key, value: value.id }, value.id.toLowerCase())))
-  ), generationComplete && /* @__PURE__ */ React12.createElement(Button, { onClick: handleInsert, variant: "outline", className: "gap-1" }, /* @__PURE__ */ React12.createElement(CheckIcon2, { className: "size-4" }), /* @__PURE__ */ React12.createElement("span", null, "Insert")), /* @__PURE__ */ React12.createElement(
+    /* @__PURE__ */ React.createElement(SelectTrigger, { className: "w-[140px]" }, /* @__PURE__ */ React.createElement(SelectValue, { placeholder: `${model}` })),
+    /* @__PURE__ */ React.createElement(SelectContent, null, Object.entries(AImodels).map(([key, value]) => /* @__PURE__ */ React.createElement(SelectItem, { key, value: value.id }, value.id.toLowerCase())))
+  ), generationComplete && /* @__PURE__ */ React.createElement(Button, { onClick: handleInsert, variant: "outline", className: "gap-1" }, /* @__PURE__ */ React.createElement(CheckIcon2, { className: "size-4" }), /* @__PURE__ */ React.createElement("span", null, "Insert")), /* @__PURE__ */ React.createElement(
     Button,
     {
       disabled: state.isProcessing,
       onClick: handleGenerate,
       className: "gap-1"
     },
-    /* @__PURE__ */ React12.createElement(PenIcon, { className: "size-4" }),
+    /* @__PURE__ */ React.createElement(PenIcon, { className: "size-4" }),
     state.isProcessing ? "Generating..." : generationComplete ? "Regenerate" : "Generate"
   ))));
 };
@@ -7033,7 +7028,7 @@ var AIassistantNode = Node3.create({
   }
 });
 
-// packages/template-editor/src/hooks/useTemplateEditor.ts
+// src/hooks/useTemplateEditor.ts
 import Underline2 from "@tiptap/extension-underline";
 import TextStyle from "@tiptap/extension-text-style";
 import FontFamily from "@tiptap/extension-font-family";
@@ -7080,7 +7075,7 @@ var FontSize = Extension2.create({
   }
 });
 
-// packages/template-editor/src/hooks/useTemplateEditor.ts
+// src/hooks/useTemplateEditor.ts
 import Superscript from "@tiptap/extension-superscript";
 import Subscript from "@tiptap/extension-subscript";
 import TextAlign from "@tiptap/extension-text-align";
