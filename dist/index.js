@@ -6869,10 +6869,7 @@ var import_starter_kit = __toESM(require("@tiptap/starter-kit"));
 var import_tiptap_markdown = require("tiptap-markdown");
 var MarkdownEditor = ({ content }) => {
   const editor = (0, import_react14.useEditor)({
-    extensions: [
-      import_starter_kit.default,
-      import_tiptap_markdown.Markdown
-    ],
+    extensions: [import_starter_kit.default, import_tiptap_markdown.Markdown],
     content: "",
     editable: false
   });

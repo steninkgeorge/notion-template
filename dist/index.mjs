@@ -6869,10 +6869,7 @@ import StarterKit from "@tiptap/starter-kit";
 import { Markdown } from "tiptap-markdown";
 var MarkdownEditor = ({ content }) => {
   const editor = useEditor({
-    extensions: [
-      StarterKit,
-      Markdown
-    ],
+    extensions: [StarterKit, Markdown],
     content: "",
     editable: false
   });
