@@ -1,7 +1,6 @@
 import { Editor, EditorOptions, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import DraggableBlockExtension from '@/extensions/draggable-block-extension';
-import BulletList from '@tiptap/extension-bullet-list';
 import TaskList from '@tiptap/extension-task-list';
 import TaskItem from '@tiptap/extension-task-item';
 import { WrapBlocksInDraggable } from '@/extensions/wrap-plugin';
@@ -50,10 +49,6 @@ export const useTemplateEditor: (
         nested: true,
       }),
 
-      BulletList.configure({
-        keepMarks: true,
-        keepAttributes: true,
-      }),
       DraggableBlockExtension,
       WrapBlocksInDraggable,
       ...(options.extensions || []),

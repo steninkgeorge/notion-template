@@ -1099,12 +1099,6 @@ function callOrReturn(value, context = void 0, ...props) {
 function isRegExp(value) {
   return Object.prototype.toString.call(value) === "[object RegExp]";
 }
-var InputRule = class {
-  constructor(config) {
-    this.find = config.find;
-    this.handler = config.handler;
-  }
-};
 function getType(value) {
   return Object.prototype.toString.call(value).slice(8, -1);
 }
@@ -2902,39 +2896,6 @@ var Tabindex = Extension.create({
     ];
   }
 });
-function wrappingInputRule(config) {
-  return new InputRule({
-    find: config.find,
-    handler: ({ state, range, match, chain }) => {
-      const attributes = callOrReturn(config.getAttributes, void 0, match) || {};
-      const tr = state.tr.delete(range.from, range.to);
-      const $start = tr.doc.resolve(range.from);
-      const blockRange = $start.blockRange();
-      const wrapping = blockRange && (0, import_transform.findWrapping)(blockRange, config.type, attributes);
-      if (!wrapping) {
-        return null;
-      }
-      tr.wrap(blockRange, wrapping);
-      if (config.keepMarks && config.editor) {
-        const { selection, storedMarks } = state;
-        const { splittableMarks } = config.editor.extensionManager;
-        const marks = storedMarks || selection.$to.parentOffset && selection.$from.marks();
-        if (marks) {
-          const filteredMarks = marks.filter((mark) => splittableMarks.includes(mark.type.name));
-          tr.ensureMarks(filteredMarks);
-        }
-      }
-      if (config.keepAttributes) {
-        const nodeType = config.type.name === "bulletList" || config.type.name === "orderedList" ? "listItem" : "taskList";
-        chain().updateAttributes(nodeType, attributes).run();
-      }
-      const before = tr.doc.resolve(range.from - 1).nodeBefore;
-      if (before && before.type === config.type && (0, import_transform.canJoin)(tr.doc, range.from - 1) && (!config.joinPredicate || config.joinPredicate(match, before))) {
-        tr.join(range.from - 1);
-      }
-    }
-  });
-}
 var Node = class _Node {
   constructor(config = {}) {
     this.type = "node";
@@ -3116,70 +3077,6 @@ var draggable_block_extension_default = Node.create({
   },
   addNodeView() {
     return (0, import_react10.ReactNodeViewRenderer)(DraggableNode);
-  }
-});
-
-// node_modules/@tiptap/extension-bullet-list/dist/index.js
-var ListItemName = "listItem";
-var TextStyleName = "textStyle";
-var inputRegex = /^\s*([-+*])\s$/;
-var BulletList = Node.create({
-  name: "bulletList",
-  addOptions() {
-    return {
-      itemTypeName: "listItem",
-      HTMLAttributes: {},
-      keepMarks: false,
-      keepAttributes: false
-    };
-  },
-  group: "block list",
-  content() {
-    return `${this.options.itemTypeName}+`;
-  },
-  parseHTML() {
-    return [
-      { tag: "ul" }
-    ];
-  },
-  renderHTML({ HTMLAttributes }) {
-    return ["ul", mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0];
-  },
-  addCommands() {
-    return {
-      toggleBulletList: () => ({ commands: commands2, chain }) => {
-        if (this.options.keepAttributes) {
-          return chain().toggleList(this.name, this.options.itemTypeName, this.options.keepMarks).updateAttributes(ListItemName, this.editor.getAttributes(TextStyleName)).run();
-        }
-        return commands2.toggleList(this.name, this.options.itemTypeName, this.options.keepMarks);
-      }
-    };
-  },
-  addKeyboardShortcuts() {
-    return {
-      "Mod-Shift-8": () => this.editor.commands.toggleBulletList()
-    };
-  },
-  addInputRules() {
-    let inputRule = wrappingInputRule({
-      find: inputRegex,
-      type: this.type
-    });
-    if (this.options.keepMarks || this.options.keepAttributes) {
-      inputRule = wrappingInputRule({
-        find: inputRegex,
-        type: this.type,
-        keepMarks: this.options.keepMarks,
-        keepAttributes: this.options.keepAttributes,
-        getAttributes: () => {
-          return this.editor.getAttributes(TextStyleName);
-        },
-        editor: this.editor
-      });
-    }
-    return [
-      inputRule
-    ];
   }
 });
 
@@ -7220,10 +7117,6 @@ var useTemplateEditor = (content = "", options = {}) => {
       AIassistantNode,
       import_extension_task_item.default.configure({
         nested: true
-      }),
-      BulletList.configure({
-        keepMarks: true,
-        keepAttributes: true
       }),
       draggable_block_extension_default,
       WrapBlocksInDraggable,
