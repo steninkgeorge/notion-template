@@ -16,13 +16,16 @@ type Schema = {
   };
 };
 
+export const wrapBlocksPluginKey = new PluginKey('wrapBlocksInDraggable');
+export const enterKeyPluginKey = new PluginKey('enterKeyInDraggable');
+
 export const WrapBlocksInDraggable = Extension.create({
   name: 'wrapBlocksInDraggable',
 
   addProseMirrorPlugins() {
     // This plugin handles wrapping blocks in draggable items
     const wrapperPlugin = new Plugin({
-      key: new PluginKey('wrapBlocksInDraggable'),
+      key: wrapBlocksPluginKey,
 
       // Run once when the editor is initialized
       view(view: EditorView) {
@@ -124,42 +127,48 @@ export const WrapBlocksInDraggable = Extension.create({
       return false;
     }
 
-    const enterKeyPlugin = keymap({
-      Enter: (state, dispatch) => {
-        const { selection } = state;
-        const { $from } = selection;
+    const enterKeyPlugin = new Plugin({
+      key: enterKeyPluginKey,
+      props: {
+        handleKeyDown(view, event) {
+          if (event.key !== 'Enter') return false;
 
-        // Check if we're in a paragraph inside a draggableItem
-        if (
-          $from.parent.type.name === 'paragraph' &&
-          $from.node(-1)?.type.name === 'draggableItem'
-        ) {
-          // Check if paragraph is empty AND is the only child of the draggableItem
+          const { state } = view;
+          const { selection } = state;
+          const { $from } = selection;
+
+          // Check if we're in a paragraph inside a draggableItem
           if (
-            $from.parent.content.size === 0 &&
-            $from.node(-1).childCount === 1
+            $from.parent.type.name === 'paragraph' &&
+            $from.node(-1)?.type.name === 'draggableItem'
           ) {
-            // Create a new empty paragraph in a new draggable item
-            const schema = state.schema as Schema;
-            const paragraph = schema.nodes.paragraph.create({}, []);
-            const draggableItem = schema.nodes.draggableItem.create({}, [
-              paragraph,
-            ]);
+            // Check if paragraph is empty AND is the only child of the draggableItem
+            if (
+              $from.parent.content.size === 0 &&
+              $from.node(-1).childCount === 1
+            ) {
+              // Create a new empty paragraph in a new draggable item
+              const schema = state.schema as Schema;
+              const paragraph = schema.nodes.paragraph.create({}, []);
+              const draggableItem = schema.nodes.draggableItem.create({}, [
+                paragraph,
+              ]);
 
-            // Insert after current draggable
-            const tr = state.tr.insert($from.after(-1), draggableItem);
+              // Insert after current draggable
+              const tr = state.tr.insert($from.after(-1), draggableItem);
 
-            // Move selection to the new paragraph
-            const newPos = $from.after(-1) + 2; // +2 to get inside the paragraph
-            tr.setSelection(TextSelection.create(tr.doc, newPos));
+              // Move selection to the new paragraph
+              const newPos = $from.after(-1) + 2; // +2 to get inside the paragraph
+              tr.setSelection(TextSelection.create(tr.doc, newPos));
 
-            dispatch?.(tr);
-            return true;
+              view.dispatch(tr);
+              return true;
+            }
           }
-        }
 
-        // Let other handlers process this event
-        return false;
+          // Let other handlers process this event
+          return false;
+        },
       },
     });
 

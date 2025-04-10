@@ -67,9 +67,12 @@ module.exports = __toCommonJS(index_exports);
 // src/app/component/template-editor.tsx
 var import_react7 = require("@tiptap/react");
 
-// src/components/ui/button.tsx
-var import_react_slot = require("@radix-ui/react-slot");
-var import_class_variance_authority = require("class-variance-authority");
+// src/app/component/bubble/bubble-menu.tsx
+var import_react6 = require("@tiptap/react");
+var import_lucide_react7 = require("lucide-react");
+
+// src/components/ui/popover.tsx
+var PopoverPrimitive = __toESM(require("@radix-ui/react-popover"));
 
 // src/lib/utils.ts
 var import_clsx = require("clsx");
@@ -78,8 +81,44 @@ function cn(...inputs) {
   return (0, import_tailwind_merge.twMerge)((0, import_clsx.clsx)(inputs));
 }
 
-// src/components/ui/button.tsx
+// src/components/ui/popover.tsx
 var import_jsx_runtime = require("react/jsx-runtime");
+function Popover(_a) {
+  var props = __objRest(_a, []);
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PopoverPrimitive.Root, __spreadValues({ "data-slot": "popover" }, props));
+}
+function PopoverTrigger(_a) {
+  var props = __objRest(_a, []);
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PopoverPrimitive.Trigger, __spreadValues({ "data-slot": "popover-trigger" }, props));
+}
+function PopoverContent(_a) {
+  var _b = _a, {
+    className,
+    align = "center",
+    sideOffset = 4
+  } = _b, props = __objRest(_b, [
+    "className",
+    "align",
+    "sideOffset"
+  ]);
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PopoverPrimitive.Portal, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+    PopoverPrimitive.Content,
+    __spreadValues({
+      "data-slot": "popover-content",
+      align,
+      sideOffset,
+      className: cn(
+        "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-72 origin-(--radix-popover-content-transform-origin) rounded-md border p-4 shadow-md outline-hidden",
+        className
+      )
+    }, props)
+  ) });
+}
+
+// src/components/ui/button.tsx
+var import_react_slot = require("@radix-ui/react-slot");
+var import_class_variance_authority = require("class-variance-authority");
+var import_jsx_runtime2 = require("react/jsx-runtime");
 var buttonVariants = (0, import_class_variance_authority.cva)(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
   {
@@ -118,52 +157,13 @@ function Button(_a) {
     "asChild"
   ]);
   const Comp = asChild ? import_react_slot.Slot : "button";
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
     Comp,
     __spreadValues({
       "data-slot": "button",
       className: cn(buttonVariants({ variant, size, className }))
     }, props)
   );
-}
-
-// src/app/component/bubble/bubble-menu.tsx
-var import_react6 = require("@tiptap/react");
-var import_lucide_react7 = require("lucide-react");
-
-// src/components/ui/popover.tsx
-var PopoverPrimitive = __toESM(require("@radix-ui/react-popover"));
-var import_jsx_runtime2 = require("react/jsx-runtime");
-function Popover(_a) {
-  var props = __objRest(_a, []);
-  return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(PopoverPrimitive.Root, __spreadValues({ "data-slot": "popover" }, props));
-}
-function PopoverTrigger(_a) {
-  var props = __objRest(_a, []);
-  return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(PopoverPrimitive.Trigger, __spreadValues({ "data-slot": "popover-trigger" }, props));
-}
-function PopoverContent(_a) {
-  var _b = _a, {
-    className,
-    align = "center",
-    sideOffset = 4
-  } = _b, props = __objRest(_b, [
-    "className",
-    "align",
-    "sideOffset"
-  ]);
-  return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(PopoverPrimitive.Portal, { children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
-    PopoverPrimitive.Content,
-    __spreadValues({
-      "data-slot": "popover-content",
-      align,
-      sideOffset,
-      className: cn(
-        "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-72 origin-(--radix-popover-content-transform-origin) rounded-md border p-4 shadow-md outline-hidden",
-        className
-      )
-    }, props)
-  ) });
 }
 
 // src/constants/ai-prompt-constants.ts
@@ -456,33 +456,6 @@ var AItools = ({ editor }) => {
   ] });
 };
 
-// src/components/ui/separator.tsx
-var SeparatorPrimitive = __toESM(require("@radix-ui/react-separator"));
-var import_jsx_runtime4 = require("react/jsx-runtime");
-function Separator(_a) {
-  var _b = _a, {
-    className,
-    orientation = "horizontal",
-    decorative = true
-  } = _b, props = __objRest(_b, [
-    "className",
-    "orientation",
-    "decorative"
-  ]);
-  return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
-    SeparatorPrimitive.Root,
-    __spreadValues({
-      "data-slot": "separator-root",
-      decorative,
-      orientation,
-      className: cn(
-        "bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px",
-        className
-      )
-    }, props)
-  );
-}
-
 // src/app/store/use-editor-store.ts
 var import_zustand2 = require("zustand");
 var useEditorStore = (0, import_zustand2.create)((set) => ({
@@ -493,7 +466,7 @@ var useEditorStore = (0, import_zustand2.create)((set) => ({
 // src/app/component/bubble/text-formatting.tsx
 var import_lucide_react3 = require("lucide-react");
 var import_react2 = require("react");
-var import_jsx_runtime5 = require("react/jsx-runtime");
+var import_jsx_runtime4 = require("react/jsx-runtime");
 var Heirarchy = () => {
   var _a, _b, _c, _d, _e, _f, _g;
   const [open, setOpen] = (0, import_react2.useState)(false);
@@ -547,34 +520,34 @@ var Heirarchy = () => {
       }
     ]
   ];
-  return /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(Popover, { open, onOpenChange: setOpen, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(PopoverTrigger, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(Popover, { open, onOpenChange: setOpen, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(PopoverTrigger, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(
       Button,
       {
         variant: "ghost",
         size: "sm",
         className: " min-w-[60px] justify-evenly bg-neutral-50",
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { className: "truncate", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("div", { className: "truncate", children: [
             " ",
-            selected || /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_lucide_react3.PilcrowIcon, { className: "size-4" })
+            selected || /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_lucide_react3.PilcrowIcon, { className: "size-4" })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_lucide_react3.ChevronDown, { className: "size-4 text-muted-foreground" })
+          /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_lucide_react3.ChevronDown, { className: "size-4 text-muted-foreground" })
         ]
       }
     ) }),
-    /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(PopoverContent, { className: "w-fit p-1 shadow ", children: /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { className: "flex flex-col text-sm space-y-4 p-1", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("p", { className: "text-muted-foreground  font-medium mb-2", children: "Hierarchy" }),
-        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", { className: "flex flex-col space-y-1 ", children: textFormatting[0].map((_h) => {
+    /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(PopoverContent, { className: "w-fit p-1 shadow ", children: /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("div", { className: "flex flex-col text-sm space-y-4 p-1", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("p", { className: "text-muted-foreground  font-medium mb-2", children: "Hierarchy" }),
+        /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", { className: "flex flex-col space-y-1 ", children: textFormatting[0].map((_h) => {
           var _i = _h, { icon: Icon2 } = _i, item = __objRest(_i, ["icon"]);
-          return /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(
+          return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(
             "div",
             {
               onClick: item.onClick,
               className: "flex items-center gap-x-1 px-2 py-1 hover:bg-muted rounded-md cursor-pointer transition-colors",
               children: [
-                /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(Icon2, { className: "size-4" }),
+                /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Icon2, { className: "size-4" }),
                 item.label
               ]
             },
@@ -582,17 +555,17 @@ var Heirarchy = () => {
           );
         }) })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("p", { className: "text-muted-foreground font-medium mb-2", children: "List" }),
-        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", { className: "flex flex-col space-y-1", children: textFormatting[1].map((_j) => {
+      /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("p", { className: "text-muted-foreground font-medium mb-2", children: "List" }),
+        /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", { className: "flex flex-col space-y-1", children: textFormatting[1].map((_j) => {
           var _k = _j, { icon: Icon2 } = _k, item = __objRest(_k, ["icon"]);
-          return /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(
+          return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(
             "div",
             {
               onClick: item.onClick,
               className: "flex items-center gap-x-1 px-2 py-1 hover:bg-muted rounded-md cursor-pointer transition-colors",
               children: [
-                /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(Icon2, { className: "size-4" }),
+                /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Icon2, { className: "size-4" }),
                 item.label
               ]
             },
@@ -608,7 +581,7 @@ var Heirarchy = () => {
 var import_react_popover = require("@radix-ui/react-popover");
 var import_lucide_react4 = require("lucide-react");
 var import_react3 = require("react");
-var import_jsx_runtime6 = require("react/jsx-runtime");
+var import_jsx_runtime5 = require("react/jsx-runtime");
 var FontFamilyButton = () => {
   const { editor } = useEditorStore();
   const [open, setOpen] = (0, import_react3.useState)(false);
@@ -619,20 +592,20 @@ var FontFamilyButton = () => {
     { label: "Georgia", value: "Georgia" },
     { label: "Verdana", value: "Verdana" }
   ];
-  return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(import_react_popover.Popover, { open, onOpenChange: setOpen, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_react_popover.PopoverTrigger, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(import_react_popover.Popover, { open, onOpenChange: setOpen, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_react_popover.PopoverTrigger, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(
       Button,
       {
         variant: "ghost",
         size: "sm",
         className: " min-w-[60px] justify-evenly bg-neutral-50",
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: "truncate", children: (editor == null ? void 0 : editor.getAttributes("textStyle").fontFamily) || "Arial" }),
-          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_lucide_react4.ChevronDown, { className: "size-4 text-muted-foreground" })
+          /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", { className: "truncate", children: (editor == null ? void 0 : editor.getAttributes("textStyle").fontFamily) || "Arial" }),
+          /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_lucide_react4.ChevronDown, { className: "size-4 text-muted-foreground" })
         ]
       }
     ) }),
-    /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_react_popover.PopoverContent, { className: "w-fit p-1 shadow bg-white  ", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: "flex flex-col space-y-1 ", children: fonts.map((item) => /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+    /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_react_popover.PopoverContent, { className: "w-fit p-1 shadow bg-white  ", children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", { className: "flex flex-col space-y-1 ", children: fonts.map((item) => /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
       "div",
       {
         onClick: () => editor == null ? void 0 : editor.chain().focus().setFontFamily(`${item.value}`).run(),
@@ -656,7 +629,7 @@ var FontFamilyButton = () => {
 var import_react_popover2 = require("@radix-ui/react-popover");
 var import_lucide_react5 = require("lucide-react");
 var import_react4 = require("react");
-var import_jsx_runtime7 = require("react/jsx-runtime");
+var import_jsx_runtime6 = require("react/jsx-runtime");
 var FontSizeOptionButton = () => {
   var _a, _b;
   const { editor } = useEditorStore();
@@ -671,20 +644,20 @@ var FontSizeOptionButton = () => {
   ];
   const currentFontSize = (_a = editor == null ? void 0 : editor.getAttributes("textStyle")) == null ? void 0 : _a.fontSize;
   const currentFontLabel = ((_b = fontSize.find((item) => item.fontSize === currentFontSize)) == null ? void 0 : _b.label) || "";
-  return /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(import_react_popover2.Popover, { open, onOpenChange: setOpen, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_react_popover2.PopoverTrigger, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(import_react_popover2.Popover, { open, onOpenChange: setOpen, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_react_popover2.PopoverTrigger, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(
       Button,
       {
         variant: "ghost",
         size: "sm",
         className: " min-w-[60px] justify-evenly bg-neutral-50",
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: "truncate", children: currentFontLabel }),
-          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_lucide_react5.ChevronDown, { className: "size-4 text-muted-foreground" })
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: "truncate", children: currentFontLabel }),
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_lucide_react5.ChevronDown, { className: "size-4 text-muted-foreground" })
         ]
       }
     ) }),
-    /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_react_popover2.PopoverContent, { className: "w-fit p-1 shadow bg-white  ", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: "flex flex-col space-y-1 ", children: fontSize.map((item) => /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+    /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_react_popover2.PopoverContent, { className: "w-fit p-1 shadow bg-white  ", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: "flex flex-col space-y-1 ", children: fontSize.map((item) => /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
       "div",
       {
         onClick: () => editor == null ? void 0 : editor.chain().focus().setFontSize(item.fontSize).run(),
@@ -704,6 +677,33 @@ var FontSizeOptionButton = () => {
     )) }) })
   ] });
 };
+
+// src/components/ui/separator.tsx
+var SeparatorPrimitive = __toESM(require("@radix-ui/react-separator"));
+var import_jsx_runtime7 = require("react/jsx-runtime");
+function Separator(_a) {
+  var _b = _a, {
+    className,
+    orientation = "horizontal",
+    decorative = true
+  } = _b, props = __objRest(_b, [
+    "className",
+    "orientation",
+    "decorative"
+  ]);
+  return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+    SeparatorPrimitive.Root,
+    __spreadValues({
+      "data-slot": "separator-root",
+      decorative,
+      orientation,
+      className: cn(
+        "bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px",
+        className
+      )
+    }, props)
+  );
+}
 
 // src/app/component/bubble/more-options.tsx
 var import_react_popover3 = require("@radix-ui/react-popover");
@@ -794,28 +794,77 @@ var MoreOptions = () => {
 };
 
 // src/app/component/bubble/bubble-menu.tsx
+var import_styled_components = __toESM(require("styled-components"));
 var import_jsx_runtime9 = require("react/jsx-runtime");
+var StyledBubbleMenu = (0, import_styled_components.default)(import_react6.BubbleMenu)`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: white;
+  border-radius: 0.375rem;
+  border: 1px solid #e5e7eb;
+  padding: 0.125rem;
+  gap: 0.25rem;
+  width: fit-content;
+`;
+var StyledButtonWrapper = import_styled_components.default.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .tooltip {
+    position: absolute;
+    top: 100%;
+    margin-top: 0.125rem;
+    padding: 0.125rem 0.375rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    background-color: black;
+    color: #d4d4d8;
+    border-radius: 0.25rem;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+    z-index: 10;
+  }
+
+  &:hover .tooltip {
+    opacity: 1;
+  }
+`;
+var StyledIconButton = import_styled_components.default.button`
+  padding: 0.25rem;
+  margin: 0.125rem;
+  background-color: ${({ $active }) => $active ? "#f5f5f5" : "transparent"};
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f5f5f5;
+  }
+
+  svg {
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+`;
+var StyledSeparator = import_styled_components.default.div`
+  height: 1.25rem;
+  width: 1px;
+  background-color: #e5e7eb;
+  margin: 0 0.25rem;
+`;
 var BubbleMenuButton = ({
   label,
   icon: Icon2,
   onClick,
   isActive
 }) => {
-  return /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "relative group ", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
-      Button,
-      {
-        size: "icon",
-        variant: "ghost",
-        className: cn(
-          "hover:bg-neutral-100 p-1 m-0.5",
-          isActive && "bg-neutral-100"
-        ),
-        onClick,
-        children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Icon2, { className: "size-3" })
-      }
-    ),
-    /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { className: "absolute top-full mt-0.5 p-0.5 font-semibold   text-xs z-[10] bg-black px-1.5 text-neutral-300 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity", children: label }) })
+  return /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(StyledButtonWrapper, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(StyledIconButton, { onClick, $active: isActive, children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Icon2, {}) }),
+    /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { className: "tooltip", children: label })
   ] });
 };
 var TextBubbleMenu = ({ editor }) => {
@@ -848,14 +897,14 @@ var TextBubbleMenu = ({ editor }) => {
     //TODO: add color picker , highlight
   ];
   return /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(
-    import_react6.BubbleMenu,
+    StyledBubbleMenu,
     {
       editor,
       tippyOptions: { duration: 100 },
       className: "flex flex-row items-center bg-white rounded-md border px-0.5 gap-1 w-fit",
       children: [
         /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(AItools, { editor }),
-        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Separator, { orientation: "vertical" }),
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(StyledSeparator, {}),
         /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Heirarchy, {}),
         /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(FontFamilyButton, {}),
         /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(FontSizeOptionButton, {}),
@@ -1771,7 +1820,7 @@ function normalizeKeyName(name) {
   }
   let alt;
   let ctrl;
-  let shift2;
+  let shift;
   let meta;
   for (let i = 0; i < parts.length - 1; i += 1) {
     const mod = parts[i];
@@ -1782,7 +1831,7 @@ function normalizeKeyName(name) {
     } else if (/^(c|ctrl|control)$/i.test(mod)) {
       ctrl = true;
     } else if (/^s(hift)?$/i.test(mod)) {
-      shift2 = true;
+      shift = true;
     } else if (/^mod$/i.test(mod)) {
       if (isiOS() || isMacOS()) {
         meta = true;
@@ -1802,7 +1851,7 @@ function normalizeKeyName(name) {
   if (meta) {
     result = `Meta-${result}`;
   }
-  if (shift2) {
+  if (shift) {
     result = `Shift-${result}`;
   }
   return result;
@@ -2961,7 +3010,34 @@ var import_react10 = require("@tiptap/react");
 var import_react8 = require("react");
 var import_react9 = require("@tiptap/react");
 var import_lucide_react8 = require("lucide-react");
+var import_styled_components2 = __toESM(require("styled-components"));
 var import_jsx_runtime11 = require("react/jsx-runtime");
+var Wrapper = (0, import_styled_components2.default)(import_react9.NodeViewWrapper)`
+  position: relative;
+  width: 100%;
+  margin: 0.5rem 0;
+
+  &:hover .drag-handle {
+    opacity: 1;
+  }
+`;
+var DragHandle = import_styled_components2.default.div`
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translateY(0.25rem);
+  width: 1rem;
+  height: 1rem;
+  background-color: transparent;
+  cursor: grab;
+  opacity: ${({ $visible }) => $visible ? 1 : 0};
+  transition: opacity 0.2s ease-in-out;
+  z-index: 1;
+`;
+var ContentWrapper = import_styled_components2.default.div`
+  padding-left: 1.5rem;
+  flex: 1;
+`;
 var DraggableNode = () => {
   const [visible, setVisible] = (0, import_react8.useState)(false);
   const timeoutRef = (0, import_react8.useRef)(null);
@@ -3034,29 +3110,21 @@ var DraggableNode = () => {
       stopScrolling();
     };
   }, [handleDrag, stopScrolling]);
-  return /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(
-    import_react9.NodeViewWrapper,
-    {
-      className: "relative group my-2 w-full",
-      onMouseEnter: handleMouseEnter,
-      onMouseMove: handleMouseMove,
-      children: [
-        /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
-          "div",
-          {
-            className: "absolute left-0 top-0 translate-y-1 w-4 h-4 bg-transparent cursor-grab opacity-0 group-hover:opacity-100 transition-opacity duration-200",
-            style: { opacity: visible ? 1 : 0 },
-            contentEditable: false,
-            "data-drag-handle": true,
-            draggable: "true",
-            ref: dragHandleRef,
-            children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_lucide_react8.Grip, { className: "w-4 h-4 text-gray-400" })
-          }
-        ),
-        /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", { className: "pl-6 flex-1", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_react9.NodeViewContent, {}) })
-      ]
-    }
-  );
+  return /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(Wrapper, { onMouseEnter: handleMouseEnter, onMouseMove: handleMouseMove, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
+      DragHandle,
+      {
+        ref: dragHandleRef,
+        $visible: visible,
+        contentEditable: false,
+        "data-drag-handle": true,
+        draggable: "true",
+        className: "drag-handle",
+        children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_lucide_react8.Grip, { style: { width: "1rem", height: "1rem", color: "#9ca3af" } })
+      }
+    ),
+    /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(ContentWrapper, { children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_react9.NodeViewContent, {}) })
+  ] });
 };
 
 // src/extensions/draggable-block-extension.ts
@@ -6150,195 +6218,14 @@ var PluginKey2 = class {
   }
 };
 
-// node_modules/w3c-keyname/index.js
-var base = {
-  8: "Backspace",
-  9: "Tab",
-  10: "Enter",
-  12: "NumLock",
-  13: "Enter",
-  16: "Shift",
-  17: "Control",
-  18: "Alt",
-  20: "CapsLock",
-  27: "Escape",
-  32: " ",
-  33: "PageUp",
-  34: "PageDown",
-  35: "End",
-  36: "Home",
-  37: "ArrowLeft",
-  38: "ArrowUp",
-  39: "ArrowRight",
-  40: "ArrowDown",
-  44: "PrintScreen",
-  45: "Insert",
-  46: "Delete",
-  59: ";",
-  61: "=",
-  91: "Meta",
-  92: "Meta",
-  106: "*",
-  107: "+",
-  108: ",",
-  109: "-",
-  110: ".",
-  111: "/",
-  144: "NumLock",
-  145: "ScrollLock",
-  160: "Shift",
-  161: "Shift",
-  162: "Control",
-  163: "Control",
-  164: "Alt",
-  165: "Alt",
-  173: "-",
-  186: ";",
-  187: "=",
-  188: ",",
-  189: "-",
-  190: ".",
-  191: "/",
-  192: "`",
-  219: "[",
-  220: "\\",
-  221: "]",
-  222: "'"
-};
-var shift = {
-  48: ")",
-  49: "!",
-  50: "@",
-  51: "#",
-  52: "$",
-  53: "%",
-  54: "^",
-  55: "&",
-  56: "*",
-  57: "(",
-  59: ":",
-  61: "+",
-  173: "_",
-  186: ":",
-  187: "+",
-  188: "<",
-  189: "_",
-  190: ">",
-  191: "?",
-  192: "~",
-  219: "{",
-  220: "|",
-  221: "}",
-  222: '"'
-};
-var mac = typeof navigator != "undefined" && /Mac/.test(navigator.platform);
-var ie = typeof navigator != "undefined" && /MSIE \d|Trident\/(?:[7-9]|\d{2,})\..*rv:(\d+)/.exec(navigator.userAgent);
-for (i = 0; i < 10; i++) base[48 + i] = base[96 + i] = String(i);
-var i;
-for (i = 1; i <= 24; i++) base[i + 111] = "F" + i;
-var i;
-for (i = 65; i <= 90; i++) {
-  base[i] = String.fromCharCode(i + 32);
-  shift[i] = String.fromCharCode(i);
-}
-var i;
-for (code in base) if (!shift.hasOwnProperty(code)) shift[code] = base[code];
-var code;
-function keyName(event) {
-  var ignoreKey = mac && event.metaKey && event.shiftKey && !event.ctrlKey && !event.altKey || ie && event.shiftKey && event.key && event.key.length == 1 || event.key == "Unidentified";
-  var name = !ignoreKey && event.key || (event.shiftKey ? shift : base)[event.keyCode] || event.key || "Unidentified";
-  if (name == "Esc") name = "Escape";
-  if (name == "Del") name = "Delete";
-  if (name == "Left") name = "ArrowLeft";
-  if (name == "Up") name = "ArrowUp";
-  if (name == "Right") name = "ArrowRight";
-  if (name == "Down") name = "ArrowDown";
-  return name;
-}
-
-// node_modules/prosemirror-keymap/dist/index.js
-var mac2 = typeof navigator != "undefined" ? /Mac|iP(hone|[oa]d)/.test(navigator.platform) : false;
-function normalizeKeyName2(name) {
-  let parts = name.split(/-(?!$)/), result = parts[parts.length - 1];
-  if (result == "Space")
-    result = " ";
-  let alt, ctrl, shift2, meta;
-  for (let i = 0; i < parts.length - 1; i++) {
-    let mod = parts[i];
-    if (/^(cmd|meta|m)$/i.test(mod))
-      meta = true;
-    else if (/^a(lt)?$/i.test(mod))
-      alt = true;
-    else if (/^(c|ctrl|control)$/i.test(mod))
-      ctrl = true;
-    else if (/^s(hift)?$/i.test(mod))
-      shift2 = true;
-    else if (/^mod$/i.test(mod)) {
-      if (mac2)
-        meta = true;
-      else
-        ctrl = true;
-    } else
-      throw new Error("Unrecognized modifier name: " + mod);
-  }
-  if (alt)
-    result = "Alt-" + result;
-  if (ctrl)
-    result = "Ctrl-" + result;
-  if (meta)
-    result = "Meta-" + result;
-  if (shift2)
-    result = "Shift-" + result;
-  return result;
-}
-function normalize(map) {
-  let copy = /* @__PURE__ */ Object.create(null);
-  for (let prop in map)
-    copy[normalizeKeyName2(prop)] = map[prop];
-  return copy;
-}
-function modifiers(name, event, shift2 = true) {
-  if (event.altKey)
-    name = "Alt-" + name;
-  if (event.ctrlKey)
-    name = "Ctrl-" + name;
-  if (event.metaKey)
-    name = "Meta-" + name;
-  if (shift2 && event.shiftKey)
-    name = "Shift-" + name;
-  return name;
-}
-function keymap2(bindings) {
-  return new Plugin2({ props: { handleKeyDown: keydownHandler(bindings) } });
-}
-function keydownHandler(bindings) {
-  let map = normalize(bindings);
-  return function(view, event) {
-    let name = keyName(event), baseName, direct = map[modifiers(name, event)];
-    if (direct && direct(view.state, view.dispatch, view))
-      return true;
-    if (name.length == 1 && name != " ") {
-      if (event.shiftKey) {
-        let noShift = map[modifiers(name, event, false)];
-        if (noShift && noShift(view.state, view.dispatch, view))
-          return true;
-      }
-      if ((event.shiftKey || event.altKey || event.metaKey || name.charCodeAt(0) > 127) && (baseName = base[event.keyCode]) && baseName != name) {
-        let fromCode = map[modifiers(baseName, event)];
-        if (fromCode && fromCode(view.state, view.dispatch, view))
-          return true;
-      }
-    }
-    return false;
-  };
-}
-
 // src/extensions/wrap-plugin.ts
+var wrapBlocksPluginKey = new PluginKey2("wrapBlocksInDraggable");
+var enterKeyPluginKey = new PluginKey2("enterKeyInDraggable");
 var WrapBlocksInDraggable = Extension.create({
   name: "wrapBlocksInDraggable",
   addProseMirrorPlugins() {
     const wrapperPlugin = new Plugin2({
-      key: new PluginKey2("wrapBlocksInDraggable"),
+      key: wrapBlocksPluginKey,
       // Run once when the editor is initialized
       view(view) {
         const { state } = view;
@@ -6408,26 +6295,31 @@ var WrapBlocksInDraggable = Extension.create({
       }
       return false;
     }
-    const enterKeyPlugin = keymap2({
-      Enter: (state, dispatch) => {
-        var _a;
-        const { selection } = state;
-        const { $from } = selection;
-        if ($from.parent.type.name === "paragraph" && ((_a = $from.node(-1)) == null ? void 0 : _a.type.name) === "draggableItem") {
-          if ($from.parent.content.size === 0 && $from.node(-1).childCount === 1) {
-            const schema = state.schema;
-            const paragraph = schema.nodes.paragraph.create({}, []);
-            const draggableItem = schema.nodes.draggableItem.create({}, [
-              paragraph
-            ]);
-            const tr = state.tr.insert($from.after(-1), draggableItem);
-            const newPos = $from.after(-1) + 2;
-            tr.setSelection(TextSelection2.create(tr.doc, newPos));
-            dispatch == null ? void 0 : dispatch(tr);
-            return true;
+    const enterKeyPlugin = new Plugin2({
+      key: enterKeyPluginKey,
+      props: {
+        handleKeyDown(view, event) {
+          var _a;
+          if (event.key !== "Enter") return false;
+          const { state } = view;
+          const { selection } = state;
+          const { $from } = selection;
+          if ($from.parent.type.name === "paragraph" && ((_a = $from.node(-1)) == null ? void 0 : _a.type.name) === "draggableItem") {
+            if ($from.parent.content.size === 0 && $from.node(-1).childCount === 1) {
+              const schema = state.schema;
+              const paragraph = schema.nodes.paragraph.create({}, []);
+              const draggableItem = schema.nodes.draggableItem.create({}, [
+                paragraph
+              ]);
+              const tr = state.tr.insert($from.after(-1), draggableItem);
+              const newPos = $from.after(-1) + 2;
+              tr.setSelection(TextSelection2.create(tr.doc, newPos));
+              view.dispatch(tr);
+              return true;
+            }
           }
+          return false;
         }
-        return false;
       }
     });
     return [wrapperPlugin, enterKeyPlugin];
@@ -7092,7 +6984,6 @@ var import_extension_subscript = __toESM(require("@tiptap/extension-subscript"))
 var import_extension_text_align = __toESM(require("@tiptap/extension-text-align"));
 var import_extension_color = require("@tiptap/extension-color");
 var useTemplateEditor = (content = "", options = {}) => {
-  var _a;
   const fallbackEditorProps = {
     attributes: {
       class: "focus:outline-none min-h-[816px] w-[816px] cursor-text p-10 bg-white shadow-lg rounded-lg"
@@ -7119,11 +7010,15 @@ var useTemplateEditor = (content = "", options = {}) => {
         nested: true
       }),
       draggable_block_extension_default,
-      WrapBlocksInDraggable,
-      ...options.extensions || []
+      WrapBlocksInDraggable
+      // ...(options.extensions || []),
     ],
     content: content != null ? content : "",
-    editorProps: (_a = options.editorProps) != null ? _a : fallbackEditorProps
+    editorProps: {
+      attributes: {
+        class: "focus:outline-none min-h-[816px] w-[816px] cursor-text p-10 bg-white shadow-lg rounded-lg"
+      }
+    }
   }));
 };
 // Annotate the CommonJS export names for ESM import in node:
