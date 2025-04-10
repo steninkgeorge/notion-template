@@ -15,7 +15,7 @@
 
 ```bash
 # npm
-npm install @your-org/template-editor
+npm install @notion-editor-template
 
 ```
 
