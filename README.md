@@ -1,36 +1,138 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Customize your notion like editor with this template!
 
-## Getting Started
+## ✨ Features
 
-First, run the development server:
+- 📝 Rich text editing with Notion-like interface
+- 🤖 AI-powered content assistance
+- 🧩 Draggable blocks for easy content reorganization
+- ⚡ Slash commands for quick actions
+- ✅ Task lists and checklists
+- 📊 Text formatting options (underline, colors, alignment, etc.)
+- 📱 Responsive design
+- 🔗 Markdown import/export
+
+## 📦 Installation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# npm
+npm install @your-org/template-editor
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Quick Start
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```jsx
+import React from 'react';
+import { TemplateEditor, useTemplateEditor } from '@your-org/template-editor';
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+const MyEditor = () => {
+  // Initialize the editor with optional initial content
+  const editor = useTemplateEditor('Hello World!');
 
-## Learn More
+  return (
+    <div className="editor-container">
+      <TemplateEditor editor={editor} />
+    </div>
+  );
+};
 
-To learn more about Next.js, take a look at the following resources:
+export default MyEditor;
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Provide Props
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Custom Configuration
 
-## Deploy on Vercel
+```jsx
+import React from 'react';
+import { TemplateEditor, useTemplateEditor } from '@your-org/template-editor';
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+const AdvancedEditor = () => {
+  const editor = useTemplateEditor('', {
+    // Add custom event handlers
+    onUpdate: ({ editor }) => {
+      console.log('Content updated:', editor.getHTML());
+    },
+    onSelectionUpdate: ({ editor }) => {
+      console.log('Selection changed');
+    },
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+    // Customize editor appearance
+    editorProps: {
+      attributes: {
+        class: 'custom-editor-class p-6 min-h-[500px] rounded-lg shadow',
+      },
+    },
+  });
+
+  return (
+    <div className="advanced-editor-container">
+      <TemplateEditor editor={editor} />
+    </div>
+  );
+};
+```
+
+## ⚙️ API Reference
+
+### useTemplateEditor
+
+```typescript
+function useTemplateEditor(
+  content?: string,
+  options?: Partial<EditorOptions>
+): Editor | null;
+```
+
+#### Parameters
+
+- `content` (optional): Initial editor content as HTML or plain text
+- `options` (optional): TipTap editor options
+
+#### Returns
+
+An Editor instance or null if not initialized
+
+### TemplateEditor
+
+```typescript
+interface TemplateEditorProps {
+  editor: Editor | null;
+}
+
+function TemplateEditor({ editor }: TemplateEditorProps): JSX.Element;
+```
+
+#### Parameters
+
+- `editor`: Editor instance created with useTemplateEditor
+
+## 🧩 Extensions
+
+This editor comes with the following extensions pre-configured:
+
+- Basic formatting (StarterKit)
+- Draggable blocks
+- Slash commands
+- Task lists
+- Text styling (color, font family, font size)
+- Superscript and subscript
+- Text alignment
+- AI assistant capabilities
+- Markdown support
+
+## 🔄 Updating from npm
+
+When a new version is released, update the package using:
+
+```bash
+npm update notion-editor-template
+```
+
+## 🤝 Contributing
+
+Contributions are welcome! Feel free to open issues or submit pull requests.
+
+## 📄 License
+
+MIT
