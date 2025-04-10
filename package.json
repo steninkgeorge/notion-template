@@ -1,6 +1,6 @@
 {
   "name": "notion-editor-template",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "private": false,
   "description": "A customizable Tiptap-based template editor with draggable blocks and AI integration.",
   "author": "Stenin K George",
