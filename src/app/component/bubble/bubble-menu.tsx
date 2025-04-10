@@ -9,12 +9,71 @@ import { Heirarchy } from './text-formatting';
 import { FontFamilyButton } from './font-selection';
 import { FontSizeOptionButton } from './text-size';
 import { MoreOptions } from './more-options';
+import styled from 'styled-components';
 
-/* 1. heading , paragraph , lists
-2.fonts
-3.size 
-BIUS code , codeblock , setlink. highlight , color 
-More options -> superscript , subscript and alignment*/
+const StyledBubbleMenu = styled(BubbleMenu)`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: white;
+  border-radius: 0.375rem;
+  border: 1px solid #e5e7eb;
+  padding: 0.125rem;
+  gap: 0.25rem;
+  width: fit-content;
+`;
+
+const StyledButtonWrapper = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .tooltip {
+    position: absolute;
+    top: 100%;
+    margin-top: 0.125rem;
+    padding: 0.125rem 0.375rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    background-color: black;
+    color: #d4d4d8;
+    border-radius: 0.25rem;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+    z-index: 10;
+  }
+
+  &:hover .tooltip {
+    opacity: 1;
+  }
+`;
+
+const StyledIconButton = styled.button<{ $active?: boolean }>`
+  padding: 0.25rem;
+  margin: 0.125rem;
+  background-color: ${({ $active }) => ($active ? '#f5f5f5' : 'transparent')};
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f5f5f5;
+  }
+
+  svg {
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+`;
+
+const StyledSeparator = styled.div`
+  height: 1.25rem;
+  width: 1px;
+  background-color: #e5e7eb;
+  margin: 0 0.25rem;
+`;
 
 const BubbleMenuButton = ({
   label,
@@ -23,24 +82,12 @@ const BubbleMenuButton = ({
   isActive,
 }: ToolbarButtonProps) => {
   return (
-    <div className="relative group ">
-      <Button
-        size={'icon'}
-        variant={'ghost'}
-        className={cn(
-          'hover:bg-neutral-100 p-1 m-0.5',
-          isActive && 'bg-neutral-100'
-        )}
-        onClick={onClick}
-      >
-        <Icon className="size-3" />
-      </Button>
-      <div>
-        <span className="absolute top-full mt-0.5 p-0.5 font-semibold   text-xs z-[10] bg-black px-1.5 text-neutral-300 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity">
-          {label}
-        </span>
-      </div>
-    </div>
+    <StyledButtonWrapper>
+      <StyledIconButton onClick={onClick} $active={isActive}>
+        <Icon />
+      </StyledIconButton>
+      <span className="tooltip">{label}</span>
+    </StyledButtonWrapper>
   );
 };
 
@@ -77,13 +124,13 @@ export const TextBubbleMenu = ({ editor }: { editor: Editor | null }) => {
   ];
 
   return (
-    <BubbleMenu
+    <StyledBubbleMenu
       editor={editor}
       tippyOptions={{ duration: 100 }}
       className="flex flex-row items-center bg-white rounded-md border px-0.5 gap-1 w-fit"
     >
       <AItools editor={editor} />
-      <Separator orientation="vertical" />
+      <StyledSeparator />
       <Heirarchy />
       <FontFamilyButton />
       <FontSizeOptionButton />
@@ -97,6 +144,6 @@ export const TextBubbleMenu = ({ editor }: { editor: Editor | null }) => {
         />
       ))}
       <MoreOptions />
-    </BubbleMenu>
+    </StyledBubbleMenu>
   );
 };

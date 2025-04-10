@@ -1,6 +1,36 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
 import { Grip } from 'lucide-react';
+import styled from 'styled-components';
+
+const Wrapper = styled(NodeViewWrapper)`
+  position: relative;
+  width: 100%;
+  margin: 0.5rem 0;
+
+  &:hover .drag-handle {
+    opacity: 1;
+  }
+`;
+
+const DragHandle = styled.div<{ $visible: boolean }>`
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translateY(0.25rem);
+  width: 1rem;
+  height: 1rem;
+  background-color: transparent;
+  cursor: grab;
+  opacity: ${({ $visible }) => ($visible ? 1 : 0)};
+  transition: opacity 0.2s ease-in-out;
+  z-index: 1;
+`;
+
+const ContentWrapper = styled.div`
+  padding-left: 1.5rem;
+  flex: 1;
+`;
 
 export const DraggableNode = () => {
   const [visible, setVisible] = useState(false);
@@ -89,26 +119,20 @@ export const DraggableNode = () => {
   }, [handleDrag, stopScrolling]);
 
   return (
-    <NodeViewWrapper
-      className="relative group my-2 w-full"
-      onMouseEnter={handleMouseEnter}
-      onMouseMove={handleMouseMove}
-    >
-      {/* Drag Handle */}
-      <div
-        className="absolute left-0 top-0 translate-y-1 w-4 h-4 bg-transparent cursor-grab opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-        style={{ opacity: visible ? 1 : 0 }}
+    <Wrapper onMouseEnter={handleMouseEnter} onMouseMove={handleMouseMove}>
+      <DragHandle
+        ref={dragHandleRef}
+        $visible={visible}
         contentEditable={false}
         data-drag-handle
         draggable="true"
-        ref={dragHandleRef}
+        className="drag-handle"
       >
-        <Grip className="w-4 h-4 text-gray-400" />
-      </div>
-      <div className="pl-6 flex-1">
+        <Grip style={{ width: '1rem', height: '1rem', color: '#9ca3af' }} />
+      </DragHandle>
+      <ContentWrapper>
         <NodeViewContent />
-      </div>
-      {/* Heading Content */}
-    </NodeViewWrapper>
+      </ContentWrapper>
+    </Wrapper>
   );
 };

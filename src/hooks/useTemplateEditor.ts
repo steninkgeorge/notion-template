@@ -49,11 +49,16 @@ export const useTemplateEditor: (
         nested: true,
       }),
 
-      // DraggableBlockExtension,
-      // WrapBlocksInDraggable,
-      // ...(options.extensions || []),
+      DraggableBlockExtension,
+      WrapBlocksInDraggable,
+      ...(options.extensions || []),
     ],
     content: content ?? '',
-    editorProps: options.editorProps ?? fallbackEditorProps,
+    editorProps: {
+      attributes: {
+        class:
+          'focus:outline-none min-h-[816px] w-[816px] cursor-text p-10 bg-white shadow-lg rounded-lg',
+      },
+    },
   });
 };
