@@ -82,6 +82,7 @@ function cn(...inputs) {
 }
 
 // src/components/ui/popover.tsx
+var import_react = require("@tiptap/react");
 var import_jsx_runtime = require("react/jsx-runtime");
 function Popover(_a) {
   var props = __objRest(_a, []);
@@ -927,21 +928,20 @@ var TextBubbleMenu = ({ editor }) => {
 // src/app/component/template-editor.tsx
 var import_jsx_runtime10 = require("react/jsx-runtime");
 var TemplateEditor = ({ editor }) => {
-  return /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(import_react7.EditorContent, { editor }),
-    /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(TextBubbleMenu, { editor })
-  ] });
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_react.EditorContent, { editor }) });
 };
 
 // src/hooks/useTemplateEditor.ts
-var import_react19 = require("@tiptap/react");
+var import_react10 = require("@tiptap/react");
 var import_starter_kit2 = __toESM(require("@tiptap/starter-kit"));
+var import_extension_task_list = __toESM(require("@tiptap/extension-task-list"));
+var import_extension_task_item = __toESM(require("@tiptap/extension-task-item"));
 
 // node_modules/@tiptap/core/dist/index.js
 var import_state = require("@tiptap/pm/state");
 var import_view = require("@tiptap/pm/view");
 var import_keymap = require("@tiptap/pm/keymap");
-var import_model2 = require("@tiptap/pm/model");
+var import_model = require("@tiptap/pm/model");
 var import_transform = require("@tiptap/pm/transform");
 var import_commands = require("@tiptap/pm/commands");
 var import_schema_list = require("@tiptap/pm/schema-list");
@@ -1098,40 +1098,6 @@ function getNodeType(nameOrType, schema) {
     return schema.nodes[nameOrType];
   }
   return nameOrType;
-}
-function mergeAttributes(...objects) {
-  return objects.filter((item) => !!item).reduce((items, item) => {
-    const mergedAttributes = __spreadValues({}, items);
-    Object.entries(item).forEach(([key, value]) => {
-      const exists = mergedAttributes[key];
-      if (!exists) {
-        mergedAttributes[key] = value;
-        return;
-      }
-      if (key === "class") {
-        const valueClasses = value ? String(value).split(" ") : [];
-        const existingClasses = mergedAttributes[key] ? mergedAttributes[key].split(" ") : [];
-        const insertClasses = valueClasses.filter((valueClass) => !existingClasses.includes(valueClass));
-        mergedAttributes[key] = [...existingClasses, ...insertClasses].join(" ");
-      } else if (key === "style") {
-        const newStyles = value ? value.split(";").map((style) => style.trim()).filter(Boolean) : [];
-        const existingStyles = mergedAttributes[key] ? mergedAttributes[key].split(";").map((style) => style.trim()).filter(Boolean) : [];
-        const styleMap = /* @__PURE__ */ new Map();
-        existingStyles.forEach((style) => {
-          const [property, val] = style.split(":").map((part) => part.trim());
-          styleMap.set(property, val);
-        });
-        newStyles.forEach((style) => {
-          const [property, val] = style.split(":").map((part) => part.trim());
-          styleMap.set(property, val);
-        });
-        mergedAttributes[key] = Array.from(styleMap.entries()).map(([property, val]) => `${property}: ${val}`).join("; ");
-      } else {
-        mergedAttributes[key] = value;
-      }
-    });
-    return mergedAttributes;
-  }, {});
 }
 function isFunction(value) {
   return typeof value === "function";
@@ -1399,11 +1365,11 @@ var exitCode = () => ({ state, dispatch }) => {
   return (0, import_commands.exitCode)(state, dispatch);
 };
 function objectIncludes(object1, object2, options = { strict: true }) {
-  const keys2 = Object.keys(object2);
-  if (!keys2.length) {
+  const keys = Object.keys(object2);
+  if (!keys.length) {
     return true;
   }
-  return keys2.every((key) => {
+  return keys.every((key) => {
     if (options.strict) {
       return object2[key] === object1[key];
     }
@@ -1589,7 +1555,7 @@ function elementFromString(value) {
   return removeWhitespaces(html);
 }
 function createNodeFromContent(content, schema, options) {
-  if (content instanceof import_model2.Node || content instanceof import_model2.Fragment) {
+  if (content instanceof import_model.Node || content instanceof import_model.Fragment) {
     return content;
   }
   options = __spreadValues({
@@ -1602,7 +1568,7 @@ function createNodeFromContent(content, schema, options) {
     try {
       const isArrayContent = Array.isArray(content) && content.length > 0;
       if (isArrayContent) {
-        return import_model2.Fragment.fromArray(content.map((item) => schema.nodeFromJSON(item)));
+        return import_model.Fragment.fromArray(content.map((item) => schema.nodeFromJSON(item)));
       }
       const node = schema.nodeFromJSON(content);
       if (options.errorOnInvalidContent) {
@@ -1621,7 +1587,7 @@ function createNodeFromContent(content, schema, options) {
     if (options.errorOnInvalidContent) {
       let hasInvalidContent = false;
       let invalidContent = "";
-      const contentCheckSchema = new import_model2.Schema({
+      const contentCheckSchema = new import_model.Schema({
         topNode: schema.spec.topNode,
         marks: schema.spec.marks,
         // Prosemirror's schemas are executed such that: the last to execute, matches last
@@ -1644,15 +1610,15 @@ function createNodeFromContent(content, schema, options) {
         })
       });
       if (options.slice) {
-        import_model2.DOMParser.fromSchema(contentCheckSchema).parseSlice(elementFromString(content), options.parseOptions);
+        import_model.DOMParser.fromSchema(contentCheckSchema).parseSlice(elementFromString(content), options.parseOptions);
       } else {
-        import_model2.DOMParser.fromSchema(contentCheckSchema).parse(elementFromString(content), options.parseOptions);
+        import_model.DOMParser.fromSchema(contentCheckSchema).parse(elementFromString(content), options.parseOptions);
       }
       if (options.errorOnInvalidContent && hasInvalidContent) {
         throw new Error("[tiptap error]: Invalid HTML content", { cause: new Error(`Invalid element found: ${invalidContent}`) });
       }
     }
-    const parser = import_model2.DOMParser.fromSchema(schema);
+    const parser = import_model.DOMParser.fromSchema(schema);
     if (options.slice) {
       return parser.parseSlice(elementFromString(content), options.parseOptions).content;
     }
@@ -1731,7 +1697,7 @@ var insertContentAt = (position, value, options) => ({ tr, dispatch, editor }) =
     if (isOnlyTextContent) {
       if (Array.isArray(value)) {
         newContent = value.map((v) => v.text || "").join("");
-      } else if (value instanceof import_model2.Fragment) {
+      } else if (value instanceof import_model.Fragment) {
         let text = "";
         value.forEach((node) => {
           if (node.text) {
@@ -1857,14 +1823,14 @@ function normalizeKeyName(name) {
   return result;
 }
 var keyboardShortcut = (name) => ({ editor, view, tr, dispatch }) => {
-  const keys2 = normalizeKeyName(name).split(/-(?!$)/);
-  const key = keys2.find((item) => !["Alt", "Ctrl", "Meta", "Shift"].includes(item));
+  const keys = normalizeKeyName(name).split(/-(?!$)/);
+  const key = keys.find((item) => !["Alt", "Ctrl", "Meta", "Shift"].includes(item));
   const event = new KeyboardEvent("keydown", {
     key: key === "Space" ? " " : key,
-    altKey: keys2.includes("Alt"),
-    ctrlKey: keys2.includes("Ctrl"),
-    metaKey: keys2.includes("Meta"),
-    shiftKey: keys2.includes("Shift"),
+    altKey: keys.includes("Alt"),
+    ctrlKey: keys.includes("Ctrl"),
+    metaKey: keys.includes("Meta"),
+    shiftKey: keys.includes("Shift"),
     bubbles: true,
     cancelable: true
   });
@@ -2378,17 +2344,17 @@ var splitListItem = (typeOrName, overrideAttrs = {}) => ({ tr, state, dispatch, 
       return false;
     }
     if (dispatch) {
-      let wrap = import_model2.Fragment.empty;
+      let wrap = import_model.Fragment.empty;
       const depthBefore = $from.index(-1) ? 1 : $from.index(-2) ? 2 : 3;
       for (let d = $from.depth - depthBefore; d >= $from.depth - 3; d -= 1) {
-        wrap = import_model2.Fragment.from($from.node(d).copy(wrap));
+        wrap = import_model.Fragment.from($from.node(d).copy(wrap));
       }
       const depthAfter = $from.indexAfter(-1) < $from.node(-2).childCount ? 1 : $from.indexAfter(-2) < $from.node(-3).childCount ? 2 : 3;
       const newNextTypeAttributes2 = __spreadValues(__spreadValues({}, getSplittedAttributes(extensionAttributes, $from.node().type.name, $from.node().attrs)), overrideAttrs);
       const nextType2 = ((_a = type.contentMatch.defaultType) === null || _a === void 0 ? void 0 : _a.createAndFill(newNextTypeAttributes2)) || void 0;
-      wrap = wrap.append(import_model2.Fragment.from(type.createAndFill(null, nextType2) || void 0));
+      wrap = wrap.append(import_model.Fragment.from(type.createAndFill(null, nextType2) || void 0));
       const start = $from.before($from.depth - (depthBefore - 1));
-      tr.replace(start, $from.after(-depthAfter), new import_model2.Slice(wrap, 4 - depthBefore, 0));
+      tr.replace(start, $from.after(-depthAfter), new import_model.Slice(wrap, 4 - depthBefore, 0));
       let sel = -1;
       tr.doc.nodesBetween(start, tr.doc.content.size, (n, pos) => {
         if (sel > -1) {
@@ -6331,26 +6297,33 @@ var import_suggestion = require("@tiptap/suggestion");
 var import_client = require("react-dom/client");
 
 // src/app/component/command-menu.tsx
-var import_react11 = require("react");
+var import_react2 = require("react");
 
 // src/components/ui/command.tsx
 var import_cmdk = require("cmdk");
-var import_lucide_react10 = require("lucide-react");
+var import_lucide_react2 = require("lucide-react");
+
+// src/lib/utils.ts
+var import_clsx = require("clsx");
+var import_tailwind_merge = require("tailwind-merge");
+function cn(...inputs) {
+  return (0, import_tailwind_merge.twMerge)((0, import_clsx.clsx)(inputs));
+}
 
 // src/components/ui/dialog.tsx
 var DialogPrimitive = __toESM(require("@radix-ui/react-dialog"));
-var import_lucide_react9 = require("lucide-react");
-var import_jsx_runtime12 = require("react/jsx-runtime");
+var import_lucide_react = require("lucide-react");
+var import_jsx_runtime2 = require("react/jsx-runtime");
 
 // src/components/ui/command.tsx
-var import_jsx_runtime13 = require("react/jsx-runtime");
+var import_jsx_runtime3 = require("react/jsx-runtime");
 function Command(_a) {
   var _b = _a, {
     className
   } = _b, props = __objRest(_b, [
     "className"
   ]);
-  return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
     import_cmdk.Command,
     __spreadValues({
       "data-slot": "command",
@@ -6367,7 +6340,7 @@ function CommandList(_a) {
   } = _b, props = __objRest(_b, [
     "className"
   ]);
-  return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
     import_cmdk.Command.List,
     __spreadValues({
       "data-slot": "command-list",
@@ -6380,7 +6353,7 @@ function CommandList(_a) {
 }
 function CommandEmpty(_a) {
   var props = __objRest(_a, []);
-  return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
     import_cmdk.Command.Empty,
     __spreadValues({
       "data-slot": "command-empty",
@@ -6394,7 +6367,7 @@ function CommandGroup(_a) {
   } = _b, props = __objRest(_b, [
     "className"
   ]);
-  return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
     import_cmdk.Command.Group,
     __spreadValues({
       "data-slot": "command-group",
@@ -6411,7 +6384,7 @@ function CommandItem(_a) {
   } = _b, props = __objRest(_b, [
     "className"
   ]);
-  return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
     import_cmdk.Command.Item,
     __spreadValues({
       "data-slot": "command-item",
@@ -6424,8 +6397,8 @@ function CommandItem(_a) {
 }
 
 // src/app/component/command-menu.tsx
-var import_jsx_runtime14 = require("react/jsx-runtime");
-var CommandMenu = (0, import_react11.forwardRef)(
+var import_jsx_runtime4 = require("react/jsx-runtime");
+var CommandMenu = (0, import_react2.forwardRef)(
   (props, ref) => {
     const { items, command: command2, clientRect } = props;
     const rect = (clientRect == null ? void 0 : clientRect()) || new DOMRect();
@@ -6435,16 +6408,16 @@ var CommandMenu = (0, import_react11.forwardRef)(
       left: `${rect.left}px`,
       zIndex: 50
     };
-    return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { style, ref, children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", { style, ref, children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
       Command,
       {
         className: "border shadow-md rounded-md w-60",
         onKeyDownCapture: (e) => {
           e.stopPropagation();
         },
-        children: /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(CommandList, { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(CommandEmpty, { children: "No results found." }),
-          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(CommandGroup, { children: items.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
+        children: /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(CommandList, { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(CommandEmpty, { children: "No results found." }),
+          /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(CommandGroup, { children: items.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
             CommandItem,
             {
               onSelect: () => {
@@ -6462,7 +6435,7 @@ var CommandMenu = (0, import_react11.forwardRef)(
 CommandMenu.displayName = "CommandMenu";
 
 // src/extensions/slash-command/slash-command-plugin.ts
-var import_react12 = __toESM(require("react"));
+var import_react3 = __toESM(require("react"));
 var import_process = require("process");
 var CommandsPlugin = Extension.create({
   name: "insertMenu",
@@ -6531,7 +6504,7 @@ var CommandsPlugin = Extension.create({
               document.body.appendChild(rootElement);
               root = (0, import_client.createRoot)(rootElement);
               root.render(
-                import_react12.default.createElement(CommandMenu, __spreadProps(__spreadValues({}, props), {
+                import_react3.default.createElement(CommandMenu, __spreadProps(__spreadValues({}, props), {
                   title: import_process.title,
                   items: props.items,
                   command: props.command,
@@ -6541,7 +6514,7 @@ var CommandsPlugin = Extension.create({
             },
             onUpdate: (props) => {
               if (root && rootElement) {
-                import_react12.default.createElement(CommandMenu, __spreadProps(__spreadValues({}, props), {
+                import_react3.default.createElement(CommandMenu, __spreadProps(__spreadValues({}, props), {
                   title: import_process.title,
                   items: props.items,
                   command: props.command,
@@ -6569,23 +6542,308 @@ var slash_command_plugin_default = CommandsPlugin;
 var import_tiptap_markdown2 = require("tiptap-markdown");
 
 // src/extensions/ai-generate/ai-generate-node.ts
-var import_react17 = require("@tiptap/react");
+var import_react8 = require("@tiptap/react");
 
 // src/extensions/ai-generate/ai-generate-component.tsx
-var import_react15 = require("react");
-var import_react16 = require("@tiptap/react");
+var import_react6 = require("react");
+var import_react7 = require("@tiptap/react");
+
+// src/ai-extension/store/ai-state-store.ts
+var import_zustand = require("zustand");
+
+// src/ai-extension/types/index .ts
+var AImodels = {
+  Gemini: {
+    id: "Gemini",
+    apiKey: process.env.NEXT_PUBLIC_GEMINI_API_KEY
+  },
+  Meta: {
+    id: "Meta",
+    apiKey: process.env.NEXT_PUBLIC_HF_ACCESS_TOKEN
+  },
+  DeepSeek: {
+    id: "DeepSeek",
+    apiKey: process.env.NEXT_PUBLIC_HF_ACCESS_TOKEN
+  }
+};
+var defaultConfig = {
+  model: AImodels.DeepSeek.id,
+  apiKey: AImodels.DeepSeek.apiKey
+};
+
+// src/ai-extension/store/ai-state-store.ts
+var useAiAssistantState = (0, import_zustand.create)((set) => ({
+  config: defaultConfig,
+  isProcessing: false,
+  error: void 0,
+  setConfig: (config) => set({ config }),
+  setIsProcessing: (isProcessing) => set({ isProcessing }),
+  setError: (error) => set({ error })
+}));
+
+// src/ai-extension/service/model.ts
+var import_generative_ai = require("@google/generative-ai");
+
+// src/constants/ai-prompt-constants.ts
+var import_lucide_react3 = require("lucide-react");
+var TONE_PROMPTS = {
+  academic: "Please write this in an academic tone with formal language, scholarly references, and well-structured arguments.",
+  business: "Please write this in a professional business tone suitable for corporate communications and formal workplace environments.",
+  casual: "Please write this in a casual, conversational tone as if talking to a friend.",
+  creative: "Please write this in a creative, imaginative tone with vivid descriptions and original expressions.",
+  conversational: "Please write this in a natural, dialogue-like tone that mimics everyday speech patterns.",
+  emotional: "Please write this in an emotional tone that conveys strong feelings and creates an affective connection.",
+  humorous: "Please write this in a humorous tone with jokes, puns, and playful language.",
+  informative: "Please write this in an informative tone that clearly presents facts and information in an educational manner.",
+  inspirational: "Please write this in an inspirational tone that motivates and uplifts the reader.",
+  memeify: "Please write this in a meme-like tone with internet humor, references, and contemporary online speech patterns.",
+  narrative: "Please write this in a storytelling tone with narrative elements like scene-setting and character development.",
+  objective: "Please write this in an objective, balanced tone that presents information without bias or personal opinion.",
+  persuasive: "Please write this in a persuasive tone designed to convince the reader of a particular viewpoint.",
+  poetic: "Please write this in a poetic tone with rhythm, metaphor, and other literary devices."
+};
+var MODIFICATION_PROMPTS = {
+  simplify: {
+    label: "Simplify",
+    prompt: "Simplify this content to make it easier to understand, using clearer language and shorter sentences.",
+    icon: import_lucide_react3.Wand2
+  },
+  fix_grammar_and_spelling: {
+    label: "Fix grammar and spelling",
+    prompt: "Fix any grammar and spelling errors in this content while maintaining its meaning.",
+    icon: import_lucide_react3.SpellCheck
+  },
+  make_shorter: {
+    label: "Make shorter",
+    prompt: "Make this content shorter while preserving the key information and main points.",
+    icon: import_lucide_react3.AlignVerticalDistributeStart
+  },
+  make_longer: {
+    label: "Make longer",
+    prompt: "Expand this content with more details, examples, and explanations.",
+    icon: import_lucide_react3.AlignVerticalDistributeEnd
+  },
+  change_tone: {
+    label: "Change tone",
+    prompt: "Change the tone of this content according to the specified style.",
+    icon: import_lucide_react3.Palette
+  },
+  emojify: {
+    label: "Add emojis",
+    prompt: "Add emojis to this content. Don't write anything else. Just add emojis!",
+    icon: import_lucide_react3.Smile
+  },
+  translate: {
+    label: "Translate",
+    prompt: "Translate this content to the specified language while preserving its meaning.",
+    icon: import_lucide_react3.Languages
+  },
+  complete_sentence: {
+    label: "Complete sentence",
+    prompt: "Complete any unfinished sentences in this content in a natural way.",
+    icon: import_lucide_react3.ScanText
+  }
+};
+
+// src/ai-extension/service/base.ts
+var BaseAI = class {
+  constructor(config) {
+    this.config = config;
+  }
+  formatPrompt(promptType) {
+    const { content, tone, prompt, modify } = promptType;
+    let formattedPrompt = prompt || "";
+    if (content) {
+      formattedPrompt = `${content}
+ `;
+      if (modify) {
+        formattedPrompt += `${modify}
+`;
+      }
+    }
+    if (tone) {
+      formattedPrompt += `${TONE_PROMPTS[tone]}
+`;
+    }
+    return formattedPrompt;
+  }
+};
+
+// src/ai-extension/service/model.ts
+var import_inference = require("@huggingface/inference");
+var GeminiService = class extends BaseAI {
+  constructor(config) {
+    super(config);
+    this.gemini = new import_generative_ai.GoogleGenerativeAI(config.apiKey);
+  }
+  async generateContent(prompt) {
+    try {
+      const model = this.gemini.getGenerativeModel({
+        model: "gemini-2.0-flash"
+      });
+      const formattedPrompt = this.formatPrompt(prompt);
+      const result = await model.generateContent(formattedPrompt);
+      const response = result.response;
+      return response.text();
+    } catch (error) {
+      throw new Error(`${error}`);
+    }
+  }
+};
+var MetaAIservice = class extends BaseAI {
+  constructor(config) {
+    super(config);
+    this.client = new import_inference.InferenceClient(config.apiKey);
+  }
+  async generateContent(prompt) {
+    try {
+      const formattedPrompt = this.formatPrompt(prompt);
+      const chatCompletion = await this.client.chatCompletion({
+        model: "mlx-community/Meta-Llama-3.1-8B-Instruct-bf16",
+        messages: [
+          {
+            role: "user",
+            content: formattedPrompt
+          }
+        ],
+        provider: "novita",
+        temperature: 0.5,
+        max_tokens: 2048,
+        top_p: 0.7
+      });
+      console.log(chatCompletion.choices[0].message);
+      const response = chatCompletion.choices[0].message;
+      return response.content;
+    } catch (error) {
+      throw new Error(`${error}`);
+    }
+  }
+};
+var DeepSeekService = class extends BaseAI {
+  constructor(config) {
+    super(config);
+    this.client = new import_inference.InferenceClient(config.apiKey);
+  }
+  async generateContent(prompt) {
+    try {
+      const formattedPrompt = this.formatPrompt(prompt);
+      console.log(formattedPrompt);
+      const chatCompletion = await this.client.chatCompletion({
+        provider: "novita",
+        model: "deepseek-ai/DeepSeek-V3-0324",
+        messages: [
+          {
+            role: "user",
+            content: formattedPrompt
+          }
+        ],
+        max_tokens: 500
+      });
+      const response = chatCompletion.choices[0].message;
+      return response.content;
+    } catch (error) {
+      throw new Error(`${error}`);
+    }
+  }
+};
+var createAgent = (config) => {
+  switch (config.model) {
+    case AImodels.Gemini.id:
+      return new GeminiService(config);
+    case AImodels.Meta.id:
+      return new MetaAIservice(config);
+    case AImodels.DeepSeek.id:
+      return new DeepSeekService(config);
+    default:
+      return new DeepSeekService(config);
+  }
+};
+
+// src/ai-extension/hooks/use-ai-hook.ts
+var useAIAssistant = () => {
+  const _a = useAiAssistantState(), { config } = _a, store = __objRest(_a, ["config"]);
+  const generateContent = async (prompt) => {
+    store.setIsProcessing(true);
+    try {
+      const agent = createAgent(config);
+      const content = await agent.generateContent(prompt);
+      return content;
+    } catch (err) {
+      const error = err instanceof Error ? err.message : "unknown error";
+      store.setError(error);
+    } finally {
+      store.setIsProcessing(false);
+    }
+  };
+  return {
+    generateContent,
+    isProcessing: store.isProcessing,
+    error: store.error
+  };
+};
+
+// src/components/ui/button.tsx
+var import_react_slot = require("@radix-ui/react-slot");
+var import_class_variance_authority = require("class-variance-authority");
+var import_jsx_runtime5 = require("react/jsx-runtime");
+var buttonVariants = (0, import_class_variance_authority.cva)(
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+  {
+    variants: {
+      variant: {
+        default: "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90",
+        destructive: "bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
+        outline: "border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
+        secondary: "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
+        ghost: "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
+        link: "text-primary underline-offset-4 hover:underline"
+      },
+      size: {
+        default: "h-9 px-4 py-2 has-[>svg]:px-3",
+        sm: "h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5",
+        lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
+        icon: "size-9"
+      }
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default"
+    }
+  }
+);
+function Button(_a) {
+  var _b = _a, {
+    className,
+    variant,
+    size,
+    asChild = false
+  } = _b, props = __objRest(_b, [
+    "className",
+    "variant",
+    "size",
+    "asChild"
+  ]);
+  const Comp = asChild ? import_react_slot.Slot : "button";
+  return /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
+    Comp,
+    __spreadValues({
+      "data-slot": "button",
+      className: cn(buttonVariants({ variant, size, className }))
+    }, props)
+  );
+}
 
 // src/components/ui/select.tsx
 var SelectPrimitive = __toESM(require("@radix-ui/react-select"));
-var import_lucide_react11 = require("lucide-react");
-var import_jsx_runtime15 = require("react/jsx-runtime");
+var import_lucide_react4 = require("lucide-react");
+var import_jsx_runtime6 = require("react/jsx-runtime");
 function Select(_a) {
   var props = __objRest(_a, []);
-  return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(SelectPrimitive.Root, __spreadValues({ "data-slot": "select" }, props));
+  return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(SelectPrimitive.Root, __spreadValues({ "data-slot": "select" }, props));
 }
 function SelectValue(_a) {
   var props = __objRest(_a, []);
-  return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(SelectPrimitive.Value, __spreadValues({ "data-slot": "select-value" }, props));
+  return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(SelectPrimitive.Value, __spreadValues({ "data-slot": "select-value" }, props));
 }
 function SelectTrigger(_a) {
   var _b = _a, {
@@ -6597,7 +6855,7 @@ function SelectTrigger(_a) {
     "size",
     "children"
   ]);
-  return /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(
     SelectPrimitive.Trigger,
     __spreadProps(__spreadValues({
       "data-slot": "select-trigger",
@@ -6609,7 +6867,7 @@ function SelectTrigger(_a) {
     }, props), {
       children: [
         children,
-        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(SelectPrimitive.Icon, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(import_lucide_react11.ChevronDownIcon, { className: "size-4 opacity-50" }) })
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(SelectPrimitive.Icon, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_lucide_react4.ChevronDownIcon, { className: "size-4 opacity-50" }) })
       ]
     })
   );
@@ -6624,7 +6882,7 @@ function SelectContent(_a) {
     "children",
     "position"
   ]);
-  return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(SelectPrimitive.Portal, { children: /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(SelectPrimitive.Portal, { children: /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(
     SelectPrimitive.Content,
     __spreadProps(__spreadValues({
       "data-slot": "select-content",
@@ -6636,8 +6894,8 @@ function SelectContent(_a) {
       position
     }, props), {
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(SelectScrollUpButton, {}),
-        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(SelectScrollUpButton, {}),
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
           SelectPrimitive.Viewport,
           {
             className: cn(
@@ -6647,7 +6905,7 @@ function SelectContent(_a) {
             children
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(SelectScrollDownButton, {})
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(SelectScrollDownButton, {})
       ]
     })
   ) });
@@ -6660,7 +6918,7 @@ function SelectItem(_a) {
     "className",
     "children"
   ]);
-  return /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(
     SelectPrimitive.Item,
     __spreadProps(__spreadValues({
       "data-slot": "select-item",
@@ -6670,8 +6928,8 @@ function SelectItem(_a) {
       )
     }, props), {
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("span", { className: "absolute right-2 flex size-3.5 items-center justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(SelectPrimitive.ItemIndicator, { children: /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(import_lucide_react11.CheckIcon, { className: "size-4" }) }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(SelectPrimitive.ItemText, { children })
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { className: "absolute right-2 flex size-3.5 items-center justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(SelectPrimitive.ItemIndicator, { children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_lucide_react4.CheckIcon, { className: "size-4" }) }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(SelectPrimitive.ItemText, { children })
       ]
     })
   );
@@ -6682,7 +6940,7 @@ function SelectScrollUpButton(_a) {
   } = _b, props = __objRest(_b, [
     "className"
   ]);
-  return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
     SelectPrimitive.ScrollUpButton,
     __spreadProps(__spreadValues({
       "data-slot": "select-scroll-up-button",
@@ -6691,7 +6949,7 @@ function SelectScrollUpButton(_a) {
         className
       )
     }, props), {
-      children: /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(import_lucide_react11.ChevronUpIcon, { className: "size-4" })
+      children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_lucide_react4.ChevronUpIcon, { className: "size-4" })
     })
   );
 }
@@ -6701,7 +6959,7 @@ function SelectScrollDownButton(_a) {
   } = _b, props = __objRest(_b, [
     "className"
   ]);
-  return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
     SelectPrimitive.ScrollDownButton,
     __spreadProps(__spreadValues({
       "data-slot": "select-scroll-down-button",
@@ -6710,19 +6968,19 @@ function SelectScrollDownButton(_a) {
         className
       )
     }, props), {
-      children: /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(import_lucide_react11.ChevronDownIcon, { className: "size-4" })
+      children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_lucide_react4.ChevronDownIcon, { className: "size-4" })
     })
   );
 }
 
 // src/extensions/ai-generate/ai-generate-component.tsx
-var import_lucide_react12 = require("lucide-react");
+var import_lucide_react5 = require("lucide-react");
 
 // src/components/ui/textarea.tsx
-var import_jsx_runtime16 = require("react/jsx-runtime");
+var import_jsx_runtime7 = require("react/jsx-runtime");
 function Textarea(_a) {
   var _b = _a, { className } = _b, props = __objRest(_b, ["className"]);
-  return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
     "textarea",
     __spreadValues({
       "data-slot": "textarea",
@@ -6735,27 +6993,27 @@ function Textarea(_a) {
 }
 
 // src/app/component/preview-editor.tsx
-var import_react13 = require("react");
-var import_react14 = require("@tiptap/react");
+var import_react4 = require("react");
+var import_react5 = require("@tiptap/react");
 var import_starter_kit = __toESM(require("@tiptap/starter-kit"));
 var import_tiptap_markdown = require("tiptap-markdown");
-var import_jsx_runtime17 = require("react/jsx-runtime");
+var import_jsx_runtime8 = require("react/jsx-runtime");
 var MarkdownEditor = ({ content }) => {
-  const editor = (0, import_react14.useEditor)({
+  const editor = (0, import_react5.useEditor)({
     extensions: [import_starter_kit.default, import_tiptap_markdown.Markdown],
     content: "",
     editable: false
   });
-  (0, import_react13.useEffect)(() => {
+  (0, import_react4.useEffect)(() => {
     if (editor) {
       editor.commands.setContent(content);
     }
   }, [editor, content]);
-  return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "bg-white text-sm rounded-md px-3 py-2 border border-neutral-300 min-h-[100px] max-h-[400px] w-full overflow-y-auto", children: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(import_react14.EditorContent, { editor }) });
+  return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "bg-white text-sm rounded-md px-3 py-2 border border-neutral-300 min-h-[100px] max-h-[400px] w-full overflow-y-auto", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_react5.EditorContent, { editor }) });
 };
 
 // src/extensions/ai-generate/ai-generate-component.tsx
-var import_jsx_runtime18 = require("react/jsx-runtime");
+var import_jsx_runtime9 = require("react/jsx-runtime");
 var AIGenerateComponentNode = ({
   editor,
   node,
@@ -6763,12 +7021,12 @@ var AIGenerateComponentNode = ({
 }) => {
   const _a = useAIAssistant(), { generateContent } = _a, state = __objRest(_a, ["generateContent"]);
   const { setConfig } = useAiAssistantState();
-  const [input, setInput] = (0, import_react15.useState)(node.attrs.initialPrompt || "");
-  const [model, setModel] = (0, import_react15.useState)(defaultConfig.model);
-  const [tone, setTone] = (0, import_react15.useState)(TONE_PROMPTS.casual);
-  const [preview, setPreview] = (0, import_react15.useState)(void 0);
-  const [modify, setModify] = (0, import_react15.useState)(void 0);
-  const [generationComplete, setGenerationComplete] = (0, import_react15.useState)(false);
+  const [input, setInput] = (0, import_react6.useState)(node.attrs.initialPrompt || "");
+  const [model, setModel] = (0, import_react6.useState)(defaultConfig.model);
+  const [tone, setTone] = (0, import_react6.useState)(TONE_PROMPTS.casual);
+  const [preview, setPreview] = (0, import_react6.useState)(void 0);
+  const [modify, setModify] = (0, import_react6.useState)(void 0);
+  const [generationComplete, setGenerationComplete] = (0, import_react6.useState)(false);
   const handleGenerate = async (e) => {
     e.preventDefault();
     await generateContent({
@@ -6798,13 +7056,13 @@ var AIGenerateComponentNode = ({
   const handleModify = (modify2) => {
     setModify(modify2);
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(import_react16.NodeViewWrapper, { className: "ai-assistant-node border-2  border-neutral-300 p-4 my-2 rounded-md", children: /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "flex flex-col gap-4", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "flex items-center justify-between", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "flex items-center gap-2", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(import_lucide_react12.MessageSquareIcon, { className: "size-4" }),
-        /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: "font-medium", children: "AI Assistant" })
+  return /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(import_react7.NodeViewWrapper, { className: "ai-assistant-node border-2  border-neutral-300 p-4 my-2 rounded-md", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "flex flex-col gap-4", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "flex items-center justify-between", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "flex items-center gap-2", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(import_lucide_react5.MessageSquareIcon, { className: "size-4" }),
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { className: "font-medium", children: "AI Assistant" })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
         Button,
         {
           variant: "ghost",
@@ -6817,12 +7075,12 @@ var AIGenerateComponentNode = ({
               });
             }
           },
-          children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(import_lucide_react12.TrashIcon, { className: "size-4" })
+          children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(import_lucide_react5.TrashIcon, { className: "size-4" })
         }
       )
     ] }),
-    preview && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(MarkdownEditor, { content: preview }),
-    /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+    preview && /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(MarkdownEditor, { content: preview }),
+    /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
       Textarea,
       {
         className: "w-full border-1 focus-visible:outline-0 max-h-[200px] outline-none focus-visible:ring-0  focus-visible:border-neutral-400",
@@ -6831,29 +7089,29 @@ var AIGenerateComponentNode = ({
         onChange: (e) => setInput(e.target.value)
       }
     ),
-    /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "flex flex-wrap gap-2 justify-end items-center", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(Select, { value: tone, onValueChange: (tone2) => handleTone(tone2), children: [
-        /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(SelectTrigger, { className: "w-[140px]", children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(SelectValue, { placeholder: `${tone}` }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(SelectContent, { children: Object.entries(TONE_PROMPTS).map(([key, value]) => /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(SelectItem, { value, children: key }, key)) })
+    /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "flex flex-wrap gap-2 justify-end items-center", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(Select, { value: tone, onValueChange: (tone2) => handleTone(tone2), children: [
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(SelectTrigger, { className: "w-[140px]", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(SelectValue, { placeholder: `${tone}` }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(SelectContent, { children: Object.entries(TONE_PROMPTS).map(([key, value]) => /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(SelectItem, { value, children: key }, key)) })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(
+      /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(
         Select,
         {
           disabled: !generationComplete,
           value: modify,
           onValueChange: (modify2) => handleModify(modify2),
           children: [
-            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(SelectTrigger, { className: "w-[140px]", children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(SelectValue, { placeholder: modify || "modify" }) }),
-            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(SelectContent, { children: Object.entries(MODIFICATION_PROMPTS).map(
-              ([key, { prompt, label, icon: Icon2 }]) => /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(SelectItem, { value: prompt, className: "flex gap-x-2", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(Icon2, { className: "size-4" }),
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(SelectTrigger, { className: "w-[140px]", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(SelectValue, { placeholder: modify || "modify" }) }),
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(SelectContent, { children: Object.entries(MODIFICATION_PROMPTS).map(
+              ([key, { prompt, label, icon: Icon2 }]) => /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(SelectItem, { value: prompt, className: "flex gap-x-2", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Icon2, { className: "size-4" }),
                 label
               ] }, key)
             ) })
           ]
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(
+      /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(
         Select,
         {
           value: model,
@@ -6863,23 +7121,23 @@ var AIGenerateComponentNode = ({
             handleConfig(modelkey);
           },
           children: [
-            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(SelectTrigger, { className: "w-[140px]", children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(SelectValue, { placeholder: `${model}` }) }),
-            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(SelectContent, { children: Object.entries(AImodels).map(([key, value]) => /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(SelectItem, { value: value.id, children: value.id.toLowerCase() }, key)) })
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(SelectTrigger, { className: "w-[140px]", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(SelectValue, { placeholder: `${model}` }) }),
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(SelectContent, { children: Object.entries(AImodels).map(([key, value]) => /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(SelectItem, { value: value.id, children: value.id.toLowerCase() }, key)) })
           ]
         }
       ),
-      generationComplete && /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(Button, { onClick: handleInsert, variant: "outline", className: "gap-1", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(import_lucide_react12.CheckIcon, { className: "size-4" }),
-        /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { children: "Insert" })
+      generationComplete && /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(Button, { onClick: handleInsert, variant: "outline", className: "gap-1", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(import_lucide_react5.CheckIcon, { className: "size-4" }),
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { children: "Insert" })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(
+      /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(
         Button,
         {
           disabled: state.isProcessing,
           onClick: handleGenerate,
           className: "gap-1",
           children: [
-            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(import_lucide_react12.PenIcon, { className: "size-4" }),
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(import_lucide_react5.PenIcon, { className: "size-4" }),
             state.isProcessing ? "Generating..." : generationComplete ? "Regenerate" : "Generate"
           ]
         }
@@ -6889,7 +7147,7 @@ var AIGenerateComponentNode = ({
 };
 
 // src/extensions/ai-generate/ai-generate-node.ts
-var AIassistantNode = import_react17.Node.create({
+var AIassistantNode = import_react8.Node.create({
   name: "AIgenerativenode",
   group: "block",
   atom: true,
@@ -6912,12 +7170,12 @@ var AIassistantNode = import_react17.Node.create({
   renderHTML({ HTMLAttributes }) {
     return [
       "div",
-      (0, import_react17.mergeAttributes)(HTMLAttributes, { "data-type": "ai-assistant" }),
+      (0, import_react8.mergeAttributes)(HTMLAttributes, { "data-type": "ai-assistant" }),
       0
     ];
   },
   addNodeView() {
-    return (0, import_react17.ReactNodeViewRenderer)(AIGenerateComponentNode);
+    return (0, import_react8.ReactNodeViewRenderer)(AIGenerateComponentNode);
   },
   addCommands() {
     return {
@@ -6937,8 +7195,8 @@ var import_extension_text_style = __toESM(require("@tiptap/extension-text-style"
 var import_extension_font_family = __toESM(require("@tiptap/extension-font-family"));
 
 // src/extensions/fontsize/font-size.ts
-var import_react18 = require("@tiptap/react");
-var FontSize = import_react18.Extension.create({
+var import_react9 = require("@tiptap/react");
+var FontSize = import_react9.Extension.create({
   name: "fontSize",
   addOptions() {
     return {
@@ -6972,7 +7230,7 @@ var FontSize = import_react18.Extension.create({
         return chain().setMark("textStyle", { fontSize }).run();
       },
       unsetFontSize: () => ({ chain }) => {
-        return chain().setMark("textStyle", { fontSize: null }).removeEmptyTextStyle().run();
+        return chain().setMark("textStyle", { fontSize: null }).run();
       }
     };
   }
@@ -6989,14 +7247,14 @@ var useTemplateEditor = (content = "", options = {}) => {
       class: "focus:outline-none min-h-[816px] w-[816px] cursor-text p-10 bg-white shadow-lg rounded-lg"
     }
   };
-  return (0, import_react19.useEditor)(__spreadProps(__spreadValues({}, options), {
+  return (0, import_react10.useEditor)(__spreadProps(__spreadValues({}, options), {
     extensions: [
       import_starter_kit2.default,
+      import_extension_underline.default,
       slash_command_plugin_default,
       import_extension_text_style.default,
       import_extension_font_family.default,
       FontSize,
-      import_extension_underline.default,
       import_extension_task_list.default,
       import_tiptap_markdown2.Markdown,
       import_extension_superscript.default,

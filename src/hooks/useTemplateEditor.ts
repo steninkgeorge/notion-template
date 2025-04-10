@@ -31,11 +31,11 @@ export const useTemplateEditor: (
     ...options,
     extensions: [
       StarterKit,
+      Underline,
       CommandsPlugin,
       TextStyle,
       FontFamily,
       FontSize,
-      Underline,
       TaskList,
       Markdown,
       Superscript,
