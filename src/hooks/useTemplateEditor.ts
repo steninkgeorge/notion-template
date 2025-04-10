@@ -51,7 +51,7 @@ export const useTemplateEditor: (
 
       DraggableBlockExtension,
       WrapBlocksInDraggable,
-      // ...(options.extensions || []),
+      ...(options.extensions || []),
     ],
     content: content ?? '',
     editorProps: {
