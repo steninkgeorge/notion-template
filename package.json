@@ -11,6 +11,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "tsup",
+    "build:web": "next build",
     "start": "next start",
     "format": "prettier --write .",
     "format:staged": "prettier --write $(git diff --name-only --cached)",
