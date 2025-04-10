@@ -1,10 +1,7 @@
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
 import { ToolbarButtonProps, ToolbarItemType } from '@/types';
 import { BubbleMenu, Editor } from '@tiptap/react';
 import { BoldIcon, ItalicIcon, Strikethrough, Underline } from 'lucide-react';
 import { AItools } from './ai-tool';
-import { Separator } from '@/components/ui/separator';
 import { Heirarchy } from './text-formatting';
 import { FontFamilyButton } from './font-selection';
 import { FontSizeOptionButton } from './text-size';

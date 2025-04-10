@@ -54,11 +54,6 @@ export const useTemplateEditor: (
       ...(options.extensions || []),
     ],
     content: content ?? '',
-    editorProps: {
-      attributes: {
-        class:
-          'focus:outline-none min-h-[816px] w-[816px] cursor-text p-10 bg-white shadow-lg rounded-lg',
-      },
-    },
+    editorProps: options.editorProps ?? fallbackEditorProps,
   });
 };

@@ -2,7 +2,6 @@ import { Extension } from '@tiptap/core';
 import { Plugin, PluginKey, TextSelection } from 'prosemirror-state';
 import { Node as ProseMirrorNode } from 'prosemirror-model';
 import { EditorView } from 'prosemirror-view';
-import { keymap } from 'prosemirror-keymap';
 
 // Define the schema types for better TypeScript support
 type NodeType = {
