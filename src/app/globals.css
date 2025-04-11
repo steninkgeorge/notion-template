@@ -258,4 +258,12 @@
   h6 {
     font-size: 1rem;
   }
+
+  p.is-editor-empty:first-child::before {
+    color: var(--gray-4);
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+  }
 }
