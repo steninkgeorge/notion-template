@@ -14,8 +14,8 @@ import Subscript from '@tiptap/extension-subscript';
 import TextAlign from '@tiptap/extension-text-align';
 import { Color } from '@tiptap/extension-color';
 import Placeholder from '@tiptap/extension-placeholder';
-import AutoJoiner from 'tiptap-extension-auto-joiner';
 import GlobalDragHandle from '@/extensions/drag-handle/drag-handle';
+import Dropcursor from '@tiptap/extension-dropcursor';
 
 export const useTemplateEditor: (
   content: string,
@@ -33,12 +33,12 @@ export const useTemplateEditor: (
     extensions: [
       StarterKit,
 
-      AutoJoiner,
-
       Placeholder.configure({
         placeholder: 'type / for commands ',
       }),
-
+      Dropcursor.configure({
+        width: 2,
+      }),
       Underline,
       CommandsPlugin,
       TextStyle,
@@ -56,7 +56,7 @@ export const useTemplateEditor: (
       TaskItem.configure({
         nested: true,
       }),
-      GlobalDragHandle,
+      GlobalDragHandle.configure({ customNodes: ['ai-assistant'] }),
       ...(options.extensions || []),
     ],
     content: content ?? '',

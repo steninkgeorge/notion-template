@@ -1,27 +1,24 @@
+import { mergeAttributes, Node, ReactNodeViewRenderer } from '@tiptap/react';
+import { AIGenerateComponentNode } from './ai-generate-component';
 
-import { mergeAttributes, Node, ReactNodeViewRenderer } from "@tiptap/react"
-import { AIGenerateComponentNode } from "./ai-generate-component";
-
-declare module '@tiptap/core'{
-    interface Commands<ReturnType = any> {
-      AIgenerativenode: {
-        insertPromptBox: (attributes: Record<string, any>) => ReturnType;
-      };
-    }
+declare module '@tiptap/core' {
+  interface Commands<ReturnType = any> {
+    AIgenerativenode: {
+      insertPromptBox: (attributes: Record<string, any>) => ReturnType;
+    };
+  }
 }
 
-
 export const AIassistantNode = Node.create({
-  name: "AIgenerativenode",
-  group: "block",
-  atom: true,
+  name: 'AIgenerativenode',
+  group: 'block',
   selectable: true,
   draggable: false,
 
   addAttributes() {
     return {
       initialPrompt: {
-        default: "",
+        default: '',
       },
     };
   },
@@ -36,9 +33,8 @@ export const AIassistantNode = Node.create({
 
   renderHTML({ HTMLAttributes }) {
     return [
-      "div",
-      mergeAttributes(HTMLAttributes, { "data-type": "ai-assistant" }),
-      0,
+      'div',
+      mergeAttributes(HTMLAttributes, { 'data-type': 'ai-assistant' }),
     ];
   },
 
@@ -51,7 +47,6 @@ export const AIassistantNode = Node.create({
       insertPromptBox:
         (attributes: Record<string, any> = {}) =>
         ({ chain }) => {
-
           return chain()
             .insertContent({
               type: this.name,
