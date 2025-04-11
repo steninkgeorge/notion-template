@@ -8,7 +8,7 @@ import { useTemplateEditor } from '../../hooks/useTemplateEditor';
 
 const Editor = () => {
   const { setEditor } = useEditorStore();
-  const editor = useTemplateEditor('hello world 🌎', {
+  const editor = useTemplateEditor('', {
     onBeforeCreate({ editor }) {
       setEditor(editor);
     },

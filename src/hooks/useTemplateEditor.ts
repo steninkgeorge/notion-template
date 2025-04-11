@@ -15,6 +15,7 @@ import Superscript from '@tiptap/extension-superscript';
 import Subscript from '@tiptap/extension-subscript';
 import TextAlign from '@tiptap/extension-text-align';
 import { Color } from '@tiptap/extension-color';
+import Placeholder from '@tiptap/extension-placeholder';
 
 export const useTemplateEditor: (
   content?: string,
@@ -31,6 +32,9 @@ export const useTemplateEditor: (
     ...options,
     extensions: [
       StarterKit,
+      Placeholder.configure({
+        placeholder: 'type / for commands ',
+      }),
       Underline,
       CommandsPlugin,
       TextStyle,
