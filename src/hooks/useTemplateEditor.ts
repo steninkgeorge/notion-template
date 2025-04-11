@@ -1,9 +1,7 @@
 import { Editor, EditorOptions, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import DraggableBlockExtension from '@/extensions/draggable-block-extension';
 import TaskList from '@tiptap/extension-task-list';
 import TaskItem from '@tiptap/extension-task-item';
-import { WrapBlocksInDraggable } from '@/extensions/wrap-plugin';
 import CommandsPlugin from '@/extensions/slash-command/slash-command-plugin';
 import { Markdown } from 'tiptap-markdown';
 import { AIassistantNode } from '@/extensions/ai-generate/ai-generate-node';
@@ -16,9 +14,11 @@ import Subscript from '@tiptap/extension-subscript';
 import TextAlign from '@tiptap/extension-text-align';
 import { Color } from '@tiptap/extension-color';
 import Placeholder from '@tiptap/extension-placeholder';
+import AutoJoiner from 'tiptap-extension-auto-joiner';
+import GlobalDragHandle from '@/extensions/drag-handle/drag-handle';
 
 export const useTemplateEditor: (
-  content?: string,
+  content: string,
   options?: Partial<EditorOptions>
 ) => Editor | null = (content = '', options: Partial<EditorOptions> = {}) => {
   const fallbackEditorProps: EditorOptions['editorProps'] = {
@@ -32,9 +32,13 @@ export const useTemplateEditor: (
     ...options,
     extensions: [
       StarterKit,
+
+      AutoJoiner,
+
       Placeholder.configure({
         placeholder: 'type / for commands ',
       }),
+
       Underline,
       CommandsPlugin,
       TextStyle,
@@ -52,9 +56,7 @@ export const useTemplateEditor: (
       TaskItem.configure({
         nested: true,
       }),
-
-      DraggableBlockExtension,
-      WrapBlocksInDraggable,
+      GlobalDragHandle,
       ...(options.extensions || []),
     ],
     content: content ?? '',

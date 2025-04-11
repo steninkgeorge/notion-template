@@ -15,6 +15,11 @@ const Editor = () => {
     onCreate({ editor }) {
       // The editor is ready.
       setEditor(editor);
+      console.log('Editor updated');
+      console.log(
+        'Drag handles:',
+        document.querySelectorAll('.custom-drag-handle').length
+      );
     },
     onUpdate({ editor }) {
       // The content has changed.

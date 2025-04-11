@@ -12,6 +12,23 @@ export default Node.create({
 
   draggable: true,
 
+  addAttributes() {
+    return {
+      'data-placeholder': {
+        default: null,
+        parseHTML: (element) => element.getAttribute('data-placeholder'),
+        renderHTML: (attributes) => {
+          if (!attributes['data-placeholder']) {
+            return {};
+          }
+          return {
+            'data-placeholder': attributes['data-placeholder'],
+          };
+        },
+      },
+    };
+  },
+
   parseHTML() {
     return [
       {

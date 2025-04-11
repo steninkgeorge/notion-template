@@ -30,6 +30,15 @@ const DragHandle = styled.div<{ $visible: boolean }>`
 const ContentWrapper = styled.div`
   padding-left: 1.5rem;
   flex: 1;
+
+  & p.is-editor-empty:first-child::before,
+  & p.is-node-empty:first-child::before {
+    color: #adb5bd;
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+  }
 `;
 
 export const DraggableNode = () => {
