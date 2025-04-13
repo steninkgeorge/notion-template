@@ -22,8 +22,7 @@ npm install notion-editor-template
 ## To run the editor locally 📝
 
 - clone this repo
-- open the terminal and run ```npm run dev``` 
-  
+- open the terminal and run `npm run dev`
 
 ## Quick Start
 

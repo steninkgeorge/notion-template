@@ -1,5 +1,6 @@
 import { AIassistantConfig, PromptType } from '../types/index ';
 import { TONE_PROMPTS } from '@/constants/ai-prompt-constants';
+
 export abstract class BaseAI {
   protected config: AIassistantConfig;
 

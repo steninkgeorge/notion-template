@@ -2,9 +2,9 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 import { AIassistantConfig, AImodels, PromptType } from '../types/index ';
 import { BaseAI } from './base';
 import { InferenceClient } from '@huggingface/inference';
+import { Mistral } from '@mistralai/mistralai';
 
 //TODO: fine tune ai model response
-//TODO: Bubble menu
 //More AI models.
 //validate formatted prompts for bad prompts or misuse of prompts
 
@@ -14,7 +14,7 @@ class GeminiService extends BaseAI {
   constructor(config: AIassistantConfig) {
     super(config);
 
-    this.gemini = new GoogleGenerativeAI(config.apiKey);
+    this.gemini = new GoogleGenerativeAI(config.apiKey!);
   }
 
   async generateContent(prompt: PromptType): Promise<string> {
@@ -57,7 +57,6 @@ class MetaAIservice extends BaseAI {
         max_tokens: 2048,
         top_p: 0.7,
       });
-      console.log(chatCompletion.choices[0].message);
       const response = chatCompletion.choices[0].message;
       return response.content!;
     } catch (error) {
@@ -77,7 +76,6 @@ class DeepSeekService extends BaseAI {
   async generateContent(prompt: PromptType): Promise<string> {
     try {
       const formattedPrompt = this.formatPrompt(prompt);
-      console.log(formattedPrompt);
       const chatCompletion = await this.client.chatCompletion({
         provider: 'novita',
         model: 'deepseek-ai/DeepSeek-V3-0324',
@@ -97,6 +95,110 @@ class DeepSeekService extends BaseAI {
   }
 }
 
+class MistralService extends BaseAI {
+  private client: Mistral;
+
+  constructor(config: AIassistantConfig) {
+    super(config);
+    this.client = new Mistral({ apiKey: config.apiKey });
+  }
+
+  async generateContent(prompt: PromptType): Promise<string> {
+    try {
+      const formattedPrompt = this.formatPrompt(prompt);
+
+      // For non-streaming response
+      const response = await this.client.chat.complete({
+        model: 'mistral-small-latest',
+        messages: [
+          {
+            role: 'user',
+            content: formattedPrompt,
+          },
+        ],
+        temperature: 0.7,
+        maxTokens: 1024,
+      });
+
+      return JSON.stringify(response?.choices?.[0]?.message?.content);
+    } catch (error) {
+      throw new Error(`${error}`);
+    }
+  }
+}
+
+class NemoService extends BaseAI {
+  private client: InferenceClient;
+
+  constructor(config: AIassistantConfig) {
+    super(config);
+    this.client = new InferenceClient(config.apiKey);
+  }
+
+  async generateContent(prompt: PromptType): Promise<string> {
+    try {
+      const formattedPrompt = this.formatPrompt(prompt);
+
+      const chatCompletion = await this.client.chatCompletion({
+        provider: 'hf-inference',
+        model: 'mistralai/Mistral-Nemo-Instruct-2407',
+        messages: [
+          {
+            role: 'user',
+            content: formattedPrompt,
+          },
+        ],
+        max_tokens: 512,
+        temperature: 0.6,
+      });
+
+      const response = chatCompletion.choices[0].message;
+      return response.content || '';
+    } catch (error) {
+      throw new Error(`${error}`);
+    }
+  }
+}
+
+class MistralLarge extends BaseAI {
+  private client: Mistral;
+
+  constructor(config: AIassistantConfig) {
+    super(config);
+    this.client = new Mistral({ apiKey: config.apiKey });
+  }
+
+  async generateContent(prompt: PromptType): Promise<string> {
+    try {
+      const formattedPrompt = this.formatPrompt(prompt);
+
+      const chatCompletion = await this.client.chat.complete({
+        model: 'mistral-large-latest', // or 'mistral-small-latest'
+        messages: [
+          {
+            role: 'user',
+            content: formattedPrompt,
+          },
+        ],
+        temperature: 0.6,
+        maxTokens: 1024,
+      });
+
+      const content = chatCompletion?.choices?.[0]?.message?.content;
+
+      if (typeof content === 'string') {
+        return content;
+      } else if (content) {
+        return JSON.stringify(content);
+      } else {
+        return 'No response';
+      }
+    } catch (error) {
+      throw new Error(`${error}`);
+    }
+  }
+}
+
 export const createAgent = (config: AIassistantConfig) => {
   switch (config.model) {
     case AImodels.Gemini.id:
@@ -105,6 +207,12 @@ export const createAgent = (config: AIassistantConfig) => {
       return new MetaAIservice(config);
     case AImodels.DeepSeek.id:
       return new DeepSeekService(config);
+    case AImodels.MistralLarge.id:
+      return new MistralLarge(config);
+    case AImodels.MistralSmall.id:
+      return new MistralService(config);
+    case AImodels.MistralNemo.id:
+      return new NemoService(config);
     default:
       return new DeepSeekService(config);
   }

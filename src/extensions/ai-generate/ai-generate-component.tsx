@@ -41,7 +41,6 @@ export const AIGenerateComponentNode = ({
 
   const handleGenerate = async (e: React.MouseEvent) => {
     e.preventDefault();
-
     await generateContent({
       prompt: input.trim(),
       tone: tone,
@@ -64,9 +63,27 @@ export const AIGenerateComponentNode = ({
     }
   };
 
-  const handleConfig = (model: AImodelConfig) => {
-    setConfig({ model: model.id, apiKey: model.apiKey! });
-    setModel(model.id);
+  const handleMistralVertexConfig = (model: AImodelConfig) => {
+    // Custom logic for Mistral-Vertex
+    const { projectId, location, endpointId } = model;
+    if (projectId && location && endpointId) {
+      setConfig({
+        model: model.id,
+        projectId,
+        location,
+        endpointId,
+      });
+    }
+  };
+
+  const handleConfig = (model: AImodelConfig, key: AImodelKey) => {
+    if (model.id === 'Mistral-Vertex') {
+      handleMistralVertexConfig(model);
+    } else {
+      setConfig({ model: model.id, apiKey: model.apiKey! });
+    }
+
+    setModel(key);
   };
 
   const handleTone = (tone: string) => {
@@ -148,9 +165,10 @@ export const AIGenerateComponentNode = ({
           <Select
             value={model}
             onValueChange={(model) => {
-              const modelkey = AImodels[model as AImodelKey];
-              console.log(modelkey);
-              handleConfig(modelkey);
+              const key = model as AImodelKey;
+              const modelConfig = AImodels[key];
+
+              handleConfig(modelConfig, key);
             }}
           >
             <SelectTrigger className="w-[140px]">
@@ -158,7 +176,7 @@ export const AIGenerateComponentNode = ({
             </SelectTrigger>
             <SelectContent>
               {Object.entries(AImodels).map(([key, value]) => (
-                <SelectItem key={key} value={value.id}>
+                <SelectItem key={key} value={key}>
                   {value.id.toLowerCase()}
                 </SelectItem>
               ))}
