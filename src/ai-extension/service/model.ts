@@ -1,13 +1,8 @@
-import {
-  GoogleGenerativeAI,
-  HarmBlockThreshold,
-  HarmCategory,
-} from '@google/generative-ai';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 import { AIassistantConfig, AImodels, PromptType } from '../types/index ';
 import { BaseAI } from './base';
 import { InferenceClient } from '@huggingface/inference';
 import { Mistral } from '@mistralai/mistralai';
-import { VertexAIClient } from './vertex/vertex-client';
 
 //TODO: fine tune ai model response
 //More AI models.

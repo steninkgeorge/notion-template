@@ -27,7 +27,7 @@ export default async function handler(
       // Return the generated content to the frontend
       res.status(200).json({ content: generatedContent });
     } catch (error) {
-      res.status(500).json({ error: 'Failed to generate content' });
+      res.status(500).json({ error: `Failed to generate content:${error}` });
     }
   } else {
     res.status(405).json({ error: 'Method Not Allowed' });

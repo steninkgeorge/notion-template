@@ -30,7 +30,7 @@ export const AIGenerateComponentNode = ({
   getPos,
 }: NodeViewProps) => {
   const { generateContent, ...state } = useAIAssistant();
-  const { config, setConfig } = useAiAssistantState();
+  const { setConfig } = useAiAssistantState();
 
   const [input, setInput] = useState(node.attrs.initialPrompt || '');
   const [model, setModel] = useState(defaultConfig.model);
@@ -40,6 +40,7 @@ export const AIGenerateComponentNode = ({
   const [generationComplete, setGenerationComplete] = useState(false);
 
   const handleGenerate = async (e: React.MouseEvent) => {
+    e.preventDefault();
     await generateContent({
       prompt: input.trim(),
       tone: tone,
