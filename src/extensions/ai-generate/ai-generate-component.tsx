@@ -123,7 +123,7 @@ export const AIGenerateComponentNode = ({
 
         <Textarea
           className="w-full border-1 focus-visible:outline-0 max-h-[200px] outline-none focus-visible:ring-0  focus-visible:border-neutral-400"
-          placeholder="Tell us a dad joke! , write a story..."
+          placeholder="Tell me a joke! , write a story..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
         />
