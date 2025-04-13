@@ -45,7 +45,6 @@ export const MoreOptions = () => {
       icon: AlignLeftIcon,
       onClick: () => {
         editor?.chain().focus().setTextAlign('left').run();
-        console.log('onclick');
       },
       isActive: editor?.isActive({ textAlign: 'left' }),
     },
