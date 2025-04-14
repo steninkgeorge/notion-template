@@ -16,6 +16,8 @@ import { Color } from '@tiptap/extension-color';
 import Placeholder from '@tiptap/extension-placeholder';
 import GlobalDragHandle from '@/extensions/drag-handle/drag-handle';
 import Dropcursor from '@tiptap/extension-dropcursor';
+import { AiSuggestion } from '@/extensions/ai-suggestion/ai-suggestion';
+import { rules } from '@/extensions/ai-suggestion/rules';
 
 export const useTemplateEditor: (
   content: string,
@@ -32,7 +34,11 @@ export const useTemplateEditor: (
     ...options,
     extensions: [
       StarterKit,
-
+      AiSuggestion.configure({
+        rules: rules,
+        loadOnStart: false,
+        debounceTimeout: 1000,
+      }),
       Placeholder.configure({
         placeholder: 'type / for commands ',
       }),
