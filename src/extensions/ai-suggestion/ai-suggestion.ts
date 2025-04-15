@@ -3,6 +3,55 @@ import { Plugin, PluginKey } from '@tiptap/pm/state';
 import { Decoration, DecorationSet } from '@tiptap/pm/view';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
+declare module '@tiptap/core' {
+  interface Commands<ReturnType> {
+    aiSuggestion: {
+      /**
+       * Set AI suggestion rules
+       * @param rules Array of rules for AI suggestions
+       * @example editor.commands.setAiSuggestionRules([{ id: '1', title: 'Spelling', prompt: 'Fix spelling errors', color: '#ff0000', backgroundColor: '#ffeeee' }])
+       */
+      setAiSuggestionRules: (rules: Rule[]) => ReturnType;
+
+      /**
+       * Load AI suggestions based on current content and rules
+       * @example editor.commands.loadAiSuggestions()
+       */
+      loadAiSuggestions: () => (args: { editor: Editor }) => Promise<void>;
+
+      /**
+       * Load AI suggestions with debounce (used internally)
+       * @example editor.commands.loadAiSuggestionsDebounced()
+       */
+      loadAiSuggestionsDebounced: () => ReturnType;
+
+      /**
+       * Select an AI suggestion by ID
+       * @param suggestionId The ID of the suggestion to select
+       * @example editor.commands.selectAiSuggestion('suggestion-1')
+       */
+      selectAiSuggestion: (suggestionId: string) => ReturnType;
+
+      /**
+       * Apply a specific AI suggestion
+       * @param options Object containing suggestion ID, replacement option ID, and format
+       * @example editor.commands.applyAiSuggestion({ suggestionId: 'suggestion-1', replacementOptionId: 'option-1', format: 'plain-text' })
+       */
+      applyAiSuggestion: (options: {
+        suggestionId: string;
+        replacementOptionId: string;
+        format?: 'plain-text' | 'html';
+      }) => ReturnType;
+
+      /**
+       * Apply all AI suggestions at once
+       * @example editor.commands.applyAllAiSuggestions()
+       */
+      applyAllAiSuggestions: () => ReturnType;
+    };
+  }
+}
+
 // Define interfaces for our suggestion system
 interface Rule {
   id: string;
@@ -69,55 +118,6 @@ function mapTextToDocPosition(editor: Editor, text: string, startFrom = 0) {
   });
 
   return foundPositions;
-}
-
-declare module '@tiptap/core' {
-  interface Commands<ReturnType> {
-    aiSuggestion: {
-      /**
-       * Set AI suggestion rules
-       * @param rules Array of rules for AI suggestions
-       * @example editor.commands.setAiSuggestionRules([{ id: '1', title: 'Spelling', prompt: 'Fix spelling errors', color: '#ff0000', backgroundColor: '#ffeeee' }])
-       */
-      setAiSuggestionRules: (rules: Rule[]) => ReturnType;
-
-      /**
-       * Load AI suggestions based on current content and rules
-       * @example editor.commands.loadAiSuggestions()
-       */
-      loadAiSuggestions: () => (args: { editor: Editor }) => Promise<void>;
-
-      /**
-       * Load AI suggestions with debounce (used internally)
-       * @example editor.commands.loadAiSuggestionsDebounced()
-       */
-      loadAiSuggestionsDebounced: () => ReturnType;
-
-      /**
-       * Select an AI suggestion by ID
-       * @param suggestionId The ID of the suggestion to select
-       * @example editor.commands.selectAiSuggestion('suggestion-1')
-       */
-      selectAiSuggestion: (suggestionId: string) => ReturnType;
-
-      /**
-       * Apply a specific AI suggestion
-       * @param options Object containing suggestion ID, replacement option ID, and format
-       * @example editor.commands.applyAiSuggestion({ suggestionId: 'suggestion-1', replacementOptionId: 'option-1', format: 'plain-text' })
-       */
-      applyAiSuggestion: (options: {
-        suggestionId: string;
-        replacementOptionId: string;
-        format?: 'plain-text' | 'html';
-      }) => ReturnType;
-
-      /**
-       * Apply all AI suggestions at once
-       * @example editor.commands.applyAllAiSuggestions()
-       */
-      applyAllAiSuggestions: () => ReturnType;
-    };
-  }
 }
 
 // Define the plugin key
@@ -288,6 +288,7 @@ export const AiSuggestion = Extension.create<AiSuggestionOptions>({
           }
           const timer = setTimeout(() => {
             editor.commands.loadAiSuggestions();
+            console.log('debounced loading in progree');
             timerMap.delete(editor);
           }, debounceTimeout);
 
