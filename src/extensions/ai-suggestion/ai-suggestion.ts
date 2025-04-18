@@ -163,6 +163,10 @@ export const AiSuggestion = Extension.create<AiSuggestionOptions>({
         (rules: Rule[]) =>
         ({ editor }) => {
           editor.storage.aiSuggestion.rules = rules;
+          editor.view.dispatch(
+            editor.state.tr.setMeta('aiSuggestionRulesUpdated', rules)
+          );
+
           return true;
         },
 
@@ -246,7 +250,6 @@ export const AiSuggestion = Extension.create<AiSuggestionOptions>({
                         deleteRange: positions,
                         replacementOptions: suggestion.replacementOptions,
                       };
-                      console.log(data);
                       return data;
                     })
                     .filter(Boolean);
@@ -265,7 +268,7 @@ export const AiSuggestion = Extension.create<AiSuggestionOptions>({
 
             // Flatten the array of arrays
             const suggestions = allSuggestions.flat();
-
+            console.log(suggestions);
             // Update the storage with new suggestions
             editor.storage.aiSuggestion.suggestions = suggestions;
 
@@ -451,6 +454,7 @@ export const AiSuggestion = Extension.create<AiSuggestionOptions>({
                         border-bottom: 2px solid ${rule.color};
                         cursor: pointer;
                       `,
+                        'data-suggestion-id': suggestion.id, // Add this line
                       }
                     )
                   );
@@ -467,6 +471,31 @@ export const AiSuggestion = Extension.create<AiSuggestionOptions>({
         props: {
           decorations(state) {
             return this.getState(state);
+          },
+          handleClick(view, pos, event) {
+            console.log('popover clicked');
+            const suggestions = editor.storage.aiSuggestion.suggestions;
+            console.log(`suggestions: ${JSON.stringify(suggestions)}`);
+
+            const clickedSuggestion = suggestions.find((suggestion: any) => {
+              return (
+                pos >= suggestion.deleteRange.from &&
+                pos <= suggestion.deleteRange.to
+              );
+            });
+
+            if (clickedSuggestion) {
+              console.log(`clicked suggestion: ${clickedSuggestion.id}`);
+              editor.storage.aiSuggestion.selectedSuggestionId =
+                clickedSuggestion.id;
+
+              // Prevent default behavior and stop propagation
+              event.stopPropagation();
+              event.preventDefault();
+              return true;
+            }
+
+            return false;
           },
         },
       }),

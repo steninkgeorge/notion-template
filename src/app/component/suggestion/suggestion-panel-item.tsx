@@ -42,6 +42,17 @@ export const SuggestionPanelItems = ({
 
     // Initial fetch
     getRulesFromEditor();
+
+    const onTransaction = ({ transaction }: { transaction: any }) => {
+      if (transaction.getMeta('aiSuggestionRulesUpdated')) {
+        getRulesFromEditor();
+      }
+    };
+    editor.on('transaction', onTransaction);
+
+    return () => {
+      editor.off('transaction', onTransaction);
+    };
   }, [editor]);
 
   return (

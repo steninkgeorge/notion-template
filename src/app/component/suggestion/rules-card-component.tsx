@@ -18,14 +18,13 @@ interface Rule {
 }
 
 export const RulesCardComponent = ({ rules }: { rules: Rule[] }) => {
-  console.log(rules);
   return (
     <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2">
       {rules.map((rule) => (
         <Card key={rule.id} className="relative overflow-hidden p-1]">
           <div
             className="absolute left-0 top-0 h-full w-2"
-            style={{ backgroundColor: rule.color }}
+            style={{ backgroundColor: rule.backgroundColor }}
           ></div>
           <CardHeader className="pl-6 ">
             <CardTitle className="flex items-center gap-2">

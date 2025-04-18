@@ -324,3 +324,13 @@
 .tiptap-ai-suggestion--selected {
   background-color: var(--tiptap-ai-suggestion-background-color, #fdd);
 }
+
+/* Ensure the popover appears above other content */
+.ai-suggestion {
+  position: relative;
+}
+
+/* Add a subtle animation when hovering over suggestions */
+.ai-suggestion:hover {
+  opacity: 0.9;
+}

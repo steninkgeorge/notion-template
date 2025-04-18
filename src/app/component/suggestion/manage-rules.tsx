@@ -5,10 +5,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { cn } from '@/lib/utils';
-import { useEffect, useState } from 'react';
+
+import { useEditorStore } from '@/app/store/use-editor-store';
+
+import { AddNewRule } from './add-new-rule';
+import { useState } from 'react';
 
 interface Rule {
   id: string;
@@ -24,55 +25,30 @@ interface ManageRulesProps {
   rules: Rule[];
 }
 
-const colorOptions = [
-  '#FF5252',
-  '#FF4081',
-  '#E040FB',
-  '#7C4DFF',
-  '#536DFE',
-  '#448AFF',
-  '#40C4FF',
-  '#18FFFF',
-  '#64FFDA',
-  '#69F0AE',
-  '#B2FF59',
-  '#EEFF41',
-  '#FFFF00',
-  '#FFD740',
-  '#FFAB40',
-  '#FF6E40',
-];
-
 export const ManageRules = ({ open, setOpen, rules }: ManageRulesProps) => {
-  const [formData, setFormData] = useState({
-    title: '',
-    prompt: '',
-    selectedColor: colorOptions[0],
-  });
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleAddRule = () => {
-    // Implement your add rule logic here
-    console.log('Adding rule:', formData);
-    // Clear form after adding
-    setFormData({
-      title: '',
-      prompt: '',
-      selectedColor: colorOptions[0],
-    });
-  };
+  const { editor } = useEditorStore();
+  const [editingRule, setEditingRule] = useState<Rule | null>(null);
 
   // Use stopPropagation to prevent dragging
   const stopPropagation = (
     e: React.MouseEvent | React.TouchEvent | React.PointerEvent
   ) => {
     e.stopPropagation();
+  };
+
+  const handleDelete = (ruleId: string) => {
+    const newRules = rules.filter((value) => value.id !== ruleId);
+    if (editor) {
+      editor.commands.setAiSuggestionRules(newRules);
+    }
+  };
+
+  const handleEdit = (rule: Rule) => {
+    setEditingRule(rule);
+  };
+
+  const handleCancelEdit = () => {
+    setEditingRule(null);
   };
 
   return (
@@ -108,62 +84,35 @@ export const ManageRules = ({ open, setOpen, rules }: ManageRulesProps) => {
                     variant="outline"
                     size="sm"
                     className="h-8 cursor-pointer"
+                    onClick={() => handleEdit(rule)}
                   >
                     Edit
                   </Button>
                   <Button
                     variant="outline"
                     className="h-8 text-red-600 hover:text-red-700 cursor-pointer"
+                    onClick={() => handleDelete(rule.id)}
                   >
                     Delete
                   </Button>
                 </div>
               </div>
+              {editingRule?.id === rule.id && (
+                <div className="mt-1">
+                  <AddNewRule
+                    editor={editor}
+                    rules={rules}
+                    ruleToEdit={editingRule}
+                    setOpen={setOpen}
+                    isEditing={true}
+                    onCancel={handleCancelEdit}
+                  />
+                </div>
+              )}
             </div>
           ))}
 
-          <div className="space-y-3 pt-4 border-t">
-            <h4 className="font-medium text-sm">Add New Rule</h4>
-            <Input
-              name="title"
-              value={formData.title}
-              onChange={handleChange}
-              placeholder="Rule title"
-              className="text-sm"
-            />
-            <Textarea
-              name="prompt"
-              placeholder="Detailed prompt"
-              className="text-sm min-h-[100px]"
-              value={formData.prompt}
-              onChange={handleChange}
-            />
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-gray-600">Tag:</span>
-              <div className="flex gap-1 flex-wrap">
-                {colorOptions.map((color) => (
-                  <button
-                    key={color}
-                    type="button"
-                    className={cn(
-                      'w-5 h-5 rounded-sm border border-gray-300 hover:border-gray-400 hover:cursor-pointer transition-colors',
-                      color === formData.selectedColor && 'border-gray-500'
-                    )}
-                    style={{ backgroundColor: color }}
-                    onClick={() =>
-                      setFormData((prev) => ({ ...prev, selectedColor: color }))
-                    }
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="flex justify-end gap-2 pt-4 border-t">
-          <Button variant="outline" onClick={() => setOpen(false)}>
-            Close
-          </Button>
-          <Button onClick={handleAddRule}>Save Changes</Button>
+          <AddNewRule editor={editor} rules={rules} setOpen={setOpen} />
         </div>
       </DialogContent>
     </Dialog>
