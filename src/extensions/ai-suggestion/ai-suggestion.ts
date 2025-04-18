@@ -472,31 +472,6 @@ export const AiSuggestion = Extension.create<AiSuggestionOptions>({
           decorations(state) {
             return this.getState(state);
           },
-          handleClick(view, pos, event) {
-            console.log('popover clicked');
-            const suggestions = editor.storage.aiSuggestion.suggestions;
-            console.log(`suggestions: ${JSON.stringify(suggestions)}`);
-
-            const clickedSuggestion = suggestions.find((suggestion: any) => {
-              return (
-                pos >= suggestion.deleteRange.from &&
-                pos <= suggestion.deleteRange.to
-              );
-            });
-
-            if (clickedSuggestion) {
-              console.log(`clicked suggestion: ${clickedSuggestion.id}`);
-              editor.storage.aiSuggestion.selectedSuggestionId =
-                clickedSuggestion.id;
-
-              // Prevent default behavior and stop propagation
-              event.stopPropagation();
-              event.preventDefault();
-              return true;
-            }
-
-            return false;
-          },
         },
       }),
     ];
