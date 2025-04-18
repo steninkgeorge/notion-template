@@ -37,7 +37,6 @@ export const useTemplateEditor: (
       AiSuggestion.configure({
         rules: rules,
         loadOnStart: false,
-        debounceTimeout: 5000,
         reloadOnUpdate: true,
       }),
       Placeholder.configure({

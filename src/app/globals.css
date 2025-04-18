@@ -330,7 +330,6 @@
   position: relative;
 }
 
-/* Add a subtle animation when hovering over suggestions */
-.ai-suggestion:hover {
-  opacity: 0.9;
+.ai-suggestion-selected {
+  box-shadow: 0 0 0 2px #4285f4;
 }

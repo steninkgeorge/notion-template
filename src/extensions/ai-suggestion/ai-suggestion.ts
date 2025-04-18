@@ -130,7 +130,6 @@ export const AiSuggestion = Extension.create<AiSuggestionOptions>({
     return {
       rules: [],
       loadOnStart: false,
-      debounceTimeout: 1000,
       reloadOnUpdate: false,
     };
   },
@@ -308,40 +307,37 @@ export const AiSuggestion = Extension.create<AiSuggestionOptions>({
         },
 
       applyAiSuggestion:
-        ({
-          suggestionId,
-          replacementOptionId,
-          format = 'plain-text',
-        }: {
-          suggestionId: string;
-          replacementOptionId: string;
-          format?: 'plain-text' | 'html';
-        }) =>
-        ({ editor }) => {
+        ({ suggestionId, replacementOptionId, format = 'plain-text' }) =>
+        ({ editor, tr }) => {
           const suggestion = editor.storage.aiSuggestion.suggestions.find(
             (s: { id: string }) => s.id === suggestionId
           );
           if (!suggestion) return false;
+
+          // Validate content hasn't changed
+          const currentText = editor.state.doc.textBetween(
+            suggestion.deleteRange.from,
+            suggestion.deleteRange.to
+          );
+          if (currentText !== suggestion.deleteText) {
+            return false;
+          }
 
           const replacementOption = suggestion.replacementOptions.find(
             (option: { id: string }) => option.id === replacementOptionId
           );
           if (!replacementOption) return false;
 
-          const { from, to } = suggestion.deleteRange;
+          // Perform the replacement
+          tr.replaceWith(
+            suggestion.deleteRange.from,
+            suggestion.deleteRange.to,
+            format === 'html'
+              ? editor.schema.nodeFromJSON(replacementOption.addText)
+              : editor.schema.text(replacementOption.addText)
+          );
 
-          editor
-            .chain()
-            .focus()
-            .deleteRange({ from, to })
-            .insertContent(
-              format === 'html'
-                ? replacementOption.addText
-                : { type: 'text', text: replacementOption.addText }
-            )
-            .run();
-
-          // Filter out the applied suggestion
+          // Remove the suggestion
           editor.storage.aiSuggestion.suggestions =
             editor.storage.aiSuggestion.suggestions.filter(
               (s: { id: string }) => s.id !== suggestionId
@@ -374,9 +370,9 @@ export const AiSuggestion = Extension.create<AiSuggestionOptions>({
   },
 
   onUpdate() {
-    if (this.options.reloadOnUpdate) {
-      this.editor.commands.loadAiSuggestionsDebounced();
-    }
+    // if (this.options.reloadOnUpdate) {
+    //   this.editor.commands.loadAiSuggestionsDebounced();
+    // }
   },
 
   onSelectionUpdate() {
@@ -454,7 +450,6 @@ export const AiSuggestion = Extension.create<AiSuggestionOptions>({
                         border-bottom: 2px solid ${rule.color};
                         cursor: pointer;
                       `,
-                        'data-suggestion-id': suggestion.id, // Add this line
                       }
                     )
                   );
