@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Issue with selection update handling
 - Improved document position mapping for suggestions
 - Length validation to prevent overly large suggestion blocks
+- Wrong positions of slash command popover for editor with large contents
 
 - Fixed #24: Suggestion position mapping issues after applying changes
   - Added proper position validation and updating for remaining suggestions
