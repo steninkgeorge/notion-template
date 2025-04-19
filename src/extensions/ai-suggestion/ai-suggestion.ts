@@ -121,7 +121,7 @@ function mapTextToDocPosition(editor: Editor, text: string, startFrom = 0) {
 }
 
 // Define the plugin key
-const AiSuggestionPluginKey = new PluginKey('aiSuggestion');
+export const AiSuggestionPluginKey = new PluginKey('aiSuggestion');
 
 export const AiSuggestion = Extension.create<AiSuggestionOptions>({
   name: 'aiSuggestion',
@@ -343,6 +343,8 @@ export const AiSuggestion = Extension.create<AiSuggestionOptions>({
               (s: { id: string }) => s.id !== suggestionId
             );
 
+          tr.setMeta(AiSuggestionPluginKey, { updated: true });
+
           return true;
         },
 
@@ -350,6 +352,7 @@ export const AiSuggestion = Extension.create<AiSuggestionOptions>({
         () =>
         ({ editor }) => {
           const suggestions = [...editor.storage.aiSuggestion.suggestions];
+          const tr = editor.state.tr;
 
           // Sort suggestions by range.from in descending order to avoid position shifts
           suggestions.sort((a, b) => b.deleteRange.from - a.deleteRange.from);
@@ -363,6 +366,8 @@ export const AiSuggestion = Extension.create<AiSuggestionOptions>({
               });
             }
           });
+
+          tr.setMeta(AiSuggestionPluginKey, { updated: true });
 
           return true;
         },

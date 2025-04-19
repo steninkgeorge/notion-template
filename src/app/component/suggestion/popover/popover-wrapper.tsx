@@ -1,6 +1,7 @@
 import { Editor } from '@tiptap/react';
 import { AiSuggestionPopover } from './ai-suggestion-popover';
 import { useState, useEffect } from 'react';
+import { AiSuggestionPluginKey } from '@/extensions/ai-suggestion/ai-suggestion';
 
 export const AiSuggestionPopoverWrapper = ({ editor }: { editor: Editor }) => {
   const suggestions = editor.storage.aiSuggestion.suggestions || [];
@@ -22,14 +23,18 @@ export const AiSuggestionPopoverWrapper = ({ editor }: { editor: Editor }) => {
       suggestionId: selectedSuggestion.id,
       replacementOptionId,
     });
+
+    editor.view.dispatch(editor.state.tr.setMeta('updateDecorations', true));
   };
 
   const handleReject = () => {
-    console.log('reject');
     editor.storage.aiSuggestion.suggestions = suggestions.filter(
       (s: any) => s.id !== selectedSuggestion.id
     );
-    editor.view.dispatch(editor.state.tr.setMeta('aiSuggestionUpdate', true));
+    // Trigger decoration update
+    editor.view.dispatch(
+      editor.state.tr.setMeta(AiSuggestionPluginKey, { updated: true })
+    );
   };
 
   const findAdjacentSuggestion = (direction: 'prev' | 'next') => {
