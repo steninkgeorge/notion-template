@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.0.0] - 2025-04-19
+## [1.1.0] - 2025-04-19
 
 ### Added
 
@@ -26,7 +26,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved document position mapping for suggestions
 - Length validation to prevent overly large suggestion blocks
 
-## [1.0.0] - 2025-01-15
+- Fixed #24: Suggestion position mapping issues after applying changes
+  - Added proper position validation and updating for remaining suggestions
+  - Improved handling of document changes affecting suggestion ranges
+  - Added fallback text search when positions become invalid
+  - Enhanced decoration updates during suggestion application
+
+## [1.0.0] - 2025-01-13
 
 ### Added
 
