@@ -1,9 +1,8 @@
 'use client';
 
-import { useState } from 'react';
 import Editor from './component/editor';
-import { SuggestionPanel } from './component/suggestion/suggestion-panel';
-import { SuggestionPanelItems } from './component/suggestion/suggestion-panel-item';
+import { SuggestionPanel } from '../tiptap-extensions/ai-suggestion/suggestion/suggestion-panel';
+import { SuggestionPanelItems } from '../tiptap-extensions/ai-suggestion/suggestion/suggestion-panel-item';
 import { Toolbar } from './component/toolbar';
 
 export default function Home() {

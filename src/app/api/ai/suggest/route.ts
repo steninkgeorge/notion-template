@@ -1,18 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { GoogleGenerativeAI } from '@google/generative-ai';
-import {
-  generatePrompt,
-  type AISuggestionResponse,
-  type Rule,
-  type Suggestion,
-  type SuggestionRequest,
-} from '@/extensions/ai-suggestion/types';
-import { format } from 'path';
 
 export async function POST(req: NextRequest) {
   try {
     console.log('inside request');
-    const { content, rules, context } = await req.json();
+    const { content, rules } = await req.json();
 
     if (!content || !rules) {
       return NextResponse.json(

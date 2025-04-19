@@ -3,8 +3,7 @@ import * as React from 'react';
 
 import { Editor, EditorContent } from '@tiptap/react';
 import { TextBubbleMenu } from './bubble/bubble-menu';
-import { AiSuggestionPopover } from './suggestion/popover/ai-suggestion-popover';
-import { AiSuggestionPopoverWrapper } from './suggestion/popover/popover-wrapper';
+import { AiSuggestionPopoverWrapper } from '../../tiptap-extensions/ai-suggestion/suggestion/popover/popover-wrapper';
 // import { TextBubbleMenu } from './bubble/bubble-menu';
 
 interface TemplateEditorProps {

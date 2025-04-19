@@ -1,8 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import { Editor, useEditor } from '@tiptap/react';
+import { Editor } from '@tiptap/react';
 import { createPortal } from 'react-dom';
-import suggestion from '@tiptap/suggestion';
-import { Popover, PopoverContent } from '@/components/ui/popover';
 
 interface AiSuggestionPopoverProps {
   editor: Editor;

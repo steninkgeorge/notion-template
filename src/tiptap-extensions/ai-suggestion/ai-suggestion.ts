@@ -2,6 +2,7 @@ import { Editor, Extension } from '@tiptap/core';
 import { Plugin, PluginKey } from '@tiptap/pm/state';
 import { Decoration, DecorationSet } from '@tiptap/pm/view';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { AiSuggestionOptions, AiSuggestionStorage, Rule } from '.';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -52,47 +53,7 @@ declare module '@tiptap/core' {
   }
 }
 
-// Define interfaces for our suggestion system
-interface Rule {
-  id: string;
-  title: string;
-  prompt: string;
-  color: string;
-  backgroundColor: string;
-}
-
-interface ReplacementOption {
-  id: string;
-  addText: string;
-}
-
-interface Suggestion {
-  id: string;
-  ruleId: string;
-  deleteText: string;
-  deleteRange: {
-    from: number;
-    to: number;
-  };
-  replacementOptions: ReplacementOption[];
-}
-
-interface AiSuggestionOptions {
-  rules?: Rule[];
-  loadOnStart?: boolean;
-  debounceTimeout?: number;
-  reloadOnUpdate?: boolean;
-}
-
-interface AiSuggestionStorage {
-  rules: Rule[];
-  suggestions: Suggestion[];
-  selectedSuggestionId: string | null;
-  getSuggestions: () => Suggestion[];
-  getSelectedSuggestion: () => Suggestion | null;
-}
-
-function mapTextToDocPosition(editor: Editor, text: string, startFrom = 0) {
+function mapTextToDocPosition(editor: Editor, text: string) {
   if (text.length > 300 || text.split(' ').length > 80) {
     return null;
   }
@@ -147,7 +108,8 @@ export const AiSuggestion = Extension.create<AiSuggestionOptions>({
         if (!this.selectedSuggestionId) return null;
         return (
           this.suggestions.find(
-            (suggestion) => suggestion.id === this.selectedSuggestionId
+            (suggestion: { id: any }) =>
+              suggestion.id === this.selectedSuggestionId
           ) || null
         );
       },
@@ -229,7 +191,7 @@ export const AiSuggestion = Extension.create<AiSuggestionOptions>({
                     ); // Max 20 words
                   };
 
-                  let suggestionsData = JSON.parse(jsonMatch[0]).filter(
+                  const suggestionsData = JSON.parse(jsonMatch[0]).filter(
                     isValidSuggestion
                   );
 

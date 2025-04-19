@@ -5,10 +5,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { rules } from '@/extensions/ai-suggestion/rules';
 import { cn } from '@/lib/utils';
-import { useState } from 'react';
-import editor from '../editor';
+
 import { Editor } from '@tiptap/react';
 
 interface Rule {

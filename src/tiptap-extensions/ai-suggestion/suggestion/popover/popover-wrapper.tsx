@@ -1,7 +1,6 @@
 import { Editor } from '@tiptap/react';
 import { AiSuggestionPopover } from './ai-suggestion-popover';
-import { useState, useEffect } from 'react';
-import { AiSuggestionPluginKey } from '@/extensions/ai-suggestion/ai-suggestion';
+import { AiSuggestionPluginKey } from '@/tiptap-extensions/ai-suggestion/ai-suggestion';
 
 export const AiSuggestionPopoverWrapper = ({ editor }: { editor: Editor }) => {
   const suggestions = editor.storage.aiSuggestion.suggestions || [];
