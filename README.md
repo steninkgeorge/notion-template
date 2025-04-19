@@ -1,22 +1,10 @@
 # Customize your notion like editor with this template!
 
-## ✨ Features
-
-- 📝 Rich text editing with Notion-like interface
-- 🤖 AI-powered content assistance
-- 🧩 Draggable blocks for easy content reorganization
-- ⚡ Slash commands for quick actions
-- ✅ Task lists and checklists
-- 📊 Text formatting options (underline, colors, alignment, etc.)
-- 📱 Responsive design
-- 🔗 Markdown import/export
-
 ## 📦 Installation
 
 ```bash
 # npm
 npm install notion-editor-template
-
 ```
 
 ## To run the editor locally 📝
@@ -43,6 +31,46 @@ const MyEditor = () => {
 
 export default MyEditor;
 ```
+
+## Adding AI Suggestions Extension
+
+To add the AI Suggestions extension to your editor:
+
+```jsx
+import React from 'react';
+import { TemplateEditor, useTemplateEditor } from '@your-org/template-editor';
+import { AiSuggestion } from '@your-org/template-editor/extensions';
+
+const EditorWithAI = () => {
+  const editor = useTemplateEditor('', {
+    extensions: [
+      // Other extensions...
+      AiSuggestion.configure({
+        rules: [
+          {
+            id: 'grammar',
+            title: 'Grammar',
+            prompt: 'Fix grammar errors',
+            color: '#4285F4',
+            backgroundColor: '#E8F0FE',
+          },
+        ],
+        loadOnStart: true,
+        reloadOnUpdate: true,
+        debounceTimeout: 5000,
+      }),
+    ],
+  });
+
+  return (
+    <div className="editor-container">
+      <TemplateEditor editor={editor} />
+    </div>
+  );
+};
+```
+
+For detailed documentation on the AI Suggestions extension, please see [AI_SUGGESTIONS.md](./AI_SUGGESTIONS.md).
 
 ## Provide Props
 
@@ -125,6 +153,7 @@ This editor comes with the following extensions pre-configured:
 - Text alignment
 - AI assistant capabilities
 - Markdown support
+- AI suggestions for content improvements
 
 ## 🔄 Updating from npm
 
@@ -137,6 +166,18 @@ npm update notion-editor-template
 ## 🤝 Contributing
 
 Contributions are welcome! Feel free to open issues or submit pull requests.
+
+## ✨ Features
+
+- 📝 Rich text editing with Notion-like interface
+- 🤖 AI-powered content assistance
+- 🧩 Draggable blocks for easy content reorganization
+- ⚡ Slash commands for quick actions
+- ✅ Task lists and checklists
+- 📊 Text formatting options (underline, colors, alignment, etc.)
+- 📱 Responsive design
+- 🔗 Markdown import/export
+- 🪄 AI suggestions for content improvement
 
 ## 📄 License
 
