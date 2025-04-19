@@ -87,8 +87,14 @@ const CommandsPlugin = Extension.create({
           return {
             onStart: (props) => {
               rootElement = document.createElement('div');
-              document.body.appendChild(rootElement);
+              const editorContainer =
+                document.querySelector('.editor-container');
+              if (!editorContainer) return;
+
+              editorContainer.appendChild(rootElement);
               root = createRoot(rootElement);
+              const containerRect = editorContainer.getBoundingClientRect();
+              const scrollTop = editorContainer.scrollTop;
 
               root.render(
                 React.createElement(CommandMenu, {
@@ -96,18 +102,45 @@ const CommandsPlugin = Extension.create({
                   title: title,
                   items: props.items,
                   command: props.command,
-                  clientRect: props.clientRect,
+                  clientRect: () => {
+                    const rect = props.clientRect?.();
+                    if (!rect) return null;
+
+                    // Adjust for container position and scroll
+                    return new DOMRect(
+                      rect.left - containerRect.left,
+                      rect.top - containerRect.top + scrollTop,
+                      rect.width,
+                      rect.height
+                    );
+                  },
                 })
               );
             },
             onUpdate: (props) => {
               if (root && rootElement) {
+                const editorContainer =
+                  document.querySelector('.editor-container');
+                if (!editorContainer) return;
+
+                const containerRect = editorContainer.getBoundingClientRect();
+                const scrollTop = editorContainer.scrollTop;
                 React.createElement(CommandMenu, {
                   ...props,
                   title: title,
                   items: props.items,
                   command: props.command,
-                  clientRect: props.clientRect,
+                  clientRect: () => {
+                    const rect = props.clientRect?.();
+                    if (!rect) return null;
+
+                    return new DOMRect(
+                      rect.left - containerRect.left,
+                      rect.top - containerRect.top + scrollTop,
+                      rect.width,
+                      rect.height
+                    );
+                  },
                 });
               }
             },

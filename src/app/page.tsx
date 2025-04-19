@@ -12,7 +12,7 @@ export default function Home() {
         <Toolbar />
       </div>
       <div className="flex relative w-full">
-        <div className="editor-container flex-grow">
+        <div className="editor-container flex-grow ">
           <Editor />
         </div>
 
