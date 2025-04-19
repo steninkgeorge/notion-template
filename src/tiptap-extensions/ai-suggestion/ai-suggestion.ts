@@ -2,7 +2,7 @@ import { Editor, Extension } from '@tiptap/core';
 import { Plugin, PluginKey } from '@tiptap/pm/state';
 import { Decoration, DecorationSet } from '@tiptap/pm/view';
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { AiSuggestionOptions, AiSuggestionStorage, Rule } from '.';
+import { AiSuggestionOptions, AiSuggestionStorage, Rule, Suggestion } from '.';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -282,13 +282,39 @@ export const AiSuggestion = Extension.create<AiSuggestionOptions>({
             suggestion.deleteRange.to
           );
           if (currentText !== suggestion.deleteText) {
-            return false;
+            const updatedPos = mapTextToDocPosition(
+              editor,
+              suggestion.deleteText
+            );
+            if (!updatedPos) {
+              console.warn(
+                'Text no longer found in document:',
+                suggestion.deleteText
+              );
+              // Remove this suggestion since we can't find it anymore
+              editor.storage.aiSuggestion.suggestions =
+                editor.storage.aiSuggestion.suggestions.filter(
+                  (s: { id: string }) => s.id !== suggestionId
+                );
+              return false;
+            }
+
+            // Update the position
+            suggestion.deleteRange = updatedPos;
           }
 
           const replacementOption = suggestion.replacementOptions.find(
             (option: { id: string }) => option.id === replacementOptionId
           );
           if (!replacementOption) return false;
+
+          // Store original positions and text for proper mapping
+          const fromPos = suggestion.deleteRange.from;
+          const toPos = suggestion.deleteRange.to;
+          const replacementText = replacementOption.addText;
+          const deleteLength = toPos - fromPos;
+          const insertLength = replacementText.length;
+          const lengthDiff = insertLength - deleteLength;
 
           // Perform the replacement
           tr.replaceWith(
@@ -305,7 +331,33 @@ export const AiSuggestion = Extension.create<AiSuggestionOptions>({
               (s: { id: string }) => s.id !== suggestionId
             );
 
-          tr.setMeta(AiSuggestionPluginKey, { updated: true });
+          editor.storage.aiSuggestion.suggestions.forEach((s: Suggestion) => {
+            // For suggestions that come after the applied suggestion, adjust positions
+            if (s.deleteRange.from > toPos) {
+              s.deleteRange.from += lengthDiff;
+              s.deleteRange.to += lengthDiff;
+            }
+            // For suggestions that overlap or might be affected, try to find text again
+            else if (
+              s.deleteRange.from > fromPos ||
+              s.deleteRange.to > fromPos
+            ) {
+              const updatedPos = mapTextToDocPosition(editor, s.deleteText);
+              if (updatedPos) {
+                s.deleteRange = updatedPos;
+              }
+            }
+          });
+
+          tr.setMeta(AiSuggestionPluginKey, {
+            updated: true,
+            appliedSuggestion: {
+              fromPos,
+              toPos,
+              replacementLength: replacementText.length,
+              lengthDiff,
+            },
+          });
 
           return true;
         },
@@ -375,10 +427,11 @@ export const AiSuggestion = Extension.create<AiSuggestionOptions>({
           },
           apply(tr, decorationSet) {
             // Map decorations to new document positions
-            const newSet = decorationSet.map(tr.mapping, tr.doc);
+            const mappedDecorations = decorationSet.map(tr.mapping, tr.doc);
 
             // If the transaction updates the aiSuggestion meta, then rebuild decorations
             const suggestionsUpdate = tr.getMeta(AiSuggestionPluginKey);
+
             if (suggestionsUpdate) {
               const decorations: Decoration[] = [];
 
@@ -387,6 +440,7 @@ export const AiSuggestion = Extension.create<AiSuggestionOptions>({
                   ruleId: any;
                   id: any;
                   deleteRange: { from: number; to: number };
+                  deleteText: string;
                 }) => {
                   const rule = editor.storage.aiSuggestion.rules.find(
                     (r: { id: string }) => r.id === suggestion.ruleId
@@ -394,11 +448,22 @@ export const AiSuggestion = Extension.create<AiSuggestionOptions>({
                   if (!rule) return;
                   // Add the maximum decoration length check here
                   if (
-                    suggestion.deleteRange.to - suggestion.deleteRange.from >
-                    300
+                    suggestion.deleteRange.from < 0 ||
+                    suggestion.deleteRange.to > tr.doc.content.size
                   ) {
-                    console.warn('Suggestion too long, skipping:', suggestion);
-                    return; // Skip this suggestion
+                    const updatedPos = mapTextToDocPosition(
+                      editor,
+                      suggestion.deleteText
+                    );
+                    if (updatedPos) {
+                      suggestion.deleteRange = updatedPos;
+                    } else {
+                      console.warn(
+                        'Invalid suggestion position, skipping:',
+                        suggestion
+                      );
+                      return;
+                    }
                   }
 
                   const isSelected =
@@ -426,7 +491,7 @@ export const AiSuggestion = Extension.create<AiSuggestionOptions>({
               return DecorationSet.create(tr.doc, decorations);
             }
 
-            return newSet;
+            return mappedDecorations;
           },
         },
 

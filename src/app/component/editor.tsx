@@ -4,10 +4,12 @@ import { useEditorStore } from '../store/use-editor-store';
 
 import { TemplateEditor } from './template-editor';
 import { useTemplateEditor } from '../../hooks/useTemplateEditor';
+import { useRef } from 'react';
 //TODO: pagination
 
 const Editor = () => {
   const { setEditor } = useEditorStore();
+  const editorContainerRef = useRef<HTMLDivElement>(null);
   const editor = useTemplateEditor('', {
     onBeforeCreate({ editor }) {
       setEditor(editor);
@@ -44,7 +46,10 @@ const Editor = () => {
   });
 
   return (
-    <div className="mt-5 mb-10 min-h-screen min-w-screen  flex item-center justify-center">
+    <div
+      ref={editorContainerRef}
+      className="mt-5 mb-10 min-h-screen min-w-screen  flex item-center justify-center relative"
+    >
       <TemplateEditor editor={editor} />
     </div>
   );
