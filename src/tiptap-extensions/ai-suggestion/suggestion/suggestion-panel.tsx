@@ -1,4 +1,11 @@
 'use client';
+import {
+  EyeClosedIcon,
+  EyeIcon,
+  EyeOffIcon,
+  Minimize2Icon,
+  MinimizeIcon,
+} from 'lucide-react';
 import { useState, useRef, useEffect, useCallback } from 'react';
 
 interface SuggestionPanelProps {
@@ -6,13 +13,17 @@ interface SuggestionPanelProps {
   className?: string;
   title?: string;
   isDialogOpen?: boolean; // Add prop to know if dialog is open
+  showPanel: boolean;
+  setShowPanel: (value: boolean) => void;
 }
 
 export const SuggestionPanel = ({
   children,
   className = '',
   title = 'Suggestion Panel',
-  isDialogOpen = false, // Default to false
+  isDialogOpen = false,
+  showPanel,
+  setShowPanel,
 }: SuggestionPanelProps) => {
   const [position, setPosition] = useState({ x: 20, y: 80 });
   const [isDragging, setIsDragging] = useState(false);
@@ -78,6 +89,10 @@ export const SuggestionPanel = ({
     e.preventDefault();
   };
 
+  const handleShowPanel = () => {
+    setShowPanel(!showPanel);
+  };
+
   return (
     <div
       ref={panelRef}
@@ -92,13 +107,14 @@ export const SuggestionPanel = ({
         left: `${position.x}px`,
         top: `${position.y}px`,
         userSelect: 'none',
-        touchAction: 'none', // Important for mobile compatibility
+        touchAction: 'none',
       }}
       onMouseDown={startDrag}
     >
       <div className="p-3 border-b border-gray-200 select-none">
         <div className="flex items-center justify-between">
           <span className="font-medium text-gray-700">{title}</span>
+          <Minimize2Icon className="size-4 " onClick={handleShowPanel} />
         </div>
       </div>
       <div className="p-3">{children}</div>

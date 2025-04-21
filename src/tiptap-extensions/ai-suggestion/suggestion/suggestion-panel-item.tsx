@@ -4,6 +4,7 @@ import { RulesCardComponent } from './rules-card-component';
 import { useEffect, useState } from 'react';
 import { ManageRules } from './manage-rules';
 import { useEditorStore } from '@/app/store/use-editor-store';
+import { Suggestion } from '../types';
 
 interface Rule {
   id: string;
@@ -21,7 +22,7 @@ export const SuggestionPanelItems = ({
   const [open, setOpen] = useState(false);
   const { editor } = useEditorStore();
   const [rules, setRules] = useState<Rule[]>([]);
-
+  const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   // Update parent component when dialog state changes
   useEffect(() => {
     if (setDialogOpen) {
@@ -33,19 +34,28 @@ export const SuggestionPanelItems = ({
     if (!editor) return;
 
     // Get rules from editor storage
+    const storage = editor.storage.aiSuggestion;
+
     const getRulesFromEditor = () => {
-      const storage = editor.storage.aiSuggestion;
       if (storage && storage.rules) {
         setRules(storage.rules);
       }
     };
 
+    const getSuggestions = () => {
+      if (storage && storage.suggestions) {
+        setSuggestions(storage.suggestions);
+      }
+    };
+
     // Initial fetch
     getRulesFromEditor();
+    getSuggestions();
 
     const onTransaction = ({ transaction }: { transaction: any }) => {
       if (transaction.getMeta('aiSuggestionRulesUpdated')) {
         getRulesFromEditor();
+        getSuggestions();
       }
     };
     editor.on('transaction', onTransaction);
@@ -57,7 +67,7 @@ export const SuggestionPanelItems = ({
 
   return (
     <div className="flex flex-col">
-      <RulesCardComponent rules={rules} />
+      <RulesCardComponent rules={rules} suggestions={suggestions} />
       {/* Buttons */}
       <div className="flex space-x-2 pt-4">
         <Button

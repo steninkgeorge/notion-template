@@ -1,9 +1,20 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { BotIcon, LightbulbIcon, PlusIcon } from 'lucide-react';
+import {
+  BotIcon,
+  EyeIcon,
+  EyeOffIcon,
+  LightbulbIcon,
+  PlusIcon,
+} from 'lucide-react';
 import { useEditorStore } from '../store/use-editor-store';
 import { ToolbarButtonProps, ToolbarItemType } from '@/types';
+
+interface ToolbarProps {
+  showPanel: boolean;
+  setShowPanel: (value: boolean) => void;
+}
 
 const ToolBarButton = ({
   label,
@@ -33,7 +44,7 @@ const ToolBarButton = ({
   );
 };
 
-export const Toolbar = () => {
+export const Toolbar = ({ showPanel, setShowPanel }: ToolbarProps) => {
   const { editor } = useEditorStore();
   const handleLoadSuggestions = () => {
     // Simple function to load AI suggestions
@@ -41,6 +52,10 @@ export const Toolbar = () => {
       console.log('Loading AI suggestions...');
       editor.commands.loadAiSuggestions();
     }
+  };
+
+  const handleShowPanel = () => {
+    setShowPanel(!showPanel);
   };
 
   const ToolbarItem: ToolbarItemType = [
@@ -72,6 +87,12 @@ export const Toolbar = () => {
       label: 'AI suggestions',
       icon: LightbulbIcon,
       onClick: handleLoadSuggestions,
+      isActive: false,
+    },
+    {
+      label: showPanel ? 'visible' : 'hidden',
+      icon: showPanel ? EyeIcon : EyeOffIcon,
+      onClick: handleShowPanel,
       isActive: false,
     },
   ];
