@@ -10,11 +10,8 @@ import {
 } from 'lucide-react';
 import { useEditorStore } from '../store/use-editor-store';
 import { ToolbarButtonProps, ToolbarItemType } from '@/types';
-
-interface ToolbarProps {
-  showPanel: boolean;
-  setShowPanel: (value: boolean) => void;
-}
+import { usePanelProps } from '../store/panel';
+import { memo } from 'react';
 
 const ToolBarButton = ({
   label,
@@ -44,18 +41,15 @@ const ToolBarButton = ({
   );
 };
 
-export const Toolbar = ({ showPanel, setShowPanel }: ToolbarProps) => {
+export const Toolbar = () => {
   const { editor } = useEditorStore();
+  const { visible, setVisiblity } = usePanelProps();
   const handleLoadSuggestions = () => {
     // Simple function to load AI suggestions
     if (editor) {
       console.log('Loading AI suggestions...');
       editor.commands.loadAiSuggestions();
     }
-  };
-
-  const handleShowPanel = () => {
-    setShowPanel(!showPanel);
   };
 
   const ToolbarItem: ToolbarItemType = [
@@ -90,12 +84,13 @@ export const Toolbar = ({ showPanel, setShowPanel }: ToolbarProps) => {
       isActive: false,
     },
     {
-      label: showPanel ? 'visible' : 'hidden',
-      icon: showPanel ? EyeIcon : EyeOffIcon,
-      onClick: handleShowPanel,
+      label: visible ? 'visible' : 'hidden',
+      icon: visible ? EyeIcon : EyeOffIcon,
+      onClick: () => setVisiblity(!visible),
       isActive: false,
     },
   ];
+  console.log('toolbar');
   return (
     <div className="w-full flex items-center max-w-[816px] bg-gray-200 mx-auto p-2 mt-10 rounded-sm">
       {ToolbarItem.map((item) => (

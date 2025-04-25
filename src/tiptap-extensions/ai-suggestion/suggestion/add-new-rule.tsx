@@ -108,9 +108,15 @@ export const AddNewRule = ({
             placeholder="Detailed prompt"
             className="text-sm min-h-[100px]"
           />
-          {errors.prompt && (
-            <p className="text-red-500 mt-1 text-xs">{errors.prompt.message}</p>
-          )}
+          <div className="flex justify-between text-xs mt-1">
+            {errors.prompt && (
+              <p className="text-red-500">{errors.prompt.message}</p>
+            )}
+            <span className="text-gray-500 ml-auto">
+              {watch('prompt')?.trim().split(/\s+/).filter(Boolean).length || 0}
+              /50 words
+            </span>
+          </div>
         </div>
         <div className="flex items-center gap-2">
           <span className="text-sm text-gray-600">Tag:</span>

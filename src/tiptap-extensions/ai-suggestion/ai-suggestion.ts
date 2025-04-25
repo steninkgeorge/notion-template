@@ -45,6 +45,12 @@ declare module '@tiptap/core' {
       }) => ReturnType;
 
       /**
+       * Removes the selected suggstion
+       * @example editor.commands.rejectAiSuggestion()
+       */
+      rejectAiSuggestion: () => ReturnType;
+
+      /**
        * Apply all AI suggestions at once
        * @example editor.commands.applyAllAiSuggestions()
        */
@@ -229,13 +235,16 @@ export const AiSuggestion = Extension.create<AiSuggestionOptions>({
 
             // Flatten the array of arrays
             const suggestions = allSuggestions.flat();
-            console.log(suggestions);
+
             // Update the storage with new suggestions
             editor.storage.aiSuggestion.suggestions = suggestions;
 
             // Trigger an update to refresh decorations
             editor.view.dispatch(
               editor.state.tr.setMeta(AiSuggestionPluginKey, { updated: true })
+            );
+            editor.view.dispatch(
+              editor.state.tr.setMeta('aiSuggestionsUpdate', suggestions)
             );
           } catch (error) {
             console.error('Error loading AI suggestions:', error);
@@ -358,6 +367,13 @@ export const AiSuggestion = Extension.create<AiSuggestionOptions>({
               lengthDiff,
             },
           });
+          editor.view.dispatch(
+            editor.state.tr.setMeta('updateDecorations', true)
+          );
+
+          editor.view.dispatch(
+            editor.state.tr.setMeta('aiSuggestionsUpdate', suggestion)
+          );
 
           return true;
         },
@@ -370,18 +386,61 @@ export const AiSuggestion = Extension.create<AiSuggestionOptions>({
 
           // Sort suggestions by range.from in descending order to avoid position shifts
           suggestions.sort((a, b) => b.deleteRange.from - a.deleteRange.from);
+          let allApplied = true;
 
           suggestions.forEach((suggestion) => {
             if (suggestion.replacementOptions.length > 0) {
               // Apply the first replacement option for each suggestion
-              editor.commands.applyAiSuggestion({
-                suggestionId: suggestion.id,
-                replacementOptionId: suggestion.replacementOptions[0].id,
-              });
+              const success = editor
+                .chain()
+                .applyAiSuggestion({
+                  suggestionId: suggestion.id,
+                  replacementOptionId: suggestion.replacementOptions[0].id,
+                })
+                .run();
+
+              if (!success) {
+                allApplied = false;
+              }
             }
           });
 
-          tr.setMeta(AiSuggestionPluginKey, { updated: true });
+          // Clear all suggestions after applying them
+          editor.storage.aiSuggestion.suggestions = [];
+
+          // Update decorations and notify about empty suggestions
+          editor.view.dispatch(
+            editor.state.tr.setMeta('updateDecorations', true)
+          );
+
+          editor.view.dispatch(
+            editor.state.tr.setMeta('aiSuggestionsUpdate', [])
+          );
+
+          return allApplied;
+        },
+
+      rejectAiSuggestion:
+        () =>
+        ({ editor }) => {
+          console.log('reject');
+          const suggestions = editor.storage.aiSuggestion.suggestions;
+          console.log(suggestions);
+          const selectedSuggestion =
+            editor.storage.aiSuggestion.selectedSuggestionId;
+          console.log(selectedSuggestion);
+
+          editor.storage.aiSuggestion.suggestions = suggestions.filter(
+            (s: any) => s.id !== selectedSuggestion
+          );
+          // Trigger decoration update
+
+          editor.view.dispatch(
+            editor.state.tr.setMeta(AiSuggestionPluginKey, { updated: true })
+          );
+          editor.view.dispatch(
+            editor.state.tr.setMeta('aiSuggestionsUpdate', suggestions)
+          );
 
           return true;
         },
@@ -397,7 +456,6 @@ export const AiSuggestion = Extension.create<AiSuggestionOptions>({
   onSelectionUpdate() {
     // Update selected suggestion based on cursor position
     const { from } = this.editor.state.selection;
-
     const suggestions = this.editor.storage.aiSuggestion.suggestions;
     const selectedSuggestion = suggestions.find(
       (suggestion: { deleteRange: { from: number; to: number } }) =>
