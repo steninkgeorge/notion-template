@@ -147,11 +147,7 @@ export const AddNewRule = ({
             cancel
           </Button>
         ) : (
-          <Button
-            type="submit"
-            variant="outline"
-            onClick={() => setOpen(false)}
-          >
+          <Button variant="outline" onClick={() => setOpen(false)}>
             Close
           </Button>
         )}

@@ -16,7 +16,6 @@ export const SuggestionPanel = ({
   className = '',
   title = 'Suggestion Panel',
   isDialogOpen = false,
-  defaultVisible = false,
 }: SuggestionPanelProps) => {
   const [position, setPosition] = useState({ x: 20, y: 80 });
   const [isDragging, setIsDragging] = useState(false);
@@ -29,7 +28,7 @@ export const SuggestionPanel = ({
     if (typeof window !== 'undefined') {
       const screenWidth = window.innerWidth;
       setPosition({
-        x: screenWidth - 280,
+        x: screenWidth - 350,
         y: 80,
       });
     }

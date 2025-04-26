@@ -13,7 +13,6 @@ export const AIassistantNode = Node.create({
   name: 'AIgenerativenode',
   group: 'block',
   selectable: true,
-  draggable: false,
 
   addAttributes() {
     return {

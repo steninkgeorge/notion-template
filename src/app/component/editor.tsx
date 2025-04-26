@@ -14,6 +14,14 @@ const Editor = () => {
     onBeforeCreate({ editor }) {
       setEditor(editor);
     },
+    onCreate({ editor }) {
+      console.log('Editor created');
+      setEditor(editor);
+    },
+    onUpdate({ editor }) {
+      setEditor(editor);
+    },
+
     onDestroy() {
       // The editor is being destroyed.
       setEditor(editor);
