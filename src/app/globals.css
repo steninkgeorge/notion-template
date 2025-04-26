@@ -333,3 +333,22 @@
 .ai-suggestion-selected {
   box-shadow: 0 0 0 2px #4285f4;
 }
+
+.highlight-fade-effect {
+  animation: fadeBackgroundHighlight 1.5s ease-in-out;
+}
+
+@keyframes fadeBackgroundHighlight {
+  0% {
+    background-color: transparent;
+  }
+  20% {
+    background-color: rgb(191, 219, 254);
+  }
+  80% {
+    background-color: rgb(191, 219, 254);
+  }
+  100% {
+    background-color: transparent;
+  }
+}

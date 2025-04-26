@@ -36,7 +36,7 @@ export const useTemplateEditor: (
     ...options,
     extensions: [
       StarterKit.configure({ heading: false }),
-      HighlightExtension,
+      HighlightExtension.configure({ multicolor: true }),
       TocHeading.configure({ levels: [1, 2, 3, 4, 5, 6] }),
       AiSuggestion.configure({
         rules: rules,

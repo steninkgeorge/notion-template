@@ -12,6 +12,9 @@ interface TocItem {
   text: string;
 }
 
+// Define threshold (in pixels) from top and bottom of viewport
+const threshold = 100;
+
 export const TocOverlay = () => {
   const [items, setItems] = useState<TocItem[]>([]);
   const { editor } = useEditorStore();
@@ -46,13 +49,27 @@ export const TocOverlay = () => {
     };
   }, [editor]);
 
+  let highlightTimeoutId: NodeJS.Timeout | null = null;
+
   const scrollToHeading = (id: string, editor?: Editor | null) => {
     if (!editor) return;
     console.log('scroll');
     const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
 
+    if (element) {
+      const rect = element.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+
+      const isWithinThreshold =
+        rect.top >= threshold && rect.bottom <= viewportHeight - threshold;
+
+      if (!isWithinThreshold) {
+        console.log('not within');
+        element.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+      }
       // Add Tailwind classes temporarily for highlight
       if (!element || !editor) return;
 
@@ -77,9 +94,9 @@ export const TocOverlay = () => {
           // Select the full node
           editor.commands.setTextSelection({ from, to });
 
-          // Select the full node
-
-          editor.commands.setTextSelection({ from, to });
+          if (highlightTimeoutId) {
+            clearTimeout(highlightTimeoutId);
+          }
 
           // Apply highlight (with fade effect)
 
@@ -87,10 +104,11 @@ export const TocOverlay = () => {
 
           // Wait for 1 second (to allow fade-in) and then fade out the highlight
 
-          setTimeout(() => {
+          highlightTimeoutId = setTimeout(() => {
             editor.commands.setTextSelection({ from, to });
 
             editor.commands.unsetMark('highlight');
+            highlightTimeoutId = null; // Clean up reference
           }, 1500);
         }
       }
@@ -98,33 +116,40 @@ export const TocOverlay = () => {
   };
 
   return (
-    <div className="bg-white  rounded-lg shadow-md p-4">
-      {items.length > 0 ? (
-        <OverlayScrollbarsComponent
-          options={{
-            scrollbars: {
-              autoHide: 'move',
-              autoHideDelay: 500,
-            },
-          }}
-          className="max-h-[300px] w-full"
-        >
-          <ul className="space-y-1">
-            {items.map((item, index) => (
-              <li
-                key={index}
-                className="cursor-pointer hover:text-blue-600 transition-colors"
-                style={{ paddingLeft: `${(item.level - 1) * 16}px` }}
-                onClick={() => scrollToHeading(item.id, editor)}
-              >
-                <span className="text-sm">{item.text}</span>
-              </li>
-            ))}
-          </ul>
-        </OverlayScrollbarsComponent>
-      ) : (
-        <p className="text-gray-500 italic text-sm">No headings found</p>
+    <>
+      {items.length > 1 && (
+        <div className="bg-white  rounded-lg shadow-md p-4 relative">
+          <div className="relative">
+            {/* Top fade overlay */}
+            <div className="absolute top-0 left-0 right-0 h-3 bg-gradient-to-b from-white to-transparent z-10 pointer-events-none" />
+            <OverlayScrollbarsComponent
+              options={{
+                scrollbars: {
+                  autoHide: 'scroll',
+                },
+              }}
+              className="max-h-[300px] overflow-x-hidden"
+            >
+              <ul className="space-y-1">
+                {items.map((item, index) => (
+                  <li
+                    key={index}
+                    className="cursor-pointer hover:text-blue-600 transition-colors max-w-full overflow-hidden"
+                    style={{ paddingLeft: `${(item.level - 1) * 16}px` }}
+                    onClick={() => scrollToHeading(item.id, editor)}
+                  >
+                    <span className="text-sm overflow-hidden text-ellipsis whitespace-nowrap block truncate">
+                      {item.text}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </OverlayScrollbarsComponent>
+            {/* Bottom fade overlay */}
+            <div className="absolute bottom-0 left-0 right-0 h-3 bg-gradient-to-t from-white to-transparent z-10 pointer-events-none" />
+          </div>
+        </div>
       )}
-    </div>
+    </>
   );
 };

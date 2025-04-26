@@ -5,7 +5,7 @@ export const HighlightExtension = Highlight.extend({
     return {
       ...this.parent?.(),
       HTMLAttributes: {
-        class: 'bg-blue-200 ', // Tailwind classes for fading in/out
+        class: 'highlight-fade-effect', // Tailwind classes for fading in/out
       },
     };
   },

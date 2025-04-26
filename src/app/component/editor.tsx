@@ -21,9 +21,13 @@ const Editor = () => {
     onUpdate({ editor }) {
       setEditor(editor);
     },
-
+    onSelectionUpdate({ editor }) {
+      setEditor(editor);
+    },
+    onTransaction({ editor }) {
+      setEditor(editor);
+    },
     onDestroy() {
-      // The editor is being destroyed.
       setEditor(editor);
     },
   });
