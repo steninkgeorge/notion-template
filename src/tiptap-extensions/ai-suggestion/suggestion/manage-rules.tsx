@@ -10,6 +10,7 @@ import { useEditorStore } from '@/app/store/use-editor-store';
 
 import { AddNewRule } from './add-new-rule';
 import { useState } from 'react';
+import { PenIcon, Trash2Icon } from 'lucide-react';
 
 interface Rule {
   id: string;
@@ -28,7 +29,6 @@ interface ManageRulesProps {
 export const ManageRules = ({ open, setOpen, rules }: ManageRulesProps) => {
   const { editor } = useEditorStore();
   const [editingRule, setEditingRule] = useState<Rule | null>(null);
-
   // Use stopPropagation to prevent dragging
   const stopPropagation = (
     e: React.MouseEvent | React.TouchEvent | React.PointerEvent
@@ -68,32 +68,30 @@ export const ManageRules = ({ open, setOpen, rules }: ManageRulesProps) => {
           {rules.map((rule) => (
             <div
               key={rule.id}
-              className="group relative rounded-lg border p-3 hover:bg-gray-50"
+              className="group relative rounded-lg border p-3 "
             >
-              <div className="flex item-start gap-3">
+              <div className="flex item-start gap-3 ">
                 <div
-                  className="w-3 h-3 rounded-xs mt-1 flex-shrink-0"
+                  className="w-3 h-3 rounded-xs mt-1 flex shrink-0"
                   style={{ backgroundColor: rule.color }}
                 />
-                <div className="flex-1 min-w-0">
+                <div className="flex-1 min-w-0 overflow-hidden">
                   <h3 className="font-medium text-sm truncate">{rule.title}</h3>
-                  <p className="text-xs text-gray-600 mt-1">{rule.prompt}</p>
+                  <p className="text-xs text-gray-600 mt-1 line-clamp-2 leading-snug break-words">
+                    {rule.prompt}
+                  </p>
                 </div>
-                <div className="gap-2 flex opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="h-8 cursor-pointer"
-                    onClick={() => handleEdit(rule)}
-                  >
-                    Edit
+
+                <div className="gap-2 flex ">
+                  <Button variant="ghost" onClick={() => handleEdit(rule)}>
+                    <PenIcon className="size-3" />
                   </Button>
                   <Button
-                    variant="outline"
-                    className="h-8 text-red-600 hover:text-red-700 cursor-pointer"
+                    variant="ghost"
+                    size={'icon'}
                     onClick={() => handleDelete(rule.id)}
                   >
-                    Delete
+                    <Trash2Icon className="size-3 text-red-400" />
                   </Button>
                 </div>
               </div>

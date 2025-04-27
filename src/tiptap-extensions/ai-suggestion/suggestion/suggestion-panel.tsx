@@ -1,4 +1,6 @@
 'use client';
+import { usePanelProps } from '@/app/store/panel';
+import { Minimize2Icon } from 'lucide-react';
 import { useState, useRef, useEffect, useCallback } from 'react';
 
 interface SuggestionPanelProps {
@@ -6,24 +8,27 @@ interface SuggestionPanelProps {
   className?: string;
   title?: string;
   isDialogOpen?: boolean; // Add prop to know if dialog is open
+  defaultVisible?: boolean;
 }
 
 export const SuggestionPanel = ({
   children,
   className = '',
   title = 'Suggestion Panel',
-  isDialogOpen = false, // Default to false
+  isDialogOpen = false,
 }: SuggestionPanelProps) => {
   const [position, setPosition] = useState({ x: 20, y: 80 });
   const [isDragging, setIsDragging] = useState(false);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const panelRef = useRef<HTMLDivElement>(null);
 
+  const { visible, setVisiblity } = usePanelProps();
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const screenWidth = window.innerWidth;
       setPosition({
-        x: screenWidth - 280,
+        x: screenWidth - 350,
         y: 80,
       });
     }
@@ -78,6 +83,8 @@ export const SuggestionPanel = ({
     e.preventDefault();
   };
 
+  if (!visible) return null;
+
   return (
     <div
       ref={panelRef}
@@ -92,13 +99,17 @@ export const SuggestionPanel = ({
         left: `${position.x}px`,
         top: `${position.y}px`,
         userSelect: 'none',
-        touchAction: 'none', // Important for mobile compatibility
+        touchAction: 'none',
       }}
       onMouseDown={startDrag}
     >
       <div className="p-3 border-b border-gray-200 select-none">
         <div className="flex items-center justify-between">
           <span className="font-medium text-gray-700">{title}</span>
+          <Minimize2Icon
+            className="size-4 "
+            onClick={() => setVisiblity(!visible)}
+          />
         </div>
       </div>
       <div className="p-3">{children}</div>

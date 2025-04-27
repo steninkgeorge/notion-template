@@ -1,9 +1,16 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { BotIcon, LightbulbIcon, PlusIcon } from 'lucide-react';
+import {
+  BotIcon,
+  EyeIcon,
+  EyeOffIcon,
+  LightbulbIcon,
+  PlusIcon,
+} from 'lucide-react';
 import { useEditorStore } from '../store/use-editor-store';
 import { ToolbarButtonProps, ToolbarItemType } from '@/types';
+import { usePanelProps } from '../store/panel';
 
 const ToolBarButton = ({
   label,
@@ -35,6 +42,7 @@ const ToolBarButton = ({
 
 export const Toolbar = () => {
   const { editor } = useEditorStore();
+  const { visible, setVisiblity } = usePanelProps();
   const handleLoadSuggestions = () => {
     // Simple function to load AI suggestions
     if (editor) {
@@ -74,7 +82,14 @@ export const Toolbar = () => {
       onClick: handleLoadSuggestions,
       isActive: false,
     },
+    {
+      label: visible ? 'visible' : 'hidden',
+      icon: visible ? EyeIcon : EyeOffIcon,
+      onClick: () => setVisiblity(!visible),
+      isActive: false,
+    },
   ];
+  console.log('toolbar');
   return (
     <div className="w-full flex items-center max-w-[816px] bg-gray-200 mx-auto p-2 mt-10 rounded-sm">
       {ToolbarItem.map((item) => (

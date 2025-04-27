@@ -15,32 +15,19 @@ const Editor = () => {
       setEditor(editor);
     },
     onCreate({ editor }) {
-      // The editor is ready.
+      console.log('Editor created');
       setEditor(editor);
     },
     onUpdate({ editor }) {
-      // The content has changed.
-
       setEditor(editor);
     },
     onSelectionUpdate({ editor }) {
-      // The selection has changed.
       setEditor(editor);
     },
     onTransaction({ editor }) {
-      // The editor state has changed.
-      setEditor(editor);
-    },
-    onFocus({ editor }) {
-      // The editor is focused.
-      setEditor(editor);
-    },
-    onBlur({ editor }) {
-      // The editor isn’t focused anymore.
       setEditor(editor);
     },
     onDestroy() {
-      // The editor is being destroyed.
       setEditor(editor);
     },
   });

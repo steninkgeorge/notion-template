@@ -1,6 +1,5 @@
 import { Editor } from '@tiptap/react';
 import { AiSuggestionPopover } from './ai-suggestion-popover';
-import { AiSuggestionPluginKey } from '@/tiptap-extensions/ai-suggestion/ai-suggestion';
 
 export const AiSuggestionPopoverWrapper = ({ editor }: { editor: Editor }) => {
   const suggestions = editor.storage.aiSuggestion.suggestions || [];
@@ -17,23 +16,10 @@ export const AiSuggestionPopoverWrapper = ({ editor }: { editor: Editor }) => {
   if (!rule) return null;
 
   const handleApply = (replacementOptionId: string) => {
-    console.log('apply');
     editor.commands.applyAiSuggestion({
       suggestionId: selectedSuggestion.id,
       replacementOptionId,
     });
-
-    editor.view.dispatch(editor.state.tr.setMeta('updateDecorations', true));
-  };
-
-  const handleReject = () => {
-    editor.storage.aiSuggestion.suggestions = suggestions.filter(
-      (s: any) => s.id !== selectedSuggestion.id
-    );
-    // Trigger decoration update
-    editor.view.dispatch(
-      editor.state.tr.setMeta(AiSuggestionPluginKey, { updated: true })
-    );
   };
 
   const findAdjacentSuggestion = (direction: 'prev' | 'next') => {
@@ -55,7 +41,7 @@ export const AiSuggestionPopoverWrapper = ({ editor }: { editor: Editor }) => {
       suggestion={selectedSuggestion}
       rule={rule}
       onApply={handleApply}
-      onReject={handleReject}
+      onReject={() => editor.commands.rejectAiSuggestion()}
       onPrevious={() => findAdjacentSuggestion('prev')}
       onNext={() => findAdjacentSuggestion('next')}
     />

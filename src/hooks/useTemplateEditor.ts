@@ -18,6 +18,8 @@ import GlobalDragHandle from '@/tiptap-extensions/drag-handle/drag-handle';
 import Dropcursor from '@tiptap/extension-dropcursor';
 import { AiSuggestion } from '@/tiptap-extensions/ai-suggestion/ai-suggestion';
 import { rules } from '@/tiptap-extensions/ai-suggestion/rules';
+import { TocHeading } from '@/tiptap-extensions/heading/heading';
+import { HighlightExtension } from '@/tiptap-extensions/highlight/highlight';
 
 export const useTemplateEditor: (
   content: string,
@@ -33,7 +35,9 @@ export const useTemplateEditor: (
   return useEditor({
     ...options,
     extensions: [
-      StarterKit,
+      StarterKit.configure({ heading: false }),
+      HighlightExtension.configure({ multicolor: true }),
+      TocHeading.configure({ levels: [1, 2, 3, 4, 5, 6] }),
       AiSuggestion.configure({
         rules: rules,
         loadOnStart: false,
