@@ -3,7 +3,6 @@ import { Plugin, PluginKey } from '@tiptap/pm/state';
 import { Decoration, DecorationSet } from '@tiptap/pm/view';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { AiSuggestionOptions, AiSuggestionStorage, Rule, Suggestion } from '.';
-import { text } from 'stream/consumers';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

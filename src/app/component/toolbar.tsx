@@ -11,7 +11,6 @@ import {
 import { useEditorStore } from '../store/use-editor-store';
 import { ToolbarButtonProps, ToolbarItemType } from '@/types';
 import { usePanelProps } from '../store/panel';
-import { memo } from 'react';
 
 const ToolBarButton = ({
   label,

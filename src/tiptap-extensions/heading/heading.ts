@@ -20,8 +20,8 @@ export const TocHeading = Heading.extend({
 });
 
 function getUuid() {
-  let s = [];
-  let hexDigits = '0123456789abcdef';
+  const s = [];
+  const hexDigits = '0123456789abcdef';
   for (let i = 0; i < 36; i++) {
     s[i] = hexDigits.substring(
       Math.floor(Math.random() * 0x10),

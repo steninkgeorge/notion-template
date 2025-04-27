@@ -33,7 +33,7 @@ export const SuggestionPanelItems = () => {
     if (storage && storage.rules) {
       setRules(storage.rules);
     }
-  }, [setRules]);
+  }, []);
 
   const handleApplyAllSuggestions = () => {
     // Access the plugin instance directly
@@ -95,7 +95,7 @@ export const SuggestionPanelItems = () => {
     if (storage?.suggestions) {
       setSuggestions(storage.suggestions);
     }
-  }, [setSuggestions]);
+  }, []);
 
   useMemo(() => {
     if (!editor) return null;
@@ -113,7 +113,7 @@ export const SuggestionPanelItems = () => {
     return () => {
       editor.off('transaction', onTransaction);
     };
-  }, []);
+  }, [editor, getRulesFromEditor, getSuggestionsFromEditor]);
 
   return (
     <div className="flex flex-col">

@@ -25,10 +25,8 @@ export const TocOverlay = () => {
     const updateToc = () => {
       const tocItems: TocItem[] = [];
 
-      let headingCount = 0;
       editor.state.doc.descendants((node) => {
         if (node.type.name === 'heading') {
-          headingCount++;
           tocItems.push({
             id: node.attrs.id,
             level: node.attrs.level,
