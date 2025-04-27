@@ -6,6 +6,7 @@ import { ManageRules } from './manage-rules';
 import { useEditorStore } from '@/app/store/use-editor-store';
 import { Suggestion } from '../types';
 import { memo } from 'react';
+import { AiSuggestionPluginKey } from '..';
 
 interface Rule {
   id: string;
@@ -33,6 +34,53 @@ export const SuggestionPanelItems = () => {
       setRules(storage.rules);
     }
   }, [setRules]);
+
+  const handleApplyAllSuggestions = () => {
+    // Access the plugin instance directly
+    const editorView = editor?.view;
+
+    if (!editorView) return;
+
+    // Get all suggestions
+    const allSuggestions = [...editor.storage.aiSuggestion.suggestions];
+    if (allSuggestions.length === 0) return;
+
+    // Sort from back to front
+    allSuggestions.sort((a, b) => b.deleteRange.from - a.deleteRange.from);
+
+    // Create a transaction
+    let tr = editorView.state.tr;
+
+    // Apply all replacements in one go
+    for (const suggestion of allSuggestions) {
+      if (!suggestion.replacementOptions?.length) continue;
+
+      const option = suggestion.replacementOptions[0];
+      tr = tr.insertText(
+        option.addText,
+        suggestion.deleteRange.from,
+        suggestion.deleteRange.to
+      );
+    }
+
+    // Apply the transaction directly
+    if (tr.steps.length > 0) {
+      editorView.dispatch(tr);
+
+      // Clear suggestions
+      editor.storage.aiSuggestion.suggestions = [];
+
+      // Update UI
+      editorView.dispatch(
+        editorView.state.tr.setMeta(AiSuggestionPluginKey, {
+          updated: true,
+        })
+      );
+      editorView.dispatch(
+        editorView.state.tr.setMeta('aiSuggestionsUpdate', [])
+      );
+    }
+  };
 
   useEffect(() => {
     getRulesFromEditor();
@@ -79,12 +127,7 @@ export const SuggestionPanelItems = () => {
         >
           Manage Rules
         </Button>
-        <Button
-          className="flex-1"
-          onClick={() => {
-            editor?.commands.applyAllAiSuggestions();
-          }}
-        >
+        <Button className="flex-1" onClick={handleApplyAllSuggestions}>
           Accept All
         </Button>
       </div>

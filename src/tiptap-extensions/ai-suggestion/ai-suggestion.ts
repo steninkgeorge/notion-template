@@ -3,6 +3,7 @@ import { Plugin, PluginKey } from '@tiptap/pm/state';
 import { Decoration, DecorationSet } from '@tiptap/pm/view';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { AiSuggestionOptions, AiSuggestionStorage, Rule, Suggestion } from '.';
+import { text } from 'stream/consumers';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -49,12 +50,6 @@ declare module '@tiptap/core' {
        * @example editor.commands.rejectAiSuggestion()
        */
       rejectAiSuggestion: () => ReturnType;
-
-      /**
-       * Apply all AI suggestions at once
-       * @example editor.commands.applyAllAiSuggestions()
-       */
-      applyAllAiSuggestions: () => ReturnType;
     };
   }
 }
@@ -376,48 +371,6 @@ export const AiSuggestion = Extension.create<AiSuggestionOptions>({
           );
 
           return true;
-        },
-
-      applyAllAiSuggestions:
-        () =>
-        ({ editor }) => {
-          const suggestions = [...editor.storage.aiSuggestion.suggestions];
-          const tr = editor.state.tr;
-
-          // Sort suggestions by range.from in descending order to avoid position shifts
-          suggestions.sort((a, b) => b.deleteRange.from - a.deleteRange.from);
-          let allApplied = true;
-
-          suggestions.forEach((suggestion) => {
-            if (suggestion.replacementOptions.length > 0) {
-              // Apply the first replacement option for each suggestion
-              const success = editor
-                .chain()
-                .applyAiSuggestion({
-                  suggestionId: suggestion.id,
-                  replacementOptionId: suggestion.replacementOptions[0].id,
-                })
-                .run();
-
-              if (!success) {
-                allApplied = false;
-              }
-            }
-          });
-
-          // Clear all suggestions after applying them
-          editor.storage.aiSuggestion.suggestions = [];
-
-          // Update decorations and notify about empty suggestions
-          editor.view.dispatch(
-            editor.state.tr.setMeta('updateDecorations', true)
-          );
-
-          editor.view.dispatch(
-            editor.state.tr.setMeta('aiSuggestionsUpdate', [])
-          );
-
-          return allApplied;
         },
 
       rejectAiSuggestion:
