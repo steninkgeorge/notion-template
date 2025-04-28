@@ -352,3 +352,59 @@
     background-color: transparent;
   }
 }
+
+div[data-type='title-node'] {
+  font-size: 2rem;
+  font-weight: bold;
+  line-height: 1.3;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  position: relative;
+  pointer-events: auto; /* Allow text selection */
+  /* No border/underline */
+}
+
+/* Title node placeholder - always visible when empty */
+div[data-type='title-node'].is-empty::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #aaaaaa;
+  pointer-events: none;
+  height: 0;
+  position: absolute;
+}
+
+/* Hide drag handle for title node */
+div[data-type='title-node'] + .drag-handle {
+  display: none !important;
+}
+
+/* Make title node non-draggable */
+div[data-type='title-node'] {
+  user-select: text; /* Allow text selection */
+  -webkit-user-drag: none !important;
+}
+
+/* Dynamic placeholders for content nodes - only show on hover/focus */
+.is-empty-content::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #bbbbbb;
+  pointer-events: none;
+  height: 0;
+  position: absolute;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+/* Show content placeholder only on hover/focus */
+.is-empty-content:hover::before,
+.is-empty-content:focus-within::before {
+  opacity: 1;
+}
+
+/* Ensure title node can't be moved by ensuring it stays at the top */
+div[data-type='title-node'] {
+  position: relative;
+  z-index: 1; /* Keep it below drag handles but above other content */
+}
