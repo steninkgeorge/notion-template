@@ -20,10 +20,108 @@ const CommandsPlugin = Extension.create({
           props.command({ editor, range, props });
         },
         items: ({ query }) => {
-          return [
+          const allItems = [
             //ai options
             {
-              title: 'AI tools',
+              title: 'Text',
+              description: 'Just start writing with plain text',
+              searchTerms: ['p', 'paragraph', 'text'],
+              category: 'Basic blocks',
+              command: ({ editor }: { editor: Editor }) =>
+                editor.chain().focus().setParagraph().run(),
+            },
+            {
+              title: 'Heading 1',
+              description: 'Large section heading',
+              searchTerms: ['h1', 'heading', 'header', 'title', 'large'],
+              category: 'Basic blocks',
+              command: ({ editor }: { editor: Editor }) =>
+                editor.chain().focus().setNode('heading', { level: 1 }).run(),
+            },
+            {
+              title: 'Heading 2',
+              description: 'Medium section heading',
+              searchTerms: [
+                'h2',
+                'heading',
+                'subheading',
+                'subtitle',
+                'medium',
+              ],
+              category: 'Basic blocks',
+              command: ({ editor }: { editor: Editor }) =>
+                editor.chain().focus().setNode('heading', { level: 2 }).run(),
+            },
+            {
+              title: 'Heading 3',
+              description: 'Small section heading',
+              searchTerms: ['h3', 'heading', 'subheading', 'subtitle', 'small'],
+              category: 'Basic blocks',
+              command: ({ editor }: { editor: Editor }) =>
+                editor.chain().focus().setNode('heading', { level: 3 }).run(),
+            },
+            // Lists
+            {
+              title: 'Bullet List',
+              description: 'Create a simple bullet list',
+              searchTerms: ['bullet', 'list', 'ul', 'unordered'],
+              category: 'Lists',
+              command: ({ editor }: { editor: Editor }) =>
+                editor.chain().focus().toggleBulletList().run(),
+            },
+            {
+              title: 'Numbered List',
+              description: 'Create a numbered list',
+              searchTerms: ['numbered', 'list', 'ol', 'ordered'],
+              category: 'Lists',
+              command: ({ editor }: { editor: Editor }) =>
+                editor.chain().focus().toggleOrderedList().run(),
+            },
+            // Media and embeds
+            // {
+            //   title: 'Image',
+            //   description: 'Upload or embed an image',
+            //   searchTerms: ['image', 'photo', 'picture', 'media'],
+            //   category: 'Media',
+            //   command: ({  }: { editor: Editor }) => {
+            //     // Implement image upload logic
+            //     // For example: editor.chain().focus().setImage({ src: '...' }).run()
+            //     console.log('Image command executed');
+            //   },
+            // },
+            // {
+            //   title: 'Table',
+            //   description: 'Add a table',
+            //   searchTerms: ['table', 'grid', 'spreadsheet', 'matrix'],
+            //   category: 'Media',
+            //   command: ({ editor }: { editor: Editor }) => {
+            //     // Insert table logic
+            //     editor.chain().focus().insertTable({ rows: 3, cols: 3 }).run();
+            //   },
+            // },
+            // Code and quotes
+            {
+              title: 'Code Block',
+              description: 'Add code with syntax highlighting',
+              searchTerms: ['code', 'codeblock', 'programming'],
+              category: 'Advanced',
+              command: ({ editor }: { editor: Editor }) =>
+                editor.chain().focus().setCodeBlock().run(),
+            },
+            {
+              title: 'Quote',
+              description: 'Insert a quote or citation',
+              searchTerms: ['quote', 'blockquote', 'citation'],
+              category: 'Advanced',
+              command: ({ editor }: { editor: Editor }) =>
+                editor.chain().focus().setBlockquote().run(),
+            },
+            // AI features
+            {
+              title: 'AI Assistant',
+              description: 'Get help writing with AI',
+              searchTerms: ['ai', 'assistant', 'help', 'generate', 'write'],
+              category: 'AI',
               command: ({ editor }: { editor: Editor }) =>
                 editor
                   .chain()
@@ -31,48 +129,30 @@ const CommandsPlugin = Extension.create({
                   .insertPromptBox({ initialPrompt: '' })
                   .run(),
             },
-
-            //text formatting
-            {
-              title: 'Heading',
-              command: ({ editor }: { editor: Editor }) =>
-                editor.chain().focus().setNode('heading', { level: 1 }).run(),
-            },
-            {
-              title: 'Subheading',
-              command: ({ editor }: { editor: Editor }) =>
-                editor.chain().focus().setNode('heading', { level: 2 }).run(),
-            },
-            {
-              title: 'Quote',
-              command: ({ editor }: { editor: Editor }) =>
-                editor.chain().focus().setBlockquote().run(),
-            },
-            {
-              title: 'Bullet List',
-              command: ({ editor }: { editor: Editor }) =>
-                editor.chain().focus().toggleBulletList().run(),
-            },
-            {
-              title: 'Numbered List',
-              command: ({ editor }: { editor: Editor }) =>
-                editor.chain().focus().toggleOrderedList().run(),
-            },
-            {
-              title: 'Code Block',
-              command: ({ editor }: { editor: Editor }) =>
-                editor.chain().focus().setCodeBlock().run(),
-            },
             //insert options
             //table
             //image -> custom node
             //column -> custom node (maybe)
             //horizontal rule
-          ]
-            .filter((item) =>
-              item.title.toLowerCase().includes(query.toLowerCase())
-            )
-            .slice(0, 5);
+          ];
+          if (!query) {
+            // When no search query, show all items grouped by category
+            return allItems;
+          }
+
+          return allItems.filter((item) => {
+            if (item.title.toLowerCase().includes(query.toLowerCase())) {
+              return true;
+            }
+
+            if (item.category.toLowerCase().includes(query.toLowerCase())) {
+              return true;
+            }
+
+            return item.searchTerms.some((term) =>
+              term.toLowerCase().includes(query.toLowerCase())
+            );
+          });
         },
         startOfLine: true,
         allow: ({ state }) => {
@@ -99,6 +179,7 @@ const CommandsPlugin = Extension.create({
               root.render(
                 React.createElement(CommandMenu, {
                   ...props,
+
                   title: title,
                   items: props.items,
                   command: props.command,
@@ -125,23 +206,25 @@ const CommandsPlugin = Extension.create({
 
                 const containerRect = editorContainer.getBoundingClientRect();
                 const scrollTop = editorContainer.scrollTop;
-                React.createElement(CommandMenu, {
-                  ...props,
-                  title: title,
-                  items: props.items,
-                  command: props.command,
-                  clientRect: () => {
-                    const rect = props.clientRect?.();
-                    if (!rect) return null;
+                root.render(
+                  React.createElement(CommandMenu, {
+                    ...props,
+                    title: title,
+                    items: props.items,
+                    command: props.command,
+                    clientRect: () => {
+                      const rect = props.clientRect?.();
+                      if (!rect) return null;
 
-                    return new DOMRect(
-                      rect.left - containerRect.left,
-                      rect.top - containerRect.top + scrollTop,
-                      rect.width,
-                      rect.height
-                    );
-                  },
-                });
+                      return new DOMRect(
+                        rect.left - containerRect.left,
+                        rect.top - containerRect.top + scrollTop,
+                        rect.width,
+                        rect.height
+                      );
+                    },
+                  })
+                );
               }
             },
 

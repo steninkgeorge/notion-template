@@ -17,6 +17,13 @@ const Editor = () => {
     onCreate({ editor }) {
       console.log('Editor created');
       setEditor(editor);
+      // Make sure title node exists when editor is created
+      const { doc, schema } = editor.state;
+      if (!doc.firstChild || doc.firstChild.type !== schema.nodes.titleNode) {
+        editor.commands.insertContentAt(0, {
+          type: 'titleNode',
+        });
+      }
     },
     onUpdate({ editor }) {
       setEditor(editor);

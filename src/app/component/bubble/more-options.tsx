@@ -21,7 +21,6 @@ import { useState } from 'react';
 
 export const MoreOptions = () => {
   const { editor } = useEditorStore();
-
   const [open, setOpen] = useState(false);
 
   const moreOptionsItems: ToolbarItemType = [
@@ -43,9 +42,7 @@ export const MoreOptions = () => {
     {
       label: 'left',
       icon: AlignLeftIcon,
-      onClick: () => {
-        editor?.chain().focus().setTextAlign('left').run();
-      },
+      onClick: () => editor?.chain().focus().setTextAlign('left').run(),
       isActive: editor?.isActive({ textAlign: 'left' }),
     },
     {
@@ -74,37 +71,40 @@ export const MoreOptions = () => {
         <Button
           variant="ghost"
           size="sm"
-          className=" min-w-[60px] justify-evenly bg-neutral-50"
+          className="min-w-[60px] justify-evenly bg-neutral-50 dark:bg-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-600"
         >
           <ChevronUpIcon className="size-4 text-muted-foreground" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-fit p-1 shadow bg-white  ">
-        <div className="flex gap-x-1 ">
+      <PopoverContent className="w-fit p-1 shadow bg-white dark:bg-neutral-800 border dark:border-neutral-700">
+        <div className="flex gap-x-1">
           {moreOptionsItems.map(({ icon: Icon, ...item }) => (
             <div key={item.label}>
-              <Button size={'icon'} className="bg-white hover:bg-neutral-100">
-                <Icon className="size-4 text-neutral-400" />
+              <Button
+                size={'icon'}
+                className="bg-white hover:bg-neutral-100 dark:bg-neutral-800 dark:hover:bg-neutral-700"
+              >
+                <Icon className="size-4 text-neutral-400 dark:text-neutral-300" />
               </Button>
               <div key={item.label}>
-                <span className="absolute top-full mt-1 p-0.5 font-semibold   text-xs z-[10] bg-black px-1.5 text-neutral-300 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity">
+                <span className="absolute top-full mt-1 p-0.5 font-semibold text-xs z-[10] bg-black dark:bg-white px-1.5 text-neutral-300 dark:text-neutral-700 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity">
                   {item.label}
                 </span>
               </div>
             </div>
           ))}
-          <Separator orientation="vertical" />
+          <Separator orientation="vertical" className="dark:bg-neutral-700" />
           {icons.map(({ label, icon: Icon, onClick, isActive }) => (
             <Button
               size={'icon'}
               className={cn(
-                'bg-white hover:bg-neutral-100',
-                isActive && 'bg-neutral-100 '
+                'bg-white hover:bg-neutral-100 dark:bg-neutral-800 dark:hover:bg-neutral-700',
+                isActive && 'bg-neutral-100 dark:bg-neutral-700'
               )}
               key={label}
               onClick={onClick}
             >
-              <Icon className="size-4 text-neutral-400" />
+              <Icon className="size-4 text-neutral-400 dark:text-neutral-300" />
             </Button>
           ))}
         </div>

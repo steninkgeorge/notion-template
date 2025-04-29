@@ -13,13 +13,14 @@ import Superscript from '@tiptap/extension-superscript';
 import Subscript from '@tiptap/extension-subscript';
 import TextAlign from '@tiptap/extension-text-align';
 import { Color } from '@tiptap/extension-color';
-import Placeholder from '@tiptap/extension-placeholder';
 import GlobalDragHandle from '@/tiptap-extensions/drag-handle/drag-handle';
 import Dropcursor from '@tiptap/extension-dropcursor';
 import { AiSuggestion } from '@/tiptap-extensions/ai-suggestion/ai-suggestion';
 import { rules } from '@/tiptap-extensions/ai-suggestion/rules';
 import { TocHeading } from '@/tiptap-extensions/heading/heading';
 import { HighlightExtension } from '@/tiptap-extensions/highlight/highlight';
+import { TitleNode } from '@/tiptap-extensions/filename/filename';
+import { DynamicPlaceholder } from '@/tiptap-extensions/placeholder/placeholder';
 
 export const useTemplateEditor: (
   content: string,
@@ -28,7 +29,7 @@ export const useTemplateEditor: (
   const fallbackEditorProps: EditorOptions['editorProps'] = {
     attributes: {
       class:
-        'focus:outline-none min-h-[816px] w-[816px] cursor-text p-10 bg-white shadow-lg rounded-lg',
+        'focus:outline-none min-h-[816px] w-[816px] cursor-text p-10 bg-white',
     },
   };
 
@@ -44,9 +45,18 @@ export const useTemplateEditor: (
         reloadOnUpdate: true,
         debounceTimeout: 5000,
       }),
-      Placeholder.configure({
-        placeholder: 'type / for commands ',
+      // Title node with permanent placeholder
+      TitleNode.configure({
+        HTMLAttributes: {
+          class: 'title-node',
+        },
       }),
+      // Dynamic placeholders for other content that only show on hover/focus
+      DynamicPlaceholder.configure({
+        placeholder: 'Type / for commands',
+        emptyNodeClass: 'is-empty-content',
+      }),
+
       Dropcursor.configure({
         width: 2,
       }),
@@ -67,10 +77,23 @@ export const useTemplateEditor: (
       TaskItem.configure({
         nested: true,
       }),
-      GlobalDragHandle.configure({ customNodes: ['ai-assistant'] }),
+      GlobalDragHandle.configure({
+        customNodes: ['ai-assistant'],
+        excludedTags: ['div[data-type="title-node"]'],
+      }),
       ...(options.extensions || []),
     ],
-    content: content ?? '',
+    content: {
+      type: 'doc',
+      content: [
+        {
+          type: 'title',
+        },
+        {
+          type: content,
+        },
+      ],
+    },
     editorProps: options.editorProps ?? fallbackEditorProps,
   });
 };
