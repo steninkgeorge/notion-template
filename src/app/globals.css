@@ -45,39 +45,42 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --background: #ffffff;
+  --foreground: #191711;
+  --card: #f7f6f3;
+  --card-foreground: #191711;
+  --popover: #ffffff;
+  --popover-foreground: #191711;
+  --primary: #37352f;
+  --primary-foreground: #ffffff;
+  --secondary: #f1f1ef;
+  --secondary-foreground: #37352f;
+  --muted: #f7f6f3;
+  --muted-foreground: #787774;
+  --accent: #f1f1ef;
+  --accent-foreground: #37352f;
+  --destructive: #e03e3e;
+  --border: #e6e6e6;
+  --input: #e6e6e6;
+  --ring: #a6a6a6;
+  --sidebar: #f7f6f3;
+  --sidebar-foreground: #191711;
+  --sidebar-primary: #37352f;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f1f1ef;
+  --sidebar-accent-foreground: #37352f;
+  --sidebar-border: #e6e6e6;
+  --sidebar-ring: #a6a6a6;
   --novel-stone-100: #f5f5f5;
   --novel-stone-200: #e5e5e5;
+  --bubble-bg: #ffffff;
+  --bubble-border: #e5e7eb;
+  --tooltip-bg: #000000;
+  --tooltip-text: #d4d4d8;
+  --button-active-bg: #f5f5f5;
+  --button-hover-bg: #f5f5f5;
+  --button-text: inherit;
+  --separator-color: #e5e7eb;
 }
 
 .dark {
@@ -112,6 +115,15 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+  /* Dark mode variables */
+  --bubble-bg: #2e2e2e;
+  --bubble-border: #3d3d3d;
+  --tooltip-bg: #ffffff;
+  --tooltip-text: #3d3d3d;
+  --button-active-bg: #3d3d3d;
+  --button-hover-bg: #3d3d3d;
+  --button-text: #f5f5f5;
+  --separator-color: #3d3d3d;
 }
 
 @layer base {
@@ -407,4 +419,132 @@ div[data-type='title-node'] {
 div[data-type='title-node'] {
   position: relative;
   z-index: 1; /* Keep it below drag handles but above other content */
+}
+
+.dark {
+  /* Dark theme - Notion-inspired colors */
+  --background: #191919;
+  --foreground: #f5f5f5;
+  --card: #2e2e2e;
+  --card-foreground: #f5f5f5;
+  --popover: #2e2e2e;
+  --popover-foreground: #f5f5f5;
+  --primary: #f5f5f5;
+  --primary-foreground: #2e2e2e;
+  --secondary: #333333;
+  --secondary-foreground: #f5f5f5;
+  --muted: #2e2e2e;
+  --muted-foreground: #a6a6a6;
+  --accent: #333333;
+  --accent-foreground: #f5f5f5;
+  --destructive: #ff6b6b;
+  --border: #3d3d3d;
+  --input: #3d3d3d;
+  --ring: #787774;
+  --sidebar: #2e2e2e;
+  --sidebar-foreground: #f5f5f5;
+  --sidebar-primary: #a6a6a6;
+  --sidebar-primary-foreground: #f5f5f5;
+  --sidebar-accent: #333333;
+  --sidebar-accent-foreground: #f5f5f5;
+  --sidebar-border: #3d3d3d;
+  --sidebar-ring: #787774;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease;
+  }
+  body {
+    @apply bg-background text-foreground;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
+  }
+}
+
+/* Editor-specific dark mode styles */
+.dark {
+  .tiptap {
+    background-color: var(--background);
+    color: var(--foreground);
+
+    blockquote {
+      border-left-color: var(--border);
+      color: var(--muted-foreground);
+    }
+
+    ul[data-type='taskList'] {
+      input[type='checkbox'] {
+        filter: invert(80%);
+      }
+    }
+
+    .is-empty::before,
+    .is-empty-content::before {
+      color: var(--muted-foreground);
+    }
+  }
+
+  .drag-handle {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' style='fill: rgba(255, 255, 255, 0.5)'%3E%3Cpath d='M3,2 C2.44771525,2 2,1.55228475 2,1 C2,0.44771525 2.44771525,0 3,0 C3.55228475,0 4,0.44771525 4,1 C4,1.55228475 3.55228475,2 3,2 Z M3,6 C2.44771525,6 2,5.55228475 2,5 C2,4.44771525 2.44771525,4 3,4 C3.55228475,4 4,4.44771525 4,5 C4,5.55228475 3.55228475,6 3,6 Z M3,10 C2.44771525,10 2,9.55228475 2,9 C2,8.44771525 2.44771525,8 3,8 C3.55228475,8 4,8.44771525 4,9 C4,9.55228475 3.55228475,10 3,10 Z M7,2 C6.44771525,2 6,1.55228475 6,1 C6,0.44771525 6.44771525,0 7,0 C7.55228475,0 8,0.44771525 8,1 C8,1.55228475 7.55228475,2 7,2 Z M7,6 C6.44771525,6 6,5.55228475 6,5 C6,4.44771525 6.44771525,4 7,4 C7.55228475,4 8,4.44771525 8,5 C8,5.55228475 7.55228475,6 7,6 Z M7,10 C6.44771525,10 6,9.55228475 6,9 C6,8.44771525 6.44771525,8 7,8 C7.55228475,8 8,8.44771525 8,9 C8,9.55228475 7.55228475,10 7,10 Z'%3E%3C/path%3E%3C/svg%3E");
+
+    &:hover {
+      background-color: var(--muted);
+    }
+  }
+
+  .tiptap-ai-suggestion {
+    border-bottom-color: var(--destructive);
+  }
+
+  .tiptap-ai-suggestion--selected {
+    background-color: oklch(0.3 0.1 27.325 / 0.5);
+  }
+
+  /* Toolbar */
+  .toolbar-container {
+    background-color: var(--background);
+    border-color: var(--border);
+  }
+
+  /* TOC */
+  .toc-overlay {
+    background-color: var(--background);
+    border-color: var(--border);
+
+    a {
+      color: var(--muted-foreground);
+
+      &:hover {
+        color: var(--foreground);
+      }
+    }
+  }
+
+  /* Suggestion panel */
+  .suggestion-panel {
+    background-color: var(--card);
+    border-color: var(--border);
+
+    .suggestion-item {
+      &:hover {
+        background-color: var(--muted);
+      }
+    }
+  }
+
+  /* Title node */
+  div[data-type='title-node'] {
+    color: var(--foreground);
+  }
+
+  /* Placeholders */
+  div[data-type='title-node'].is-empty::before,
+  .is-empty-content::before {
+    color: var(--muted-foreground);
+  }
 }

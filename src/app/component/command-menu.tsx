@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/command';
 
 import { CommandProps } from '@/types/command';
+import React from 'react';
 
 interface CommandMenuProps extends CommandProps {
   items: any[];
@@ -18,6 +19,8 @@ interface CommandMenuProps extends CommandProps {
 export const CommandMenu = forwardRef<HTMLDivElement, CommandMenuProps>(
   (props, ref) => {
     const { items, command, clientRect } = props;
+    const [selectedIndex, setSelectedIndex] = React.useState(0);
+
     const rect = clientRect?.() || new DOMRect();
 
     const viewportHeight = window.innerHeight;
@@ -35,8 +38,28 @@ export const CommandMenu = forwardRef<HTMLDivElement, CommandMenuProps>(
       zIndex: 50,
     } as CSSProperties;
 
+    React.useEffect(() => {
+      setSelectedIndex(0);
+    }, [items]);
+
+    // Handle keyboard navigation
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+      if (e.key === 'ArrowDown') {
+        setSelectedIndex((prev) => (prev < items.length - 1 ? prev + 1 : prev));
+        console.log(e.key);
+        e.preventDefault();
+      } else if (e.key === 'ArrowUp') {
+        setSelectedIndex((prev) => (prev > 0 ? prev - 1 : 0));
+        e.preventDefault();
+      } else if (e.key === 'Enter') {
+        if (items[selectedIndex]) {
+          command(items[selectedIndex]);
+        }
+        e.preventDefault();
+      }
+    };
     return (
-      <div style={style} ref={ref}>
+      <div style={style} ref={ref} tabIndex={0} onKeyDown={handleKeyDown}>
         <Command
           className="border shadow-md rounded-md w-60"
           onKeyDownCapture={(e) => {

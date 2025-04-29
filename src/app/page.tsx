@@ -5,11 +5,33 @@ import { SuggestionPanel } from '../tiptap-extensions/ai-suggestion/suggestion/s
 import { SuggestionPanelItems } from '../tiptap-extensions/ai-suggestion/suggestion/suggestion-panel-item';
 import { Toolbar } from './component/toolbar';
 import { TocOverlay } from '@/tiptap-extensions/heading/table-of-content';
+import { useState, useEffect } from 'react';
 
 export default function Home() {
+  const [darkMode, setDarkMode] = useState(false);
+
+  // Check for system preference or saved preference
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+
+  useEffect(() => {
+    // Get the current theme from localStorage or system preference
+    const storedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia(
+      '(prefers-color-scheme: dark)'
+    ).matches;
+
+    if (storedTheme === 'dark' || (!storedTheme && prefersDark)) {
+      setTheme('dark');
+      document.documentElement.classList.add('dark');
+    } else {
+      setTheme('light');
+      document.documentElement.classList.remove('dark');
+    }
+  }, []);
+
   return (
-    <div className="flex flex-col items-center min-h-screen bg-white">
-      <div className="toolbar-container w-full">
+    <div className="flex flex-col items-center min-h-screen ">
+      <div className="toolbar-container w-full ">
         <Toolbar />
       </div>
       <div className="flex relative w-full">

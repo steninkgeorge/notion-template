@@ -27,16 +27,16 @@ export const FontFamilyButton = () => {
         <Button
           variant="ghost"
           size="sm"
-          className=" min-w-[60px] justify-evenly bg-neutral-50"
+          className="min-w-[60px] justify-evenly bg-neutral-50 dark:bg-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-600"
         >
-          <div className="truncate">
+          <div className="truncate dark:text-neutral-200">
             {editor?.getAttributes('textStyle').fontFamily || 'Arial'}
           </div>
           <ChevronDown className="size-4 text-muted-foreground" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-fit p-1 shadow bg-white  ">
-        <div className="flex flex-col space-y-1 ">
+      <PopoverContent className="w-fit p-1 shadow bg-white dark:bg-neutral-800 border dark:border-neutral-700">
+        <div className="flex flex-col space-y-1">
           {fonts.map((item) => (
             <div
               key={item.label}
@@ -47,10 +47,10 @@ export const FontFamilyButton = () => {
                 fontFamily: item.value,
               }}
               className={cn(
-                'px-2 py-1 hover:bg-neutral-100 rounded-md cursor-pointer transition-colors',
+                'px-2 py-1 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-md cursor-pointer transition-colors dark:text-neutral-200',
                 editor?.isActive('textStyle', {
                   fontFamily: `${item.value}`,
-                }) && 'bg-neutral-100'
+                }) && 'bg-neutral-100 dark:bg-neutral-700'
               )}
             >
               {item.label}

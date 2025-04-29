@@ -12,9 +12,9 @@ const StyledBubbleMenu = styled(BubbleMenu)`
   display: flex;
   flex-direction: row;
   align-items: center;
-  background-color: white;
+  background-color: var(--bubble-bg);
   border-radius: 0.375rem;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--bubble-border);
   padding: 0.125rem;
   gap: 0.25rem;
   width: fit-content;
@@ -33,8 +33,8 @@ const StyledButtonWrapper = styled.div`
     padding: 0.125rem 0.375rem;
     font-size: 0.75rem;
     font-weight: 600;
-    background-color: black;
-    color: #d4d4d8;
+    background-color: var(--tooltip-bg);
+    color: var(--tooltip-text);
     border-radius: 0.25rem;
     white-space: nowrap;
     opacity: 0;
@@ -50,13 +50,15 @@ const StyledButtonWrapper = styled.div`
 const StyledIconButton = styled.button<{ $active?: boolean }>`
   padding: 0.25rem;
   margin: 0.125rem;
-  background-color: ${({ $active }) => ($active ? '#f5f5f5' : 'transparent')};
+  background-color: ${({ $active }) =>
+    $active ? 'var(--button-active-bg)' : 'transparent'};
   border: none;
   border-radius: 0.375rem;
   cursor: pointer;
+  color: var(--button-text);
 
   &:hover {
-    background-color: #f5f5f5;
+    background-color: var(--button-hover-bg);
   }
 
   svg {
@@ -68,7 +70,7 @@ const StyledIconButton = styled.button<{ $active?: boolean }>`
 const StyledSeparator = styled.div`
   height: 1.25rem;
   width: 1px;
-  background-color: #e5e7eb;
+  background-color: var(--separator-color);
   margin: 0 0.25rem;
 `;
 
@@ -116,15 +118,13 @@ export const TextBubbleMenu = ({ editor }: { editor: Editor | null }) => {
       onClick: () => editor.chain().focus().toggleStrike().run(),
       isActive: editor.isActive('strike'),
     },
-
-    //TODO: add color picker , highlight
   ];
 
   return (
     <StyledBubbleMenu
       editor={editor}
       tippyOptions={{ duration: 100 }}
-      className="flex flex-row items-center bg-white rounded-md border px-0.5 gap-1 w-fit"
+      className="flex flex-row items-center rounded-md border px-0.5 gap-1 w-fit"
     >
       <AItools editor={editor} />
       <StyledSeparator />
