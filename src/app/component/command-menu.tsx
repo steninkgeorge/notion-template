@@ -1,11 +1,4 @@
 import { CSSProperties, forwardRef, useEffect, useRef, useState } from 'react';
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandItem,
-  CommandList,
-} from '@/components/ui/command';
 
 import { CommandProps } from '@/types/command';
 import React from 'react';

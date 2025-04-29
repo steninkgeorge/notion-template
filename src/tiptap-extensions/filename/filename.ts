@@ -54,7 +54,7 @@ export const TitleNode = Node.create<TitleNodeOptions>({
 
         // Add decoration for placeholder on title node
         props: {
-          decorations: ({ doc, selection }) => {
+          decorations: ({ doc }) => {
             const decorations: Decoration[] = [];
 
             // Look only at the first node (title node)
@@ -75,7 +75,7 @@ export const TitleNode = Node.create<TitleNodeOptions>({
           },
 
           // Prevent dropping content before the title node
-          handleDrop(view, event, slice, moved) {
+          handleDrop(view, event) {
             const dropPos = view.posAtCoords({
               left: event.clientX,
               top: event.clientY,

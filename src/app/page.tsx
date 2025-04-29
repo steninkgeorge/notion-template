@@ -8,11 +8,9 @@ import { TocOverlay } from '@/tiptap-extensions/heading/table-of-content';
 import { useState, useEffect } from 'react';
 
 export default function Home() {
-  const [darkMode, setDarkMode] = useState(false);
-
   // Check for system preference or saved preference
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
-
+  console.log(theme);
   useEffect(() => {
     // Get the current theme from localStorage or system preference
     const storedTheme = localStorage.getItem('theme');

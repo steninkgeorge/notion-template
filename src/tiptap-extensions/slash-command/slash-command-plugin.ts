@@ -78,17 +78,17 @@ const CommandsPlugin = Extension.create({
                 editor.chain().focus().toggleOrderedList().run(),
             },
             // Media and embeds
-            {
-              title: 'Image',
-              description: 'Upload or embed an image',
-              searchTerms: ['image', 'photo', 'picture', 'media'],
-              category: 'Media',
-              command: ({ editor }: { editor: Editor }) => {
-                // Implement image upload logic
-                // For example: editor.chain().focus().setImage({ src: '...' }).run()
-                console.log('Image command executed');
-              },
-            },
+            // {
+            //   title: 'Image',
+            //   description: 'Upload or embed an image',
+            //   searchTerms: ['image', 'photo', 'picture', 'media'],
+            //   category: 'Media',
+            //   command: ({  }: { editor: Editor }) => {
+            //     // Implement image upload logic
+            //     // For example: editor.chain().focus().setImage({ src: '...' }).run()
+            //     console.log('Image command executed');
+            //   },
+            // },
             // {
             //   title: 'Table',
             //   description: 'Add a table',

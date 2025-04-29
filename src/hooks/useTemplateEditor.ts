@@ -13,7 +13,6 @@ import Superscript from '@tiptap/extension-superscript';
 import Subscript from '@tiptap/extension-subscript';
 import TextAlign from '@tiptap/extension-text-align';
 import { Color } from '@tiptap/extension-color';
-import Placeholder from '@tiptap/extension-placeholder';
 import GlobalDragHandle from '@/tiptap-extensions/drag-handle/drag-handle';
 import Dropcursor from '@tiptap/extension-dropcursor';
 import { AiSuggestion } from '@/tiptap-extensions/ai-suggestion/ai-suggestion';
@@ -91,7 +90,7 @@ export const useTemplateEditor: (
           type: 'title',
         },
         {
-          type: 'paragraph',
+          type: content,
         },
       ],
     },
