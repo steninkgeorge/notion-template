@@ -179,6 +179,7 @@ const CommandsPlugin = Extension.create({
               root.render(
                 React.createElement(CommandMenu, {
                   ...props,
+
                   title: title,
                   items: props.items,
                   command: props.command,
