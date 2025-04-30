@@ -53,7 +53,22 @@ export const useTemplateEditor: (
       }),
       // Dynamic placeholders for other content that only show on hover/focus
       DynamicPlaceholder.configure({
-        placeholder: 'Type / for commands',
+        placeholder: ({ node }) => {
+          if (node.type.name === 'heading') {
+            const level = node.attrs.level || 1;
+            const placeholders = [
+              'Heading 1 ',
+              'Heading 2',
+              'Heading 3 ',
+              'Heading 4',
+              'Heading 5',
+              'Heading 6',
+            ];
+            return placeholders[level - 1] || `Heading ${level}`;
+          }
+
+          return 'Write ,type / for commands';
+        },
         emptyNodeClass: 'is-empty-content',
       }),
 

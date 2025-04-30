@@ -1,10 +1,12 @@
 import { CSSProperties, forwardRef, useEffect, useRef, useState } from 'react';
 
-import { CommandProps } from '@/types/command';
+import { CommandItem, CommandProps } from '@/types/command';
 import React from 'react';
 
+type GroupedCommandItems = Record<string, CommandItem[]>;
+
 interface CommandMenuProps extends CommandProps {
-  items: any[];
+  items: CommandItem[];
   command: (item: any) => void;
   clientRect: (() => DOMRect | null) | null | undefined;
 }
@@ -12,9 +14,18 @@ export const CommandMenu = forwardRef<HTMLDivElement, CommandMenuProps>(
   (props, ref) => {
     const { items, command, clientRect } = props;
     const [selectedIndex, setSelectedIndex] = useState(0);
-    const itemsRef = useRef<(HTMLDivElement | null)[]>([]);
+    const itemsRef = useRef<(HTMLElement | null)[]>([]);
     const containerRef = useRef<HTMLDivElement>(null);
     const rect = clientRect?.() || new DOMRect();
+
+    const groupedItems = items.reduce((acc, item) => {
+      if (!acc[item.category]) {
+        acc[item.category] = [] as CommandItem[];
+      }
+      acc[item.category].push(item);
+      return acc;
+    }, {} as GroupedCommandItems);
+    const flatItems = Object.values(groupedItems).flat();
 
     // Reset selection when items change
     useEffect(() => {
@@ -72,6 +83,7 @@ export const CommandMenu = forwardRef<HTMLDivElement, CommandMenuProps>(
       left: `${rect.left}px`,
       zIndex: 9999, // Ensure it's above everything
       width: '240px',
+      maxWidth: '300px',
       maxHeight: `${menuHeight}px`,
       overflow: 'auto',
     } as CSSProperties;
@@ -80,30 +92,52 @@ export const CommandMenu = forwardRef<HTMLDivElement, CommandMenuProps>(
       <div
         ref={mergeRefs(containerRef, ref)}
         style={style}
-        className="bg-white border rounded-md shadow-lg outline-none"
+        className="bg-white border rounded-md shadow-lg outline-none dark:bg-accent"
         onMouseDown={(e) => {
           e.stopPropagation();
           e.preventDefault(); // Prevent editor blur
         }}
       >
-        {items.length === 0 ? (
+        {flatItems.length === 0 ? (
           <div className="p-2 text-sm text-gray-500">No results found</div>
         ) : (
-          items.map((item, index) => (
-            <div
-              key={index}
-              ref={(el) => {
-                itemsRef.current[index] = el;
-              }}
-              className={`p-2 text-sm cursor-pointer ${
-                index === selectedIndex
-                  ? 'bg-blue-50 text-blue-600'
-                  : 'hover:bg-gray-50'
-              }`}
-              onClick={() => command(item)}
-            >
-              <div className="font-medium">{item.title}</div>
-              <div className="text-xs text-gray-500">{item.description}</div>
+          Object.entries(groupedItems).map(([category, categoryItems]) => (
+            <div key={category}>
+              <div className="px-2 py-1.5 text-xs text-neutral-500">
+                {category}
+              </div>
+              {categoryItems.map((item) => {
+                const flatIndex = flatItems.findIndex(
+                  (i) => i.title === item.title
+                );
+                const Icon = item.icon;
+                return (
+                  <button
+                    key={item.title}
+                    ref={(el) => {
+                      itemsRef.current[flatIndex] = el;
+                    }}
+                    className={` w-full px-2 py-1.5 text-left rounded text-sm ${
+                      selectedIndex === flatIndex
+                        ? 'bg-neutral-100 dark:bg-neutral-700'
+                        : 'hover:bg-neutral-50 dark:hover:bg-neutral-800'
+                    }`}
+                    onClick={() => command(item)}
+                  >
+                    <div className="w-full flex items-center justify-between px-1">
+                      <div className="flex item-center gap-x-2">
+                        <Icon className="w-4 h-4 text-neutral-500" />
+                        <div className="-translate-y-0.5 font-medium text-neutral-500 dark:text-neutral-200">
+                          {item.title}
+                        </div>
+                      </div>
+                      <p className="text-neutral-500 dark:text-neutral-200 mr-0.5">
+                        {item.markdown}
+                      </p>
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           ))
         )}

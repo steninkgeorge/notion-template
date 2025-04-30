@@ -4,7 +4,7 @@ import Editor from './component/editor';
 import { SuggestionPanel } from '../tiptap-extensions/ai-suggestion/suggestion/suggestion-panel';
 import { SuggestionPanelItems } from '../tiptap-extensions/ai-suggestion/suggestion/suggestion-panel-item';
 import { Toolbar } from './component/toolbar';
-import { TocOverlay } from '@/tiptap-extensions/heading/table-of-content';
+import { TocOverlay } from '@/app/component/table-of-content';
 import { useState, useEffect } from 'react';
 
 export default function Home() {

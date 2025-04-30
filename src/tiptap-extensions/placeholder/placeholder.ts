@@ -2,10 +2,11 @@
 import { Extension } from '@tiptap/core';
 import { Plugin, PluginKey } from '@tiptap/pm/state';
 import { Decoration, DecorationSet } from '@tiptap/pm/view';
+import { Node } from '@tiptap/pm/model';
 
 export interface DynamicPlaceholderOptions {
   // Placeholder that only shows on hover/focus for non-title nodes
-  placeholder: string;
+  placeholder: string | ((props: { node: Node }) => string);
 
   // Class applied to empty nodes
   emptyNodeClass: string;
@@ -57,9 +58,15 @@ export const DynamicPlaceholder = Extension.create<DynamicPlaceholderOptions>({
                   anchor >= pos && anchor <= pos + node.nodeSize;
 
                 if (hasAnchor) {
+                  // Resolve the placeholder value (string or function)
+                  const placeholderValue =
+                    typeof this.options.placeholder === 'function'
+                      ? this.options.placeholder({ node })
+                      : this.options.placeholder;
+
                   const decoration = Decoration.node(pos, pos + node.nodeSize, {
                     class: this.options.emptyNodeClass,
-                    'data-placeholder': this.options.placeholder,
+                    'data-placeholder': placeholderValue,
                   });
 
                   decorations.push(decoration);

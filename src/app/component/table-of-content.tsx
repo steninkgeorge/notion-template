@@ -110,7 +110,6 @@ export const TocOverlay = () => {
                 ))}
               </ul>
             </OverlayScrollbarsComponent>
-            <div className="absolute bottom-0 left-0 right-0 h-3 bg-gradient-to-t from-white dark:from-neutral-800 to-transparent z-10 pointer-events-none" />
           </div>
         </div>
       )}

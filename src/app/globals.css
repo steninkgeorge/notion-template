@@ -47,7 +47,7 @@
   --radius: 0.625rem;
   --background: #ffffff;
   --foreground: #191711;
-  --card: #f7f6f3;
+  --card: #ffffff;
   --card-foreground: #191711;
   --popover: #ffffff;
   --popover-foreground: #191711;
@@ -413,6 +413,13 @@ div[data-type='title-node'] {
 .is-empty-content:hover::before,
 .is-empty-content:focus-within::before {
   opacity: 1;
+}
+
+.is-empty-content h1::before,
+.is-empty-content h2::before,
+.is-empty-content h3::before {
+  font-size: inherit;
+  font-weight: inherit;
 }
 
 /* Ensure title node can't be moved by ensuring it stays at the top */
