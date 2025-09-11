@@ -1,13 +1,7 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import {
-  BotIcon,
-  EyeIcon,
-  EyeOffIcon,
-  LightbulbIcon,
-  PlusIcon,
-} from 'lucide-react';
+import { BotIcon, EyeIcon, EyeOffIcon, LightbulbIcon } from 'lucide-react';
 import { useEditorStore } from '../store/use-editor-store';
 import { ToolbarButtonProps, ToolbarItemType } from '@/types';
 import { usePanelProps } from '../store/panel';
@@ -53,12 +47,6 @@ export const Toolbar = () => {
   };
 
   const ToolbarItem: ToolbarItemType = [
-    {
-      label: 'New Block',
-      icon: PlusIcon,
-      onClick: () => {},
-      isActive: false,
-    },
     {
       label: 'AI Block',
       icon: BotIcon,
