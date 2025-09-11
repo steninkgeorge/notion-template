@@ -17,7 +17,7 @@ export abstract class BaseAI {
     const { content, tone, prompt, modify } = promptType;
     let formattedPrompt = prompt || '';
     if (content) {
-      formattedPrompt = `${content}\n `;
+      formattedPrompt = `${content}\n`;
 
       if (modify) {
         formattedPrompt += `${modify}\n`;
@@ -28,6 +28,6 @@ export abstract class BaseAI {
       formattedPrompt += `${TONE_PROMPTS[tone as keyof typeof TONE_PROMPTS]}\n`;
     }
 
-    return formattedPrompt;
+    return formattedPrompt + ' '; // Ensure markdown compatibility
   }
 }

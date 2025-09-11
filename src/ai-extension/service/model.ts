@@ -45,7 +45,7 @@ class MetaAIservice extends BaseAI {
       const formattedPrompt = this.formatPrompt(prompt);
 
       const chatCompletion = await this.client.chatCompletion({
-        model: 'mlx-community/Meta-Llama-3.1-8B-Instruct-bf16',
+        model: 'meta-llama/Llama-3.2-3B-Instruct',
         messages: [
           {
             role: 'user',
@@ -113,7 +113,9 @@ class MistralService extends BaseAI {
         messages: [
           {
             role: 'user',
-            content: formattedPrompt,
+            content:
+              'Do not add any kind of symbol like /n or -- in the generated content except for emojis if said so.' +
+              formattedPrompt,
           },
         ],
         temperature: 0.7,
@@ -210,10 +212,7 @@ export const createAgent = (config: AIassistantConfig) => {
       return new DeepSeekService(config);
     case AImodels.MistralLarge.id:
       return new MistralLarge(config);
-    case AImodels.MistralSmall.id:
-      return new MistralService(config);
-    case AImodels.MistralNemo.id:
-      return new NemoService(config);
+
     default:
       return new DeepSeekService(config);
   }

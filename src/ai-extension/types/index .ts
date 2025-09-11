@@ -27,20 +27,7 @@ export const AImodels = {
     location: null,
     endpointId: null,
   },
-  MistralSmall: {
-    id: 'Mistral-Small',
-    apiKey: process.env.NEXT_PUBLIC_MISTRAL_API_KEY,
-    projectId: null,
-    location: null,
-    endpointId: null,
-  },
-  MistralNemo: {
-    id: 'Mistral-Nemo',
-    apiKey: process.env.NEXT_PUBLIC_HF_ACCESS_TOKEN,
-    projectId: null,
-    location: null,
-    endpointId: null,
-  },
+
   MistralLarge: {
     id: 'Mistral-Large',
     apiKey: process.env.NEXT_PUBLIC_MISTRAL_API_KEY,
