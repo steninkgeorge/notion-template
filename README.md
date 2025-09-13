@@ -4,7 +4,9 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
 # Customize your notion like editor with this template!
-
+<video src="https://github.com/user-attachments/assets/709b2112-cea1-43c3-94e2-52ff2456dd26" controls width="600">
+  Your browser does not support the video tag.
+</video>
 ## Installation
 
 ```bash
