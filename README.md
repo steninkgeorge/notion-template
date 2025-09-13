@@ -1,13 +1,18 @@
+
+[![npm version](https://img.shields.io/npm/v/notion-editor-template)](https://www.npmjs.com/package/notion-editor-template)
+[![npm downloads](https://img.shields.io/npm/dm/notion-editor-template)](https://www.npmjs.com/package/notion-editor-template)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+
 # Customize your notion like editor with this template!
 
-## 📦 Installation
+## Installation
 
 ```bash
 # npm
 npm install notion-editor-template
 ```
 
-## To run the editor locally 📝
+## To run the editor locally 
 
 - clone this repo
 - open the terminal and run `npm run dev`
