@@ -147,7 +147,7 @@ function TemplateEditor({ editor }: TemplateEditorProps): JSX.Element;
 
 - `editor`: Editor instance created with useTemplateEditor
 
-## 🧩 Extensions
+## Extensions
 
 This editor comes with the following extensions pre-configured:
 
@@ -170,21 +170,21 @@ When a new version is released, update the package using:
 npm update notion-editor-template
 ```
 
-## 🤝 Contributing
+## Contributing 🤝
 
 Contributions are welcome! Feel free to open issues or submit pull requests.
 
-## ✨ Features
+## Features ✨
 
-- 📝 Rich text editing with Notion-like interface
-- 🤖 AI-powered content assistance
-- 🧩 Draggable blocks for easy content reorganization
-- ⚡ Slash commands for quick actions
-- ✅ Task lists and checklists
-- 📊 Text formatting options (underline, colors, alignment, etc.)
-- 📱 Responsive design
-- 🔗 Markdown import/export
-- 🪄 AI suggestions for content improvement
+- Rich text editing with Notion-like interface
+- AI-powered content assistance
+- Draggable blocks for easy content reorganization
+- Slash commands for quick actions
+- Task lists and checklists
+- Text formatting options (underline, colors, alignment, etc.)
+- Responsive design
+- Markdown import/export
+- AI suggestions for content improvement
 
 ## 📄 License
 
