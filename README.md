@@ -78,9 +78,7 @@ const EditorWithAI = () => {
 };
 ```
 
-For detailed documentation on the AI Suggestions extension, please see [AI_SUGGESTIONS.md](./AI_SUGGESTIONS.md).
-
-## Provide Props
+## How to provide props
 
 ### Custom Configuration
 
