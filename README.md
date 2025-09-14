@@ -8,6 +8,10 @@
   Your browser does not support the video tag.
 </video>
 
+<video src="https://github.com/user-attachments/assets/041a5da8-2f38-45af-80c5-9c8b42dc32b7" controls width="600">
+  Your browser does not support the video tag.
+</video>
+
 ## Installation 📦
 
 ```bash
